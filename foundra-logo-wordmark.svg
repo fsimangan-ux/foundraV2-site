@@ -1,0 +1,9 @@
+<svg width="240" height="60" viewBox="0 0 240 60" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:wght@400&display=swap');
+      .wordmark { font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: 48px; letter-spacing: -1.5px; }
+    </style>
+  </defs>
+  <text x="0" y="44" class="wordmark" fill="#0A0A0A">Foundra</text>
+</svg>

@@ -1,0 +1,17 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Warm paper-cream background -->
+  <rect width="200" height="200" rx="44" fill="#0A0A0A"/>
+  
+  <!-- Geometric "F" mark — references both "Foundra" and the act of forming/forging -->
+  <!-- Vertical stem -->
+  <rect x="60" y="50" width="14" height="100" fill="#FAFAF7"/>
+  
+  <!-- Top arm -->
+  <rect x="60" y="50" width="80" height="14" fill="#FAFAF7"/>
+  
+  <!-- Middle arm (shorter — the "form" mark) -->
+  <rect x="60" y="92" width="56" height="14" fill="#FAFAF7"/>
+  
+  <!-- Foundry / cast mark — small accent dot (the "spark") -->
+  <circle cx="148" cy="57" r="6" fill="#FAFAF7"/>
+</svg>

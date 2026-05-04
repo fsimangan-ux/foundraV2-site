@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Foundra — Start your business, without the maze.</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0A0A0A;
+  --paper:#FAFAF7;
+  --line:#E6E4DC;
+  --line-soft:#EFEDE5;
+  --muted:#8A8780;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1280px;margin:0 auto;background:var(--paper)}
+
+header{display:flex;align-items:center;justify-content:space-between;padding:24px 40px;border-bottom:1px solid var(--line)}
+.brand{font-family:'Instrument Serif',serif;font-size:24px;letter-spacing:-.6px;display:flex;align-items:center;gap:10px}
+.brand-mark{width:24px;height:24px;background:var(--ink);border-radius:5px;position:relative;flex-shrink:0}
+.brand-mark::before{content:'';position:absolute;left:8px;top:6px;width:2px;height:12px;background:var(--paper)}
+.brand-mark::after{content:'';position:absolute;left:8px;top:6px;width:9px;height:2px;background:var(--paper);box-shadow:0 5px 0 var(--paper)}
+.brand-mark .spark{position:absolute;right:5px;top:6px;width:3px;height:3px;background:var(--paper);border-radius:50%}
+nav{display:flex;gap:32px;align-items:center}
+nav a{font-size:13px;color:var(--muted);transition:color .15s;cursor:pointer}
+nav a:hover{color:var(--ink)}
+.cta-sm{font-size:13px;padding:8px 14px;border:1px solid var(--ink);border-radius:6px;transition:all .15s}
+.cta-sm:hover{background:var(--ink);color:var(--paper)}
+
+section{padding:120px 40px;border-bottom:1px solid var(--line)}
+.frame{max-width:920px}
+.kicker{font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:24px;display:flex;align-items:center;gap:10px}
+.kicker::before{content:'';width:24px;height:1px;background:var(--muted)}
+
+.hero h1{font-family:'Instrument Serif',serif;font-size:88px;line-height:1.02;letter-spacing:-3px;font-weight:400;margin-bottom:32px}
+.hero h1 em{font-style:italic;color:var(--muted)}
+.hero p{font-size:18px;color:var(--muted);max-width:520px;margin-bottom:48px;line-height:1.55}
+.hero-actions{display:flex;gap:16px;align-items:center}
+.btn-primary{font-size:14px;padding:13px 22px;background:var(--ink);color:var(--paper);border-radius:6px;display:inline-flex;align-items:center;gap:8px;transition:opacity .15s}
+.btn-primary:hover{opacity:.85}
+.btn-secondary{font-size:14px;color:var(--muted);transition:color .15s;display:inline-flex;align-items:center;gap:6px}
+.btn-secondary:hover{color:var(--ink)}
+
+.numbers{display:grid;grid-template-columns:repeat(4,1fr);margin-top:80px;border-top:1px solid var(--line);padding-top:32px}
+.num{display:flex;flex-direction:column;gap:6px}
+.num-val{font-family:'Instrument Serif',serif;font-size:36px;letter-spacing:-1px;line-height:1}
+.num-lbl{font-size:12px;color:var(--muted)}
+
+.section-title{font-family:'Instrument Serif',serif;font-size:48px;line-height:1.1;letter-spacing:-1.5px;margin-bottom:16px;font-weight:400}
+.section-title em{font-style:italic;color:var(--muted)}
+.section-sub{font-size:16px;color:var(--muted);max-width:560px;line-height:1.6}
+
+.steps{margin-top:64px;display:flex;flex-direction:column}
+.step{display:grid;grid-template-columns:60px 1fr;gap:32px;padding:32px 0;border-top:1px solid var(--line);align-items:start}
+.step:last-child{border-bottom:1px solid var(--line)}
+.step-num{font-family:'Instrument Serif',serif;font-size:32px;color:var(--muted);font-style:italic}
+.step h3{font-size:20px;font-weight:500;margin-bottom:8px;letter-spacing:-.3px}
+.step p{font-size:14px;color:var(--muted);max-width:520px;line-height:1.65}
+
+.types-list{margin-top:64px;display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.type-row{display:grid;grid-template-columns:60px 1fr 100px;gap:20px;padding:20px 0;border-bottom:1px solid var(--line);align-items:center;font-size:15px;cursor:pointer;transition:padding-left .15s}
+.type-row:hover{padding-left:8px}
+.type-row span:first-child{color:var(--muted);font-size:12px;font-family:'Instrument Serif',serif;font-style:italic}
+.type-row span:last-child{font-size:11px;color:var(--muted);text-align:right;text-transform:uppercase;letter-spacing:.6px}
+
+.pricing-grid{margin-top:64px;display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.plan{padding:32px 28px;border-right:1px solid var(--line);display:flex;flex-direction:column}
+.plan:last-child{border-right:none}
+.plan-name{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:18px}
+.plan-price{font-family:'Instrument Serif',serif;font-size:48px;letter-spacing:-1.5px;line-height:1;margin-bottom:6px}
+.plan-price small{font-size:14px;color:var(--muted);font-family:'Inter',sans-serif;letter-spacing:0}
+.plan-tag{font-size:13px;color:var(--muted);margin-bottom:24px;line-height:1.5}
+.plan-list{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:32px;flex:1}
+.plan-list li{font-size:13px;color:var(--ink);padding-left:16px;position:relative;line-height:1.5}
+.plan-list li::before{content:'·';position:absolute;left:0;color:var(--muted)}
+.plan-cta{font-size:13px;padding:11px;border:1px solid var(--line);border-radius:6px;text-align:center;transition:all .15s;cursor:pointer}
+.plan-cta:hover{border-color:var(--ink)}
+.plan.featured{background:var(--ink);color:var(--paper)}
+.plan.featured .plan-name,.plan.featured .plan-tag,.plan.featured .plan-price small{color:#9A9890}
+.plan.featured .plan-list li{color:var(--paper)}
+.plan.featured .plan-list li::before{color:#9A9890}
+.plan.featured .plan-cta{border-color:#3A3A38;color:var(--paper)}
+.plan.featured .plan-cta:hover{background:var(--paper);color:var(--ink)}
+
+.quotes-grid{margin-top:64px;display:grid;grid-template-columns:repeat(3,1fr);gap:48px}
+.quote p{font-family:'Instrument Serif',serif;font-size:22px;line-height:1.4;letter-spacing:-.4px;margin-bottom:20px;font-style:italic;color:var(--ink)}
+.quote-author{font-size:12px;color:var(--muted);padding-top:16px;border-top:1px solid var(--line)}
+.quote-author strong{color:var(--ink);font-weight:500;display:block;margin-bottom:2px}
+
+.final-cta{padding:160px 40px;text-align:center;border-bottom:1px solid var(--line)}
+.final-cta h2{font-family:'Instrument Serif',serif;font-size:72px;letter-spacing:-2px;line-height:1;margin-bottom:24px;font-weight:400}
+.final-cta h2 em{font-style:italic;color:var(--muted)}
+.final-cta p{color:var(--muted);max-width:480px;margin:0 auto 40px;font-size:16px}
+
+footer{padding:48px 40px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px}
+.footer-col h4{font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:18px}
+.footer-col a{display:block;font-size:13px;color:var(--ink);margin-bottom:10px;transition:color .15s;cursor:pointer}
+.footer-col a:hover{color:var(--muted)}
+.foot-brand p{font-size:13px;color:var(--muted);margin-top:14px;line-height:1.5;max-width:240px}
+.foot-bottom{padding:24px 40px;border-top:1px solid var(--line);display:flex;justify-content:space-between;font-size:12px;color:var(--muted);flex-wrap:wrap;gap:12px}
+
+@media(max-width:880px){
+  header,section,.final-cta,footer,.foot-bottom{padding-left:24px;padding-right:24px}
+  nav{display:none}
+  section{padding:64px 24px}
+  .hero h1{font-size:48px;letter-spacing:-1.5px}
+  .section-title{font-size:32px}
+  .final-cta h2{font-size:42px}
+  .numbers,.pricing-grid,.quotes-grid{grid-template-columns:1fr}
+  .plan{border-right:none;border-bottom:1px solid var(--line)}
+  .plan:last-child{border-bottom:none}
+  footer{grid-template-columns:1fr 1fr;gap:32px}
+  .step{grid-template-columns:1fr;gap:8px}
+  .type-row{grid-template-columns:30px 1fr 60px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="brand"><span class="brand-mark"><span class="spark"></span></span>Foundra</div>
+  <nav>
+    <a href="#how">How it works</a>
+    <a href="#types">Business types</a>
+    <a href="#pricing">Pricing</a>
+    <a class="cta-sm" href="#start">Get started</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="frame">
+    <div class="kicker">A clearer way to start</div>
+    <h1>Start your business,<br><em>without the maze.</em></h1>
+    <p>Every license, permit, and step you need — clear, current, and tailored to your business and state.</p>
+    <div class="hero-actions">
+      <a href="#start" class="btn-primary">Find my requirements
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      </a>
+      <a href="#how" class="btn-secondary">See how it works →</a>
+    </div>
+    <div class="numbers">
+      <div class="num"><div class="num-val">14</div><div class="num-lbl">Business types covered</div></div>
+      <div class="num"><div class="num-val">10</div><div class="num-lbl">States with verified portals</div></div>
+      <div class="num"><div class="num-val">200+</div><div class="num-lbl">Requirements mapped</div></div>
+      <div class="num"><div class="num-val">$0</div><div class="num-lbl">To browse and explore</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="frame">
+    <div class="kicker">How it works</div>
+    <h2 class="section-title">Three steps. <em>That's it.</em></h2>
+    <p class="section-sub">No confusing government websites. No expensive lawyers for basic questions. A clear path forward.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">i.</div>
+        <div><h3>Pick your business type</h3><p>Restaurant, food truck, daycare, trucking, gym — choose from fourteen pre-mapped categories or search your specific idea.</p></div>
+      </div>
+      <div class="step">
+        <div class="step-num">ii.</div>
+        <div><h3>Set your state</h3><p>Every state has different rules. We surface only what applies to where you'll operate, with state-specific costs and timelines.</p></div>
+      </div>
+      <div class="step">
+        <div class="step-num">iii.</div>
+        <div><h3>Get your checklist</h3><p>Receive a prioritized list with verified federal links, state portal links, and direct paths to every government application you need.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="types">
+  <div class="frame">
+    <div class="kicker">Business types</div>
+    <h2 class="section-title">Built for the business <em>you actually want to start.</em></h2>
+    <p class="section-sub">From food trucks to medical clinics — we cover the licenses, structure decisions, and compliance considerations for each.</p>
+    <div class="types-list">
+      <a href="foundra-platform.html" class="type-row"><span>01</span>Restaurant & food<span>Required permits</span></a>
+      <a href="foundra-platform.html" class="type-row"><span>02</span>Retail store<span>Standard</span></a>
+      <a href="foundra-platform.html" class="type-row"><span>03</span>Salon & beauty<span>State board</span></a>
+      <a href="foundra-platform.html" class="type-row"><span>04</span>Construction<span>Bonded</span></a>
+      <a href="foundra-platform.html" class="type-row"><span>05</span>E-commerce<span>Multi-state</span></a>
+      <a href="foundra-platform.html" class="type-row"><span>06</span>Freelance & consulting<span>Simple</span></a>
+      <a href="foundra-platform.html" class="type-row"><span>07</span>Childcare<span>Highly regulated</span></a>
+      <a href="foundra-platform.html" class="type-row"><span>08</span>Trucking & logistics<span>Federal</span></a>
+      <a href="foundra-platform.html" class="type-row"><span>09</span>Gym & fitness<span>Insured</span></a>
+      <a href="foundra-platform.html" class="type-row"><span>10</span>Real estate<span>State licensed</span></a>
+      <a href="foundra-platform.html" class="type-row"><span>11</span>Medical<span>HIPAA</span></a>
+      <a href="foundra-platform.html" class="type-row"><span>12</span>Cleaning service<span>Simple</span></a>
+      <a href="foundra-platform.html" class="type-row"><span>13</span>Landscaping<span>Pesticide</span></a>
+      <a href="foundra-platform.html" class="type-row"><span>14</span>Food truck<span>Mobile</span></a>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="frame">
+    <div class="kicker">Pricing</div>
+    <h2 class="section-title">Free to start. <em>Pay for what you need.</em></h2>
+    <p class="section-sub">No paywall on basics. Upgrade only when you need depth or expert access.</p>
+    <div class="pricing-grid">
+      <div class="plan">
+        <div class="plan-name">Free</div>
+        <div class="plan-price">$0<small>/mo</small></div>
+        <div class="plan-tag">For exploring what's required to start.</div>
+        <ul class="plan-list">
+          <li>Business type checklists</li>
+          <li>Top requirements per state</li>
+          <li>Cost ranges</li>
+          <li>Verified federal links</li>
+        </ul>
+        <a href="foundra-platform.html" class="plan-cta">Start free →</a>
+      </div>
+      <div class="plan featured">
+        <div class="plan-name">Pro</div>
+        <div class="plan-price">$19<small>/mo</small></div>
+        <div class="plan-tag">For the depth most founders need.</div>
+        <ul class="plan-list">
+          <li>Full 50-state coverage</li>
+          <li>AI advisor — unlimited</li>
+          <li>Progress tracker & reminders</li>
+          <li>Document templates</li>
+          <li>Priority support</li>
+        </ul>
+        <a class="plan-cta">Start Pro trial →</a>
+      </div>
+      <div class="plan">
+        <div class="plan-name">Business+</div>
+        <div class="plan-price">$49<small>/mo</small></div>
+        <div class="plan-tag">For advisors and multi-business owners.</div>
+        <ul class="plan-list">
+          <li>Everything in Pro</li>
+          <li>Multi-business management</li>
+          <li>Expert consultation hours</li>
+          <li>API access</li>
+        </ul>
+        <a class="plan-cta">Contact sales →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="frame">
+    <div class="kicker">From our beta</div>
+    <h2 class="section-title">Built for real founders.</h2>
+    <div class="quotes-grid">
+      <div class="quote"><p>"I'd been researching food truck permits for weeks. Foundra handed me a complete list in three minutes."</p><div class="quote-author"><strong>Marcus R.</strong>Food Truck — Austin, TX</div></div>
+      <div class="quote"><p>"The childcare licensing section saved me from three expensive mistakes I didn't even know I was about to make."</p><div class="quote-author"><strong>Danielle S.</strong>Daycare — Atlanta, GA</div></div>
+      <div class="quote"><p>"I help small businesses launch. I use this with every client now. It cuts my prep time in half."</p><div class="quote-author"><strong>James T.</strong>Consultant — Chicago, IL</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="final-cta" id="start">
+  <h2>Don't let red tape <em>stop your dream.</em></h2>
+  <p>Open Foundra — free to browse, no sign-up needed.</p>
+  <a href="foundra-platform.html" class="btn-primary">Open the platform
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+  </a>
+</div>
+
+<footer>
+  <div class="foot-brand">
+    <div class="brand"><span class="brand-mark"><span class="spark"></span></span>Foundra</div>
+    <p>A clearer way to start a business — every license, permit, and requirement, mapped for you.</p>
+  </div>
+  <div class="footer-col"><h4>Product</h4><a>How it works</a><a>Business types</a><a>Pricing</a></div>
+  <div class="footer-col"><h4>Resources</h4><a>Startup guide</a><a>State guide</a><a>Blog</a></div>
+  <div class="footer-col"><h4>Company</h4><a>About</a><a>Contact</a><a>Press</a></div>
+</footer>
+<div class="foot-bottom">
+  <span>© 2025 Foundra, Inc.</span>
+  <span>Privacy · Terms</span>
+</div>
+
+</div>
+</body>
+</html>
