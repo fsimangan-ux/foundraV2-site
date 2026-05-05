@@ -10,10 +10,8 @@
 :root{--ink:#0A0A0A;--paper:#FAFAF7;--line:#E6E4DC;--muted:#8A8780}
 html{scroll-behavior:smooth}
 body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased}
-button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
 a{color:inherit;text-decoration:none}
 .wrap{max-width:1280px;margin:0 auto;background:var(--paper)}
-
 header{display:flex;align-items:center;justify-content:space-between;padding:24px 40px;border-bottom:1px solid var(--line)}
 .brand{font-family:'Instrument Serif',serif;font-size:24px;letter-spacing:-.6px;display:flex;align-items:center;gap:10px}
 .brand-mark{width:24px;height:24px;background:var(--ink);border-radius:5px;position:relative;flex-shrink:0}
@@ -26,7 +24,6 @@ nav a:hover{color:var(--ink)}
 nav a.active{color:var(--ink);font-weight:500}
 .cta-sm{font-size:13px;padding:8px 14px;border:1px solid var(--ink);border-radius:6px;transition:all .15s}
 .cta-sm:hover{background:var(--ink);color:var(--paper)}
-
 section{padding:96px 40px;border-bottom:1px solid var(--line)}
 .frame{max-width:760px}
 .kicker{font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:24px;display:flex;align-items:center;gap:10px}
@@ -43,26 +40,22 @@ p.muted{color:var(--muted)}
 .value-num{font-family:'Instrument Serif',serif;font-size:24px;color:var(--muted);font-style:italic}
 .value h3{font-size:16px;font-weight:500;margin-bottom:6px}
 .value p{font-size:14px;color:var(--muted);margin:0}
-
 .cta-block{padding:80px 40px;text-align:center;border-bottom:1px solid var(--line)}
 .cta-block h2{font-family:'Instrument Serif',serif;font-size:48px;letter-spacing:-1.5px;margin-bottom:16px;font-weight:400}
 .cta-block h2 em{font-style:italic;color:var(--muted)}
 .cta-block p{color:var(--muted);max-width:420px;margin:0 auto 28px}
 .btn-primary{font-size:14px;padding:13px 22px;background:var(--ink);color:var(--paper);border-radius:6px;display:inline-flex;align-items:center;gap:8px;transition:opacity .15s}
 .btn-primary:hover{opacity:.85}
-
 footer{padding:48px 40px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px}
 .footer-col h4{font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:18px}
 .footer-col a{display:block;font-size:13px;color:var(--ink);margin-bottom:10px;transition:color .15s}
 .footer-col a:hover{color:var(--muted)}
 .foot-brand p{font-size:13px;color:var(--muted);margin-top:14px;line-height:1.5;max-width:240px}
 .foot-bottom{padding:24px 40px;border-top:1px solid var(--line);display:flex;justify-content:space-between;font-size:12px;color:var(--muted);flex-wrap:wrap;gap:12px}
-
 @media(max-width:880px){
   header,section,.cta-block,footer,.foot-bottom{padding-left:24px;padding-right:24px}
   nav{display:none}section{padding:60px 24px}
-  h1{font-size:42px;letter-spacing:-1.2px}
-  h2{font-size:24px}.cta-block h2{font-size:32px}
+  h1{font-size:42px;letter-spacing:-1.2px}h2{font-size:24px}.cta-block h2{font-size:32px}
   footer{grid-template-columns:1fr 1fr;gap:32px}
   .value{grid-template-columns:1fr;gap:8px}
 }
@@ -70,7 +63,6 @@ footer{padding:48px 40px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:
 </head>
 <body>
 <div class="wrap">
-
 <header>
   <a href="index.html" class="brand"><span class="brand-mark"><span class="spark"></span></span>Foundra</a>
   <nav>
@@ -85,58 +77,34 @@ footer{padding:48px 40px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:
 <section>
   <div class="frame">
     <div class="kicker">About Foundra</div>
-    <h1>We're building the clearest way <em>to start a business.</em></h1>
-    <p class="lead">Foundra exists because starting a business in America shouldn't require a law degree. Yet today, a third of new founders open without proper licenses — not because they're careless, but because the information is fragmented, intimidating, and written for lawyers.</p>
+    <h1>We&rsquo;re building the clearest way <em>to start a business.</em></h1>
+    <p class="lead">Foundra exists because starting a business in America shouldn&rsquo;t require a law degree. Yet today, a third of new founders open without proper licenses &mdash; not because they&rsquo;re careless, but because the information is fragmented, intimidating, and written for lawyers.</p>
 
-    <h2>The problem we're solving</h2>
-    <p>Every year, 5.5 million Americans file to start a new business. Most of them spend hours digging through state agency websites, federal portals, and conflicting blog posts trying to figure out what licenses, permits, and paperwork they need. Many give up. Others move forward without realizing they're operating illegally — and end up paying thousands in fines or facing closure.</p>
-    <p class="muted">Lawyers and accountants can help, but at $200–$500 per hour, they're out of reach for most first-time founders. That gap — between "I have an idea" and "I'm legally operating" — is where good ideas die.</p>
+    <h2>The problem we&rsquo;re solving</h2>
+    <p>Every year, 5.5 million Americans file to start a new business. Most of them spend hours digging through state agency websites, federal portals, and conflicting blog posts trying to figure out what licenses, permits, and paperwork they need. Many give up. Others move forward without realizing they&rsquo;re operating illegally &mdash; and end up paying thousands in fines or facing closure.</p>
+    <p class="muted">Lawyers and accountants can help, but at $200&ndash;$500 per hour, they&rsquo;re out of reach for most first-time founders. That gap &mdash; between &ldquo;I have an idea&rdquo; and &ldquo;I&rsquo;m legally operating&rdquo; &mdash; is where good ideas die.</p>
 
     <h2>What we built</h2>
-    <p>Foundra is an AI-powered compliance navigator. You describe your business in plain English, tell us where you're starting it, and we deliver a verified checklist of every license, permit, and step you need — with direct links to official government applications.</p>
+    <p>Foundra is an AI-powered compliance navigator. You describe your business in plain English, tell us where you&rsquo;re starting it, and we deliver a verified checklist of every license, permit, and step you need &mdash; with direct links to official government applications.</p>
     <p>No legalese. No 47-tab government website rabbit holes. Just clarity, in minutes.</p>
 
     <h2>What we believe</h2>
     <div class="values">
-      <div class="value">
-        <div class="value-num">i.</div>
-        <div>
-          <h3>Clarity over completeness</h3>
-          <p>We'd rather give you 80% of the answer simply than 100% in legalese you can't parse.</p>
-        </div>
-      </div>
-      <div class="value">
-        <div class="value-num">ii.</div>
-        <div>
-          <h3>Trust through transparency</h3>
-          <p>We cite government agencies. We show our sources. We never hide fees.</p>
-        </div>
-      </div>
-      <div class="value">
-        <div class="value-num">iii.</div>
-        <div>
-          <h3>Accessibility-first</h3>
-          <p>Free tier always available. Premium tiers reserved for users who need depth.</p>
-        </div>
-      </div>
-      <div class="value">
-        <div class="value-num">iv.</div>
-        <div>
-          <h3>Compliance, not paranoia</h3>
-          <p>We help people start. We don't scare them away.</p>
-        </div>
-      </div>
+      <div class="value"><div class="value-num">i.</div><div><h3>Clarity over completeness</h3><p>We&rsquo;d rather give you 80% of the answer simply than 100% in legalese you can&rsquo;t parse.</p></div></div>
+      <div class="value"><div class="value-num">ii.</div><div><h3>Trust through transparency</h3><p>We cite government agencies. We show our sources. We never hide fees.</p></div></div>
+      <div class="value"><div class="value-num">iii.</div><div><h3>Accessibility-first</h3><p>Free tier always available. Premium tiers reserved for users who need depth.</p></div></div>
+      <div class="value"><div class="value-num">iv.</div><div><h3>Compliance, not paranoia</h3><p>We help people start. We don&rsquo;t scare them away.</p></div></div>
     </div>
 
-    <h2>Where we're going</h2>
-    <p>Today Foundra covers 14 business types across all 50 states. Tomorrow we'll add real-time license tracking, AI-powered Q&A trained on millions of compliance documents, and an expert marketplace connecting founders with vetted attorneys and accountants at flat-fee rates.</p>
-    <p class="muted">If you're a founder, an investor, or just someone who's frustrated with how hard it is to start a business in America — we'd love to hear from you.</p>
+    <h2>Where we&rsquo;re going</h2>
+    <p>Today Foundra covers 14 business types across all 50 states. Paid tiers (Pro and Business+) launch Q3 2026 with real-time license tracking, AI-powered Q&amp;A trained on millions of compliance documents, and an expert marketplace connecting founders with vetted attorneys and accountants at flat-fee rates.</p>
+    <p class="muted">If you&rsquo;re a founder, an investor, or just someone who&rsquo;s frustrated with how hard it is to start a business in America &mdash; we&rsquo;d love to hear from you.</p>
   </div>
 </section>
 
 <div class="cta-block">
   <h2>Ready to start <em>the right way?</em></h2>
-  <p>Open Foundra — free to browse, no sign-up needed.</p>
+  <p>Open Foundra &mdash; free to browse, no sign-up needed.</p>
   <a href="foundra-platform.html" class="btn-primary">Open the platform
     <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
   </a>
@@ -145,17 +113,16 @@ footer{padding:48px 40px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:
 <footer>
   <div class="foot-brand">
     <a href="index.html" class="brand"><span class="brand-mark"><span class="spark"></span></span>Foundra</a>
-    <p>A clearer way to start a business — every license, permit, and requirement, mapped for you.</p>
+    <p>A clearer way to start a business &mdash; every license, permit, and requirement, mapped for you.</p>
   </div>
   <div class="footer-col"><h4>Product</h4><a href="index.html#how">How it works</a><a href="index.html#types">Business types</a><a href="pricing.html">Pricing</a></div>
   <div class="footer-col"><h4>Company</h4><a href="about.html">About</a><a href="contact.html">Contact</a></div>
   <div class="footer-col"><h4>Legal</h4><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></div>
 </footer>
 <div class="foot-bottom">
-  <span>© 2025 Foundra, Inc.</span>
+  <span>© 2026 Foundra, Inc.</span>
   <span>Informational, not legal advice.</span>
 </div>
-
 </div>
 </body>
 </html>

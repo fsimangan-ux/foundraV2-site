@@ -13,7 +13,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 a{color:inherit;text-decoration:none}
 input,textarea{font-family:inherit;font-size:inherit;color:inherit}
 .wrap{max-width:1280px;margin:0 auto;background:var(--paper)}
-
 header{display:flex;align-items:center;justify-content:space-between;padding:24px 40px;border-bottom:1px solid var(--line)}
 .brand{font-family:'Instrument Serif',serif;font-size:24px;letter-spacing:-.6px;display:flex;align-items:center;gap:10px}
 .brand-mark{width:24px;height:24px;background:var(--ink);border-radius:5px;position:relative;flex-shrink:0}
@@ -26,14 +25,12 @@ nav a:hover{color:var(--ink)}
 nav a.active{color:var(--ink);font-weight:500}
 .cta-sm{font-size:13px;padding:8px 14px;border:1px solid var(--ink);border-radius:6px;transition:all .15s}
 .cta-sm:hover{background:var(--ink);color:var(--paper)}
-
 .hero{padding:80px 40px 40px;text-align:center;border-bottom:1px solid var(--line)}
 .kicker{font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:24px;display:inline-flex;align-items:center;gap:10px}
 .kicker::before{content:'';width:24px;height:1px;background:var(--muted)}
 .hero h1{font-family:'Instrument Serif',serif;font-size:64px;line-height:1.05;letter-spacing:-2px;font-weight:400;margin-bottom:18px}
 .hero h1 em{font-style:italic;color:var(--muted)}
 .hero p{font-size:17px;color:var(--muted);max-width:480px;margin:0 auto;line-height:1.6}
-
 .pricing{padding:40px 40px 80px;border-bottom:1px solid var(--line)}
 .pricing-grid{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
 .plan{padding:36px 32px;border-right:1px solid var(--line);display:flex;flex-direction:column;background:#fff}
@@ -53,7 +50,6 @@ nav a.active{color:var(--ink);font-weight:500}
 .plan.featured .plan-list li::before{color:#9A9890}
 .plan.featured .plan-cta{background:var(--paper);color:var(--ink);border-color:var(--paper)}
 .plan.featured .plan-cta:hover{opacity:.9}
-
 .faq{padding:80px 40px;border-bottom:1px solid var(--line)}
 .faq-frame{max-width:760px}
 .faq h2{font-family:'Instrument Serif',serif;font-size:40px;letter-spacing:-1.2px;font-weight:400;margin-bottom:48px}
@@ -61,8 +57,6 @@ nav a.active{color:var(--ink);font-weight:500}
 .faq-item:last-child{border-bottom:1px solid var(--line)}
 .faq-item h3{font-size:16px;font-weight:500;margin-bottom:8px}
 .faq-item p{font-size:14px;color:var(--muted);line-height:1.7}
-
-/* Modal */
 .modal-bg{position:fixed;inset:0;background:rgba(10,10,10,0.5);display:none;align-items:center;justify-content:center;z-index:200;padding:20px}
 .modal-bg.on{display:flex}
 .modal{background:var(--paper);border-radius:14px;max-width:440px;width:100%;padding:32px;position:relative}
@@ -82,14 +76,12 @@ nav a.active{color:var(--ink);font-weight:500}
 .modal-success.on{display:block}
 .modal-success h3{margin-bottom:10px}
 .modal-success p{color:var(--muted);font-size:14px}
-
 footer{padding:48px 40px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px}
 .footer-col h4{font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:18px}
 .footer-col a{display:block;font-size:13px;color:var(--ink);margin-bottom:10px;transition:color .15s}
 .footer-col a:hover{color:var(--muted)}
 .foot-brand p{font-size:13px;color:var(--muted);margin-top:14px;line-height:1.5;max-width:240px}
 .foot-bottom{padding:24px 40px;border-top:1px solid var(--line);display:flex;justify-content:space-between;font-size:12px;color:var(--muted);flex-wrap:wrap;gap:12px}
-
 @media(max-width:880px){
   header,.hero,.pricing,.faq,footer,.foot-bottom{padding-left:24px;padding-right:24px}
   nav{display:none}
@@ -104,7 +96,6 @@ footer{padding:48px 40px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:
 </head>
 <body>
 <div class="wrap">
-
 <header>
   <a href="index.html" class="brand"><span class="brand-mark"><span class="spark"></span></span>Foundra</a>
   <nav>
@@ -119,7 +110,7 @@ footer{padding:48px 40px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:
 <section class="hero">
   <div class="kicker">Pricing</div>
   <h1>Free to start.<br><em>Pay for what you need.</em></h1>
-  <p>No paywall on basics. Upgrade only when you need depth or expert access.</p>
+  <p>No paywall on basics. Upgrade only when you need depth or expert access. Paid tiers launch Q3 2026.</p>
 </section>
 
 <section class="pricing">
@@ -127,7 +118,7 @@ footer{padding:48px 40px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:
     <div class="plan">
       <div class="plan-name">Free</div>
       <div class="plan-price">$0<small>/mo</small></div>
-      <div class="plan-tag">For exploring what's required to start.</div>
+      <div class="plan-tag">For exploring what&rsquo;s required to start.</div>
       <ul class="plan-list">
         <li>Business type checklists</li>
         <li>Top requirements per state</li>
@@ -143,8 +134,8 @@ footer{padding:48px 40px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:
       <div class="plan-tag">For the depth most founders need.</div>
       <ul class="plan-list">
         <li>Full 50-state coverage</li>
-        <li>AI advisor — unlimited</li>
-        <li>Progress tracker & reminders</li>
+        <li>AI advisor &mdash; unlimited</li>
+        <li>Progress tracker &amp; reminders</li>
         <li>Document templates</li>
         <li>Priority support</li>
         <li>Multi-device sync</li>
@@ -172,15 +163,15 @@ footer{padding:48px 40px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:
     <h2>Frequently asked.</h2>
     <div class="faq-item">
       <h3>When are paid tiers launching?</h3>
-      <p>Pro and Business+ are coming Q2 2025. Join the waitlist and we'll notify you when they go live — early waitlist members get 50% off the first 3 months.</p>
+      <p>Pro and Business+ are launching in Q3 2026. Join the waitlist and we&rsquo;ll notify you the moment they go live &mdash; early waitlist members get 50% off their first 3 months.</p>
     </div>
     <div class="faq-item">
-      <h3>What's actually included in the free plan?</h3>
-      <p>Everything you need to understand what's required to start a business: industry-specific checklists, cost ranges, verified federal links to .gov applications, and direct links to state agency portals. Free forever, no credit card.</p>
+      <h3>What&rsquo;s actually included in the free plan?</h3>
+      <p>Everything you need to understand what&rsquo;s required to start a business: industry-specific checklists, cost ranges, verified federal links to .gov applications, and direct links to state agency portals. Free forever, no credit card.</p>
     </div>
     <div class="faq-item">
       <h3>Is Foundra a substitute for an attorney?</h3>
-      <p>No. Foundra is an informational tool that helps you understand what's typically required. For advice specific to your situation, consult a licensed attorney or accountant. Our Business+ tier includes expert consultation hours with vetted attorneys.</p>
+      <p>No. Foundra is an informational tool that helps you understand what&rsquo;s typically required. For advice specific to your situation, consult a licensed attorney or accountant. Our Business+ tier includes expert consultation hours with vetted attorneys.</p>
     </div>
     <div class="faq-item">
       <h3>Can I cancel anytime?</h3>
@@ -188,44 +179,28 @@ footer{padding:48px 40px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:
     </div>
     <div class="faq-item">
       <h3>How accurate is the information?</h3>
-      <p>Federal links (IRS, FMCSA, DEA, etc.) are verified .gov URLs. State portal links go to official agency landing pages. Industry-specific requirements are reviewed by licensed attorneys before publication. We update our database monthly. That said, regulations change — always verify with the relevant agency before acting.</p>
+      <p>Federal links (IRS, FMCSA, DEA, etc.) are verified .gov URLs. State portal links go to official agency landing pages. Industry-specific requirements are reviewed by licensed attorneys before publication. We update our database monthly. That said, regulations change &mdash; always verify with the relevant agency before acting.</p>
     </div>
   </div>
 </section>
 
-<!-- WAITLIST MODAL -->
 <div class="modal-bg" id="modal" onclick="closeIfBg(event)">
   <div class="modal">
     <button class="modal-close" onclick="closeWaitlist()">×</button>
     <div id="modalForm">
       <h3 id="modalTitle">Join the Pro <em>waitlist.</em></h3>
-      <p class="modal-sub">Be the first to know when paid tiers launch — and get 50% off your first 3 months.</p>
+      <p class="modal-sub">Be the first to know when paid tiers launch in Q3 2026 &mdash; and get 50% off your first 3 months.</p>
       <form id="waitlistForm" onsubmit="onWaitlistSubmit(event)">
-        <div class="field">
-          <label for="wl-name">Your name</label>
-          <input type="text" id="wl-name" name="name" required/>
-        </div>
-        <div class="field">
-          <label for="wl-email">Email</label>
-          <input type="email" id="wl-email" name="email" required/>
-        </div>
-        <div class="field">
-          <label for="wl-tier">Tier</label>
-          <select id="wl-tier" name="tier" required>
-            <option value="Pro">Pro ($19/mo)</option>
-            <option value="Business+">Business+ ($49/mo)</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="wl-business">What kind of business?</label>
-          <input type="text" id="wl-business" name="business" placeholder="e.g. food truck, salon, freelance design"/>
-        </div>
+        <div class="field"><label for="wl-name">Your name</label><input type="text" id="wl-name" name="name" required/></div>
+        <div class="field"><label for="wl-email">Email</label><input type="email" id="wl-email" name="email" required/></div>
+        <div class="field"><label for="wl-tier">Tier</label><select id="wl-tier" name="tier" required><option value="Pro">Pro ($19/mo)</option><option value="Business+">Business+ ($49/mo)</option></select></div>
+        <div class="field"><label for="wl-business">What kind of business?</label><input type="text" id="wl-business" name="business" placeholder="e.g. food truck, salon, freelance design"/></div>
         <button type="submit" class="modal-btn" id="wl-submit">Join waitlist</button>
       </form>
     </div>
     <div class="modal-success" id="modalSuccess">
-      <h3>You're on the list.</h3>
-      <p>We'll email you the moment Pro is ready — and you'll get 50% off your first 3 months.</p>
+      <h3>You&rsquo;re on the list.</h3>
+      <p>We&rsquo;ll email you the moment Pro is ready &mdash; and you&rsquo;ll get 50% off your first 3 months.</p>
     </div>
   </div>
 </div>
@@ -233,22 +208,20 @@ footer{padding:48px 40px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:
 <footer>
   <div class="foot-brand">
     <a href="index.html" class="brand"><span class="brand-mark"><span class="spark"></span></span>Foundra</a>
-    <p>A clearer way to start a business — every license, permit, and requirement, mapped for you.</p>
+    <p>A clearer way to start a business &mdash; every license, permit, and requirement, mapped for you.</p>
   </div>
   <div class="footer-col"><h4>Product</h4><a href="index.html#how">How it works</a><a href="index.html#types">Business types</a><a href="pricing.html">Pricing</a></div>
   <div class="footer-col"><h4>Company</h4><a href="about.html">About</a><a href="contact.html">Contact</a></div>
   <div class="footer-col"><h4>Legal</h4><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></div>
 </footer>
 <div class="foot-bottom">
-  <span>© 2025 Foundra, Inc.</span>
+  <span>© 2026 Foundra, Inc.</span>
   <span>Informational, not legal advice.</span>
 </div>
-
 </div>
 
 <script>
-const FORMSPREE_ID = "xvzlaabe"; // <-- REPLACE after setting up Formspree
-
+const FORMSPREE_ID = "YOUR_FORM_ID";
 function openWaitlist(tier){
   document.getElementById("modal").classList.add("on");
   document.getElementById("wl-tier").value = tier;
@@ -258,7 +231,6 @@ function openWaitlist(tier){
 function closeWaitlist(){
   document.getElementById("modal").classList.remove("on");
   document.body.style.overflow = "";
-  // Reset form
   document.getElementById("modalForm").style.display = "block";
   document.getElementById("modalSuccess").classList.remove("on");
   document.getElementById("waitlistForm").reset();
@@ -266,7 +238,6 @@ function closeWaitlist(){
   document.getElementById("wl-submit").textContent = "Join waitlist";
 }
 function closeIfBg(e){if(e.target.id==="modal") closeWaitlist();}
-
 async function onWaitlistSubmit(e){
   e.preventDefault();
   const form = document.getElementById("waitlistForm");
@@ -274,35 +245,28 @@ async function onWaitlistSubmit(e){
   const data = new FormData(form);
   data.append("source", "Pricing waitlist");
   btn.disabled = true; btn.textContent = "Joining...";
-
   if(FORMSPREE_ID === "YOUR_FORM_ID"){
-    // Fall back to mailto if Formspree not yet configured
     const subject = encodeURIComponent(`Foundra ${data.get("tier")} Waitlist: ${data.get("name")}`);
     const body = encodeURIComponent(`Name: ${data.get("name")}\nEmail: ${data.get("email")}\nTier: ${data.get("tier")}\nBusiness: ${data.get("business")||"(not provided)"}`);
-    window.location.href = `mailto:hello@foundra.us?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:info@foundra.us?subject=${subject}&body=${body}`;
     setTimeout(()=>{
       document.getElementById("modalForm").style.display = "none";
       document.getElementById("modalSuccess").classList.add("on");
     }, 500);
     return;
   }
-
   try{
-    const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
-      method:"POST",
-      headers:{"Accept":"application/json"},
-      body: data
-    });
+    const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {method:"POST",headers:{"Accept":"application/json"},body: data});
     if(res.ok){
       document.getElementById("modalForm").style.display = "none";
       document.getElementById("modalSuccess").classList.add("on");
     } else {
       btn.disabled = false; btn.textContent = "Join waitlist";
-      alert("Something went wrong. Please email us at hello@foundra.us");
+      alert("Something went wrong. Please email us at info@foundra.us");
     }
   } catch(err){
     btn.disabled = false; btn.textContent = "Join waitlist";
-    alert("Something went wrong. Please email us at hello@foundra.us");
+    alert("Something went wrong. Please email us at info@foundra.us");
   }
 }
 </script>

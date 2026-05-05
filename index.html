@@ -14,7 +14,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 a{color:inherit;text-decoration:none}
 input,select{font-family:inherit;font-size:inherit;color:inherit}
 .wrap{max-width:1280px;margin:0 auto;background:var(--paper)}
-
 header{display:flex;align-items:center;justify-content:space-between;padding:24px 40px;border-bottom:1px solid var(--line)}
 .brand{font-family:'Instrument Serif',serif;font-size:24px;letter-spacing:-.6px;display:flex;align-items:center;gap:10px}
 .brand-mark{width:24px;height:24px;background:var(--ink);border-radius:5px;position:relative;flex-shrink:0}
@@ -26,43 +25,38 @@ nav a{font-size:13px;color:var(--muted);transition:color .15s}
 nav a:hover{color:var(--ink)}
 .cta-sm{font-size:13px;padding:8px 14px;border:1px solid var(--ink);border-radius:6px;transition:all .15s}
 .cta-sm:hover{background:var(--ink);color:var(--paper)}
-
 section{padding:120px 40px;border-bottom:1px solid var(--line)}
 .frame{max-width:920px}
 .kicker{font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:24px;display:flex;align-items:center;gap:10px}
 .kicker::before{content:'';width:24px;height:1px;background:var(--muted)}
-
 .hero h1{font-family:'Instrument Serif',serif;font-size:88px;line-height:1.02;letter-spacing:-3px;font-weight:400;margin-bottom:32px}
 .hero h1 em{font-style:italic;color:var(--muted)}
 .hero p{font-size:18px;color:var(--muted);max-width:520px;margin-bottom:48px;line-height:1.55}
 .hero-actions{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
 .btn-primary{font-size:14px;padding:13px 22px;background:var(--ink);color:var(--paper);border-radius:6px;display:inline-flex;align-items:center;gap:8px;transition:opacity .15s;cursor:pointer;border:none;font-family:inherit;font-weight:500}
 .btn-primary:hover{opacity:.85}
+.btn-outline{font-size:14px;padding:13px 22px;background:transparent;color:var(--ink);border:1px solid var(--ink);border-radius:6px;display:inline-flex;align-items:center;gap:8px;transition:all .15s;cursor:pointer;font-family:inherit;font-weight:500}
+.btn-outline:hover{background:var(--ink);color:var(--paper)}
 .btn-secondary{font-size:14px;color:var(--muted);transition:color .15s;display:inline-flex;align-items:center;gap:6px}
 .btn-secondary:hover{color:var(--ink)}
-
 .numbers{display:grid;grid-template-columns:repeat(4,1fr);margin-top:80px;border-top:1px solid var(--line);padding-top:32px}
 .num{display:flex;flex-direction:column;gap:6px}
 .num-val{font-family:'Instrument Serif',serif;font-size:36px;letter-spacing:-1px;line-height:1}
 .num-lbl{font-size:12px;color:var(--muted)}
-
 .section-title{font-family:'Instrument Serif',serif;font-size:48px;line-height:1.1;letter-spacing:-1.5px;margin-bottom:16px;font-weight:400}
 .section-title em{font-style:italic;color:var(--muted)}
 .section-sub{font-size:16px;color:var(--muted);max-width:560px;line-height:1.6}
-
 .steps{margin-top:64px;display:flex;flex-direction:column}
 .step{display:grid;grid-template-columns:60px 1fr;gap:32px;padding:32px 0;border-top:1px solid var(--line);align-items:start}
 .step:last-child{border-bottom:1px solid var(--line)}
 .step-num{font-family:'Instrument Serif',serif;font-size:32px;color:var(--muted);font-style:italic}
 .step h3{font-size:20px;font-weight:500;margin-bottom:8px;letter-spacing:-.3px}
 .step p{font-size:14px;color:var(--muted);max-width:520px;line-height:1.65}
-
 .types-list{margin-top:64px;display:flex;flex-direction:column;border-top:1px solid var(--line)}
 .type-row{display:grid;grid-template-columns:60px 1fr 100px;gap:20px;padding:20px 0;border-bottom:1px solid var(--line);align-items:center;font-size:15px;cursor:pointer;transition:padding-left .15s}
 .type-row:hover{padding-left:8px}
 .type-row span:first-child{color:var(--muted);font-size:12px;font-family:'Instrument Serif',serif;font-style:italic}
 .type-row span:last-child{font-size:11px;color:var(--muted);text-align:right;text-transform:uppercase;letter-spacing:.6px}
-
 .pricing-grid{margin-top:64px;display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .plan{padding:32px 28px;border-right:1px solid var(--line);display:flex;flex-direction:column}
 .plan:last-child{border-right:none}
@@ -81,25 +75,20 @@ section{padding:120px 40px;border-bottom:1px solid var(--line)}
 .plan.featured .plan-list li::before{color:#9A9890}
 .plan.featured .plan-cta{background:var(--paper);color:var(--ink);border-color:var(--paper)}
 .plan.featured .plan-cta:hover{opacity:.9}
-
 .quotes-grid{margin-top:64px;display:grid;grid-template-columns:repeat(3,1fr);gap:48px}
 .quote p{font-family:'Instrument Serif',serif;font-size:22px;line-height:1.4;letter-spacing:-.4px;margin-bottom:20px;font-style:italic;color:var(--ink)}
 .quote-author{font-size:12px;color:var(--muted);padding-top:16px;border-top:1px solid var(--line)}
 .quote-author strong{color:var(--ink);font-weight:500;display:block;margin-bottom:2px}
-
 .final-cta{padding:160px 40px;text-align:center;border-bottom:1px solid var(--line)}
 .final-cta h2{font-family:'Instrument Serif',serif;font-size:72px;letter-spacing:-2px;line-height:1;margin-bottom:24px;font-weight:400}
 .final-cta h2 em{font-style:italic;color:var(--muted)}
 .final-cta p{color:var(--muted);max-width:480px;margin:0 auto 40px;font-size:16px}
-
 footer{padding:48px 40px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px}
 .footer-col h4{font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:18px}
 .footer-col a{display:block;font-size:13px;color:var(--ink);margin-bottom:10px;transition:color .15s}
 .footer-col a:hover{color:var(--muted)}
 .foot-brand p{font-size:13px;color:var(--muted);margin-top:14px;line-height:1.5;max-width:240px}
 .foot-bottom{padding:24px 40px;border-top:1px solid var(--line);display:flex;justify-content:space-between;font-size:12px;color:var(--muted);flex-wrap:wrap;gap:12px}
-
-/* Modal */
 .modal-bg{position:fixed;inset:0;background:rgba(10,10,10,0.5);display:none;align-items:center;justify-content:center;z-index:200;padding:20px}
 .modal-bg.on{display:flex}
 .modal{background:var(--paper);border-radius:14px;max-width:440px;width:100%;padding:32px;position:relative}
@@ -118,7 +107,6 @@ footer{padding:48px 40px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:
 .modal-btn:disabled{opacity:.5;cursor:not-allowed}
 .modal-success{text-align:center;padding:20px 0;display:none}
 .modal-success.on{display:block}
-
 @media(max-width:880px){
   header,section,.final-cta,footer,.foot-bottom{padding-left:24px;padding-right:24px}
   nav{display:none}
@@ -137,7 +125,6 @@ footer{padding:48px 40px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:
 </head>
 <body>
 <div class="wrap">
-
 <header>
   <a href="index.html" class="brand"><span class="brand-mark"><span class="spark"></span></span>Foundra</a>
   <nav>
@@ -153,11 +140,14 @@ footer{padding:48px 40px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:
   <div class="frame">
     <div class="kicker">A clearer way to start</div>
     <h1>Start your business,<br><em>without the maze.</em></h1>
-    <p>Every license, permit, and step you need — clear, current, and tailored to your business and state.</p>
+    <p>Every license, permit, and step you need &mdash; clear, current, and tailored to your business and state.</p>
     <div class="hero-actions">
       <a href="foundra-platform.html" class="btn-primary">Find my requirements
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
       </a>
+      <button class="btn-outline" onclick="openWaitlist('Pro')">Sign Up for Waitlist
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      </button>
       <a href="#how" class="btn-secondary">See how it works →</a>
     </div>
     <div class="numbers">
@@ -172,11 +162,11 @@ footer{padding:48px 40px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:
 <section id="how">
   <div class="frame">
     <div class="kicker">How it works</div>
-    <h2 class="section-title">Three steps. <em>That's it.</em></h2>
+    <h2 class="section-title">Three steps. <em>That&rsquo;s it.</em></h2>
     <p class="section-sub">No confusing government websites. No expensive lawyers for basic questions. A clear path forward.</p>
     <div class="steps">
-      <div class="step"><div class="step-num">i.</div><div><h3>Pick your business type</h3><p>Restaurant, food truck, daycare, trucking, gym — choose from fourteen pre-mapped categories or search your specific idea.</p></div></div>
-      <div class="step"><div class="step-num">ii.</div><div><h3>Set your state</h3><p>Every state has different rules. We surface only what applies to where you'll operate, with state-specific costs and timelines.</p></div></div>
+      <div class="step"><div class="step-num">i.</div><div><h3>Pick your business type</h3><p>Restaurant, food truck, daycare, trucking, gym &mdash; choose from fourteen pre-mapped categories or search for your specific idea.</p></div></div>
+      <div class="step"><div class="step-num">ii.</div><div><h3>Set your state</h3><p>Every state has different rules. We surface only what applies to where you&rsquo;ll operate, with state-specific costs and timelines.</p></div></div>
       <div class="step"><div class="step-num">iii.</div><div><h3>Get your checklist</h3><p>Receive a prioritized list with verified federal links, state portal links, and direct paths to every government application you need.</p></div></div>
     </div>
   </div>
@@ -186,17 +176,17 @@ footer{padding:48px 40px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:
   <div class="frame">
     <div class="kicker">Business types</div>
     <h2 class="section-title">Built for the business <em>you actually want to start.</em></h2>
-    <p class="section-sub">From food trucks to medical clinics — we cover the licenses, structure decisions, and compliance considerations for each.</p>
+    <p class="section-sub">From food trucks to medical clinics &mdash; we cover the licenses, structure decisions, and compliance considerations for each.</p>
     <div class="types-list">
-      <a href="foundra-platform.html" class="type-row"><span>01</span>Restaurant & food<span>Required permits</span></a>
+      <a href="foundra-platform.html" class="type-row"><span>01</span>Restaurant &amp; food<span>Required permits</span></a>
       <a href="foundra-platform.html" class="type-row"><span>02</span>Retail store<span>Standard</span></a>
-      <a href="foundra-platform.html" class="type-row"><span>03</span>Salon & beauty<span>State board</span></a>
+      <a href="foundra-platform.html" class="type-row"><span>03</span>Salon &amp; beauty<span>State board</span></a>
       <a href="foundra-platform.html" class="type-row"><span>04</span>Construction<span>Bonded</span></a>
       <a href="foundra-platform.html" class="type-row"><span>05</span>E-commerce<span>Multi-state</span></a>
-      <a href="foundra-platform.html" class="type-row"><span>06</span>Freelance & consulting<span>Simple</span></a>
+      <a href="foundra-platform.html" class="type-row"><span>06</span>Freelance &amp; consulting<span>Simple</span></a>
       <a href="foundra-platform.html" class="type-row"><span>07</span>Childcare<span>Highly regulated</span></a>
-      <a href="foundra-platform.html" class="type-row"><span>08</span>Trucking & logistics<span>Federal</span></a>
-      <a href="foundra-platform.html" class="type-row"><span>09</span>Gym & fitness<span>Insured</span></a>
+      <a href="foundra-platform.html" class="type-row"><span>08</span>Trucking &amp; logistics<span>Federal</span></a>
+      <a href="foundra-platform.html" class="type-row"><span>09</span>Gym &amp; fitness<span>Insured</span></a>
       <a href="foundra-platform.html" class="type-row"><span>10</span>Real estate<span>State licensed</span></a>
       <a href="foundra-platform.html" class="type-row"><span>11</span>Medical<span>HIPAA</span></a>
       <a href="foundra-platform.html" class="type-row"><span>12</span>Cleaning service<span>Simple</span></a>
@@ -210,12 +200,12 @@ footer{padding:48px 40px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:
   <div class="frame">
     <div class="kicker">Pricing</div>
     <h2 class="section-title">Free to start. <em>Pay for what you need.</em></h2>
-    <p class="section-sub">No paywall on basics. Upgrade only when you need depth or expert access.</p>
+    <p class="section-sub">No paywall on basics. Upgrade only when you need depth or expert access. Paid tiers launch Q3 2026.</p>
     <div class="pricing-grid">
       <div class="plan">
         <div class="plan-name">Free</div>
         <div class="plan-price">$0<small>/mo</small></div>
-        <div class="plan-tag">For exploring what's required to start.</div>
+        <div class="plan-tag">For exploring what&rsquo;s required to start.</div>
         <ul class="plan-list">
           <li>Business type checklists</li>
           <li>Top requirements per state</li>
@@ -230,8 +220,8 @@ footer{padding:48px 40px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:
         <div class="plan-tag">For the depth most founders need.</div>
         <ul class="plan-list">
           <li>Full 50-state coverage</li>
-          <li>AI advisor — unlimited</li>
-          <li>Progress tracker & reminders</li>
+          <li>AI advisor &mdash; unlimited</li>
+          <li>Progress tracker &amp; reminders</li>
           <li>Document templates</li>
           <li>Priority support</li>
         </ul>
@@ -258,16 +248,16 @@ footer{padding:48px 40px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:
     <div class="kicker">From our beta</div>
     <h2 class="section-title">Built for real founders.</h2>
     <div class="quotes-grid">
-      <div class="quote"><p>"I'd been researching food truck permits for weeks. Foundra handed me a complete list in three minutes."</p><div class="quote-author"><strong>Marcus R.</strong>Food Truck — Austin, TX</div></div>
-      <div class="quote"><p>"The childcare licensing section saved me from three expensive mistakes I didn't even know I was about to make."</p><div class="quote-author"><strong>Danielle S.</strong>Daycare — Atlanta, GA</div></div>
-      <div class="quote"><p>"I help small businesses launch. I use this with every client now. It cuts my prep time in half."</p><div class="quote-author"><strong>James T.</strong>Consultant — Chicago, IL</div></div>
+      <div class="quote"><p>&ldquo;I&rsquo;d been researching food truck permits for weeks. Foundra handed me a complete list in three minutes.&rdquo;</p><div class="quote-author"><strong>Marcus R.</strong>Food Truck &mdash; Austin, TX</div></div>
+      <div class="quote"><p>&ldquo;The childcare licensing section saved me from three expensive mistakes I didn&rsquo;t even know I was about to make.&rdquo;</p><div class="quote-author"><strong>Danielle S.</strong>Daycare &mdash; Atlanta, GA</div></div>
+      <div class="quote"><p>&ldquo;I help small businesses launch. I use this with every client now. It cuts my prep time in half.&rdquo;</p><div class="quote-author"><strong>James T.</strong>Consultant &mdash; Chicago, IL</div></div>
     </div>
   </div>
 </section>
 
 <div class="final-cta" id="start">
-  <h2>Don't let red tape <em>stop your dream.</em></h2>
-  <p>Open Foundra — free to browse, no sign-up needed.</p>
+  <h2>Don&rsquo;t let red tape <em>stop your dream.</em></h2>
+  <p>Open Foundra &mdash; free to browse, no sign-up needed.</p>
   <a href="foundra-platform.html" class="btn-primary">Open the platform
     <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
   </a>
@@ -278,7 +268,7 @@ footer{padding:48px 40px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:
     <button class="modal-close" onclick="closeWaitlist()">×</button>
     <div id="modalForm">
       <h3 id="modalTitle">Join the Pro <em>waitlist.</em></h3>
-      <p class="modal-sub">Be the first to know when paid tiers launch — and get 50% off your first 3 months.</p>
+      <p class="modal-sub">Be the first to know when paid tiers launch in Q3 2026 &mdash; and get 50% off your first 3 months.</p>
       <form id="waitlistForm" onsubmit="onWaitlistSubmit(event)">
         <div class="field"><label for="wl-name">Your name</label><input type="text" id="wl-name" name="name" required/></div>
         <div class="field"><label for="wl-email">Email</label><input type="email" id="wl-email" name="email" required/></div>
@@ -288,8 +278,8 @@ footer{padding:48px 40px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:
       </form>
     </div>
     <div class="modal-success" id="modalSuccess">
-      <h3>You're on the list.</h3>
-      <p style="color:var(--muted);font-size:14px;margin-top:10px">We'll email you the moment Pro is ready — and you'll get 50% off your first 3 months.</p>
+      <h3>You&rsquo;re on the list.</h3>
+      <p style="color:var(--muted);font-size:14px;margin-top:10px">We&rsquo;ll email you the moment Pro is ready &mdash; and you&rsquo;ll get 50% off your first 3 months.</p>
     </div>
   </div>
 </div>
@@ -297,21 +287,20 @@ footer{padding:48px 40px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:
 <footer>
   <div class="foot-brand">
     <a href="index.html" class="brand"><span class="brand-mark"><span class="spark"></span></span>Foundra</a>
-    <p>A clearer way to start a business — every license, permit, and requirement, mapped for you.</p>
+    <p>A clearer way to start a business &mdash; every license, permit, and requirement, mapped for you.</p>
   </div>
   <div class="footer-col"><h4>Product</h4><a href="#how">How it works</a><a href="#types">Business types</a><a href="pricing.html">Pricing</a></div>
   <div class="footer-col"><h4>Company</h4><a href="about.html">About</a><a href="contact.html">Contact</a></div>
   <div class="footer-col"><h4>Legal</h4><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></div>
 </footer>
 <div class="foot-bottom">
-  <span>© 2025 Foundra, Inc.</span>
+  <span>© 2026 Foundra, Inc.</span>
   <span>Informational, not legal advice.</span>
 </div>
-
 </div>
 
 <script>
-const FORMSPREE_ID = "xvzlaabe";
+const FORMSPREE_ID = "YOUR_FORM_ID";
 function openWaitlist(tier){
   document.getElementById("modal").classList.add("on");
   document.getElementById("wl-tier").value = tier;
@@ -338,7 +327,7 @@ async function onWaitlistSubmit(e){
   if(FORMSPREE_ID === "YOUR_FORM_ID"){
     const subject = encodeURIComponent(`Foundra ${data.get("tier")} Waitlist: ${data.get("name")}`);
     const body = encodeURIComponent(`Name: ${data.get("name")}\nEmail: ${data.get("email")}\nTier: ${data.get("tier")}\nBusiness: ${data.get("business")||"(not provided)"}`);
-    window.location.href = `mailto:hello@foundra.us?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:info@foundra.us?subject=${subject}&body=${body}`;
     setTimeout(()=>{
       document.getElementById("modalForm").style.display = "none";
       document.getElementById("modalSuccess").classList.add("on");
@@ -352,11 +341,11 @@ async function onWaitlistSubmit(e){
       document.getElementById("modalSuccess").classList.add("on");
     } else {
       btn.disabled = false; btn.textContent = "Join waitlist";
-      alert("Something went wrong. Please email us at hello@foundra.us");
+      alert("Something went wrong. Please email us at info@foundra.us");
     }
   } catch(err){
     btn.disabled = false; btn.textContent = "Join waitlist";
-    alert("Something went wrong. Please email us at hello@foundra.us");
+    alert("Something went wrong. Please email us at info@foundra.us");
   }
 }
 </script>
