@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Foundra — AI-powered compliance navigator (Beta)</title>
+<meta name="description" content="Describe your business in plain English. Foundra's AI returns every license, permit, and step you need.">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#0A0A0A;--paper:#FAFAF7;--line:#E6E4DC;--line-soft:#EFEDE5;--muted:#8A8780;--beta:#9A6B00;--beta-bg:#FEF7E6}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+a{color:inherit;text-decoration:none}
+input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
+.app{max-width:1180px;margin:0 auto;min-height:100vh;background:var(--paper)}
+
+.beta-banner{background:var(--beta-bg);border-bottom:1px solid #F0DCB0;padding:9px 40px;font-size:12px;color:var(--beta);text-align:center;display:flex;align-items:center;justify-content:center;gap:8px}
+.beta-banner strong{font-weight:600}
+.beta-banner span{color:#7A5500}
+
+header{display:flex;align-items:center;justify-content:space-between;padding:24px 40px;border-bottom:1px solid var(--line)}
+.brand{font-family:'Instrument Serif',serif;font-size:24px;font-weight:400;letter-spacing:-.6px;display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
+.brand-mark{width:24px;height:24px;background:var(--ink);border-radius:5px;position:relative;flex-shrink:0}
+.brand-mark::before{content:'';position:absolute;left:8px;top:6px;width:2px;height:12px;background:var(--paper)}
+.brand-mark::after{content:'';position:absolute;left:8px;top:6px;width:9px;height:2px;background:var(--paper);box-shadow:0 5px 0 var(--paper)}
+.brand-mark .spark{position:absolute;right:5px;top:6px;width:3px;height:3px;background:var(--paper);border-radius:50%}
+.beta-pill{display:inline-block;font-size:9px;font-weight:600;letter-spacing:1px;padding:2px 7px;border-radius:100px;background:var(--beta-bg);color:var(--beta);border:1px solid #F0DCB0;margin-left:6px;vertical-align:middle;text-transform:uppercase}
+nav{display:flex;gap:24px;align-items:center}
+nav a{font-size:13px;color:var(--muted);transition:color .15s;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+nav a:hover{color:var(--ink)}
+.back-link{color:var(--ink) !important;font-weight:500}
+
+.hero{padding:120px 40px 100px;text-align:center;border-bottom:1px solid var(--line)}
+.hero-frame{max-width:760px;margin:0 auto}
+.ai-badge{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:1.4px;margin-bottom:32px;padding:6px 14px;border:1px solid var(--line);border-radius:100px;background:#fff}
+.ai-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:#2A7A2A;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.hero h1{font-family:'Instrument Serif',serif;font-size:80px;line-height:1.02;letter-spacing:-2.5px;font-weight:400;margin-bottom:28px}
+.hero h1 em{font-style:italic;color:var(--muted)}
+.hero p{font-size:18px;color:var(--muted);max-width:520px;margin:0 auto 56px;line-height:1.55}
+
+.ai-search{background:#fff;border:1px solid var(--line);border-radius:14px;padding:8px;display:flex;flex-direction:column;text-align:left;transition:border-color .2s,box-shadow .2s}
+.ai-search:focus-within{border-color:var(--ink);box-shadow:0 0 0 4px rgba(10,10,10,.04)}
+.ai-search textarea{width:100%;padding:18px 20px 8px;border:none;outline:none;background:transparent;font-size:16px;resize:none;line-height:1.5;min-height:60px;font-family:inherit}
+.ai-search textarea::placeholder{color:var(--muted)}
+.ai-search-foot{display:flex;align-items:center;justify-content:space-between;padding:8px 12px 8px 20px;border-top:1px solid var(--line-soft);gap:12px}
+.location-input{flex:1;display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)}
+.location-input svg{flex-shrink:0;opacity:.6}
+.location-input input{flex:1;border:none;outline:none;background:transparent;font-size:13px;padding:8px 0;color:var(--ink)}
+.location-input input::placeholder{color:var(--muted)}
+.ai-submit{background:var(--ink);color:var(--paper);font-size:13px;font-weight:500;padding:10px 18px;border-radius:8px;display:inline-flex;align-items:center;gap:6px;transition:opacity .15s}
+.ai-submit:hover{opacity:.85}
+.ai-submit:disabled{opacity:.5;cursor:not-allowed}
+
+.examples{margin-top:24px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.example{font-size:12px;color:var(--muted);padding:6px 12px;border:1px solid var(--line);border-radius:100px;cursor:pointer;background:transparent;transition:all .15s}
+.example:hover{border-color:var(--ink);color:var(--ink)}
+
+.thinking{margin-top:48px;text-align:left;max-width:640px;margin-left:auto;margin-right:auto;display:none}
+.thinking.on{display:block}
+.thinking-line{display:flex;align-items:center;gap:12px;padding:10px 0;font-size:13px;color:var(--muted);opacity:0;animation:fadein .4s ease-out forwards}
+.thinking-line:nth-child(1){animation-delay:.1s}
+.thinking-line:nth-child(2){animation-delay:.6s}
+.thinking-line:nth-child(3){animation-delay:1.1s}
+.thinking-line svg{flex-shrink:0}
+@keyframes fadein{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+.result{padding:60px 40px;display:none}
+.result.on{display:block}
+
+.email-me-bar{margin-top:24px;margin-bottom:32px;padding:20px 24px;background:#fff;border:1px solid var(--line);border-radius:14px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.email-me-text{flex:1;min-width:220px}
+.email-me-text strong{font-size:14px;display:block;margin-bottom:4px}
+.email-me-text p{font-size:12px;color:var(--muted);line-height:1.5}
+.email-me-btn{font-size:13px;padding:10px 18px;background:var(--ink);color:var(--paper);border-radius:8px;font-weight:500;display:inline-flex;align-items:center;gap:6px;transition:opacity .15s;border:none;cursor:pointer}
+.email-me-btn:hover{opacity:.85}
+
+.ai-summary{background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px;margin-bottom:36px;display:flex;gap:20px;align-items:flex-start}
+.ai-icon{width:36px;height:36px;background:var(--ink);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--paper);font-family:'Instrument Serif',serif;font-size:20px;font-style:italic}
+.ai-summary-body{flex:1}
+.ai-summary-label{font-size:10px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.ai-summary h3{font-family:'Instrument Serif',serif;font-size:24px;font-weight:400;letter-spacing:-.5px;margin-bottom:10px;line-height:1.2}
+.ai-summary p{font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:10px}
+.ai-confidence{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);padding:4px 10px;background:var(--paper);border:1px solid var(--line);border-radius:100px;margin-top:6px}
+.ai-confidence.high{color:#2A7A2A;border-color:#C8DEC0}
+.ai-confidence.med{color:#9A6B00;border-color:#F0DCB0}
+.ai-confidence.low{color:#9A2B2B;border-color:#E8C0C0}
+.ai-confidence::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor}
+.ai-actions{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+.ai-action-btn{font-size:12px;padding:7px 12px;border:1px solid var(--line);border-radius:6px;background:#fff;cursor:pointer;transition:all .15s;color:var(--ink)}
+.ai-action-btn:hover{border-color:var(--ink)}
+.ai-action-btn.primary{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.ai-action-btn.primary:hover{opacity:.85}
+
+.work-head{margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.work-head h2{font-family:'Instrument Serif',serif;font-size:38px;font-weight:400;letter-spacing:-1.2px;line-height:1.1;margin-bottom:12px}
+.work-meta{display:flex;gap:24px;font-size:12px;color:var(--muted);flex-wrap:wrap;margin-top:14px}
+.work-meta div{display:flex;gap:6px}
+.work-meta strong{color:var(--ink);font-weight:500}
+.work-portals{margin-top:14px;font-size:12px;color:var(--muted)}
+.work-portals a{color:var(--ink);border-bottom:1px solid var(--line);padding-bottom:1px;transition:border-color .15s;margin:0 4px}
+.work-portals a:hover{border-bottom-color:var(--ink)}
+.notice{font-size:12px;color:var(--muted);padding:10px 0;border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);margin-bottom:32px;line-height:1.55}
+.notice strong{color:var(--ink);font-weight:500}
+
+.tabs{display:flex;gap:32px;margin-bottom:28px;border-bottom:1px solid var(--line);overflow-x:auto}
+.tab{padding:0 0 14px;font-size:13px;color:var(--muted);border-bottom:1px solid transparent;margin-bottom:-1px;transition:color .15s;white-space:nowrap}
+.tab:hover{color:var(--ink)}
+.tab.on{color:var(--ink);border-bottom-color:var(--ink);font-weight:500}
+.pane{display:none}
+.pane.on{display:block}
+
+.items{display:flex;flex-direction:column}
+.item{display:grid;grid-template-columns:1fr auto;gap:32px;padding:20px 0;border-bottom:1px solid var(--line);align-items:flex-start}
+.item:last-child{border-bottom:none}
+.item-main h4{font-size:14px;font-weight:500;margin-bottom:6px;letter-spacing:-.1px}
+.item-main p{font-size:13px;color:var(--muted);max-width:560px;line-height:1.6}
+.item-tag{display:inline-block;font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-top:10px;padding-top:6px;border-top:1px solid var(--line)}
+.item-tag.required{color:#9A2B2B}
+.item-tag.recommended{color:#9A6B00}
+.item-tag.optional{color:#2A7A2A}
+.item-action{text-align:right;min-width:160px}
+.item-link{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--ink);border-bottom:1px solid var(--line);padding-bottom:2px;transition:border-color .15s}
+.item-link:hover{border-bottom-color:var(--ink)}
+.item-link svg{width:10px;height:10px}
+.item-source{display:block;font-size:10px;color:var(--muted);margin-top:6px;letter-spacing:.4px;text-transform:uppercase;font-weight:500}
+.consider-list{display:flex;flex-direction:column}
+.consider-list .item{grid-template-columns:1fr;padding:20px 0}
+.costs{width:100%;border-collapse:collapse;font-size:13px}
+.costs th{text-align:left;padding:12px 0;font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;border-bottom:1px solid var(--ink)}
+.costs td{padding:18px 0;border-bottom:1px solid var(--line);vertical-align:top}
+.costs tr:last-child td{border-bottom:none}
+.costs th:not(:first-child),.costs td:not(:first-child){padding-left:24px}
+.costs td:nth-child(2){color:var(--muted);max-width:340px}
+.costs td:nth-child(3){font-weight:500;white-space:nowrap}
+.costs td:nth-child(4){text-align:right}
+
+.modal-bg{position:fixed;inset:0;background:rgba(10,10,10,0.5);display:none;align-items:center;justify-content:center;z-index:200;padding:20px}
+.modal-bg.on{display:flex}
+.modal{background:var(--paper);border-radius:14px;max-width:460px;width:100%;padding:32px;position:relative}
+.modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;background:var(--line);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;color:var(--muted);border:none}
+.modal-close:hover{background:var(--muted);color:var(--paper)}
+.modal h3{font-family:'Instrument Serif',serif;font-size:26px;letter-spacing:-.7px;margin-bottom:8px;font-weight:400}
+.modal h3 em{font-style:italic;color:var(--muted)}
+.modal-sub{font-size:14px;color:var(--muted);margin-bottom:24px;line-height:1.6}
+.modal form{display:flex;flex-direction:column;gap:14px}
+.modal .field{display:flex;flex-direction:column;gap:6px}
+.modal label{font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}
+.modal input,.modal select{padding:11px 14px;border:1px solid var(--line);border-radius:8px;font-size:14px;outline:none;background:#fff;transition:border-color .15s}
+.modal input:focus,.modal select:focus{border-color:var(--ink)}
+.modal-btn{padding:13px;background:var(--ink);color:var(--paper);border-radius:8px;font-size:14px;font-weight:500;margin-top:6px;cursor:pointer;border:none;transition:opacity .15s}
+.modal-btn:hover{opacity:.85}
+.modal-success{text-align:center;padding:20px 0;display:none}
+.modal-success.on{display:block}
+
+footer{padding:48px 40px;display:flex;justify-content:space-between;font-size:12px;color:var(--muted);flex-wrap:wrap;gap:20px;border-top:1px solid var(--line)}
+footer a:hover{color:var(--ink);cursor:pointer}
+.footer-back{border-bottom:1px solid var(--line);padding-bottom:1px;transition:border-color .15s}
+.footer-back:hover{border-bottom-color:var(--ink)}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--paper);padding:10px 18px;border-radius:6px;font-size:12px;opacity:0;transition:all .25s;pointer-events:none;z-index:200}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media(max-width:880px){
+  header,.beta-banner{padding-left:24px;padding-right:24px}
+  header{padding:18px 24px;flex-wrap:wrap;gap:12px}
+  nav{gap:14px}
+  .hero{padding:60px 24px 80px}
+  .hero h1{font-size:42px;letter-spacing:-1.2px}
+  .ai-search-foot{flex-wrap:wrap}
+  .result{padding:40px 24px}
+  .work-head h2{font-size:28px}
+  .item{grid-template-columns:1fr;gap:14px}.item-action{text-align:left}
+  footer{padding:32px 24px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<div class="beta-banner">
+  <strong>Beta</strong><span>· You&rsquo;re using the Foundra beta. Free during this period. Feedback welcome at info@foundra.us</span>
+</div>
+
+<header>
+  <a href="index.html" class="brand">
+    <span class="brand-mark"><span class="spark"></span></span>
+    Foundra<span class="beta-pill">Beta</span>
+  </a>
+  <nav>
+    <a href="index.html" class="back-link">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M9 3L3 9M3 9H8M3 9V4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      Back to home
+    </a>
+    <a href="index.html#how">How it works</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+
+<section class="hero" id="hero">
+  <div class="hero-frame">
+    <div class="ai-badge">AI-powered compliance navigator</div>
+    <h1>What are you<br><em>building?</em></h1>
+    <p>Describe your business in plain English. Foundra&rsquo;s AI finds the licenses, permits, and steps you need.</p>
+    <form class="ai-search" id="aiForm" onsubmit="onSearch(event)">
+      <textarea id="qInput" placeholder="I want to open a small bakery that also serves coffee..." rows="2" autofocus></textarea>
+      <div class="ai-search-foot">
+        <div class="location-input">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 13s5-4.5 5-8a5 5 0 10-10 0c0 3.5 5 8 5 8z" stroke="currentColor" stroke-width="1.2"/><circle cx="7" cy="5" r="1.5" stroke="currentColor" stroke-width="1.2"/></svg>
+          <input id="locInput" type="text" placeholder="City, State (e.g. Jacksonville, FL)" value="Jacksonville, FL"/>
+        </div>
+        <button type="submit" class="ai-submit" id="submitBtn">
+          Analyze
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </form>
+    <div class="examples">
+      <button class="example" onclick="useExample('I want to start a food truck selling tacos')">Food truck selling tacos</button>
+      <button class="example" onclick="useExample('Opening a hair salon with three stylists')">Hair salon, three stylists</button>
+      <button class="example" onclick="useExample('Starting an in-home daycare for 8 kids')">In-home daycare</button>
+      <button class="example" onclick="useExample('I drive long-haul freight as an owner-operator')">Owner-operator trucking</button>
+    </div>
+    <div class="thinking" id="thinking">
+      <div class="thinking-line"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.2" stroke-dasharray="2 2"/></svg>Reading your description&hellip;</div>
+      <div class="thinking-line"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Matching to business category and jurisdiction&hellip;</div>
+      <div class="thinking-line"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Pulling verified federal &amp; state requirements&hellip;</div>
+    </div>
+  </div>
+</section>
+
+<section class="result" id="result"></section>
+
+<div class="modal-bg" id="emailModal" onclick="closeIfBgEmail(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeEmailModal()">×</button>
+    <div id="emailModalForm">
+      <h3>Email me my <em>checklist.</em></h3>
+      <p class="modal-sub">We&rsquo;ll send your saved checklist to your email so you can come back to it anytime. Beta users also get early access to Pro tier features when they launch Q3 2026.</p>
+      <form id="emailMeForm" onsubmit="onEmailMe(event)">
+        <div class="field"><label for="em-name">Your name</label><input type="text" id="em-name" name="name" required/></div>
+        <div class="field"><label for="em-email">Email</label><input type="email" id="em-email" name="email" required/></div>
+        <button type="submit" class="modal-btn" id="em-submit">Send my checklist</button>
+      </form>
+    </div>
+    <div class="modal-success" id="emailModalSuccess">
+      <h3>Sent!</h3>
+      <p style="color:var(--muted);font-size:14px;margin-top:10px">Your checklist is on the way. Check your inbox in a minute or two.</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span><a href="index.html" class="footer-back">← Back to home</a> &nbsp;·&nbsp; Foundra <span class="beta-pill">Beta</span> &nbsp;·&nbsp; A clearer way to start.</span>
+  <span>© 2026 &middot; Informational, not legal advice.</span>
+</footer>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const FORMSPREE_ID = "YOUR_FORM_ID";
+
+const STATES = {
+  AL:{name:"Alabama",abbr:"AL"}, AK:{name:"Alaska",abbr:"AK"}, AZ:{name:"Arizona",abbr:"AZ"}, AR:{name:"Arkansas",abbr:"AR"},
+  CA:{name:"California",abbr:"CA",tax:"7.25% + local",llc:"$70",annual:"$800 min franchise tax",bizPortal:"https://www.sos.ca.gov/business-programs/business-entities",taxPortal:"https://www.cdtfa.ca.gov/",profPortal:"https://www.dca.ca.gov/",domain:"ca.gov"},
+  CO:{name:"Colorado",abbr:"CO",tax:"2.9% + local",llc:"$50",annual:"$10/yr",bizPortal:"https://www.coloradosos.gov/biz/",taxPortal:"https://tax.colorado.gov/",profPortal:"https://dpo.colorado.gov/",domain:"colorado.gov OR co.gov"},
+  CT:{name:"Connecticut",abbr:"CT"}, DE:{name:"Delaware",abbr:"DE"},
+  FL:{name:"Florida",abbr:"FL",tax:"6%",llc:"$125",annual:"$138.75/yr",bizPortal:"https://dos.fl.gov/sunbiz/",taxPortal:"https://floridarevenue.com/taxes/businesses/Pages/default.aspx",profPortal:"https://www.myfloridalicense.com/DBPR/",domain:"fl.gov OR myfloridalicense.com OR floridarevenue.com"},
+  GA:{name:"Georgia",abbr:"GA",tax:"4% + local",llc:"$100",annual:"$50/yr",bizPortal:"https://sos.ga.gov/divisions-corporations",taxPortal:"https://dor.georgia.gov/",profPortal:"https://sos.ga.gov/divisions-professional-licensing-boards",domain:"georgia.gov OR ga.gov"},
+  HI:{name:"Hawaii",abbr:"HI"}, ID:{name:"Idaho",abbr:"ID"},
+  IL:{name:"Illinois",abbr:"IL",tax:"6.25% + local",llc:"$150",annual:"$75/yr",bizPortal:"https://www.ilsos.gov/departments/business_services/",taxPortal:"https://tax.illinois.gov/",profPortal:"https://idfpr.illinois.gov/",domain:"illinois.gov OR il.gov"},
+  IN:{name:"Indiana",abbr:"IN"}, IA:{name:"Iowa",abbr:"IA"}, KS:{name:"Kansas",abbr:"KS"}, KY:{name:"Kentucky",abbr:"KY"}, LA:{name:"Louisiana",abbr:"LA"}, ME:{name:"Maine",abbr:"ME"}, MD:{name:"Maryland",abbr:"MD"}, MA:{name:"Massachusetts",abbr:"MA"}, MI:{name:"Michigan",abbr:"MI"}, MN:{name:"Minnesota",abbr:"MN"}, MS:{name:"Mississippi",abbr:"MS"}, MO:{name:"Missouri",abbr:"MO"}, MT:{name:"Montana",abbr:"MT"}, NE:{name:"Nebraska",abbr:"NE"}, NV:{name:"Nevada",abbr:"NV"}, NH:{name:"New Hampshire",abbr:"NH"}, NJ:{name:"New Jersey",abbr:"NJ"}, NM:{name:"New Mexico",abbr:"NM"},
+  NY:{name:"New York",abbr:"NY",tax:"4% + local",llc:"$200",annual:"$25 biennial",bizPortal:"https://dos.ny.gov/division-corporations",taxPortal:"https://www.tax.ny.gov/bus/",profPortal:"https://www.op.nysed.gov/",domain:"ny.gov"},
+  NC:{name:"North Carolina",abbr:"NC",tax:"4.75% + local",llc:"$125",annual:"$200/yr",bizPortal:"https://www.sosnc.gov/divisions/business_registration",taxPortal:"https://www.ncdor.gov/",profPortal:"https://www.ncdoj.gov/",domain:"nc.gov"},
+  ND:{name:"North Dakota",abbr:"ND"},
+  OH:{name:"Ohio",abbr:"OH",tax:"5.75% + local",llc:"$99",annual:"$0",bizPortal:"https://www.ohiosos.gov/businesses/",taxPortal:"https://tax.ohio.gov/",profPortal:"https://com.ohio.gov/",domain:"ohio.gov"},
+  OK:{name:"Oklahoma",abbr:"OK"}, OR:{name:"Oregon",abbr:"OR"}, PA:{name:"Pennsylvania",abbr:"PA"}, RI:{name:"Rhode Island",abbr:"RI"}, SC:{name:"South Carolina",abbr:"SC"}, SD:{name:"South Dakota",abbr:"SD"}, TN:{name:"Tennessee",abbr:"TN"},
+  TX:{name:"Texas",abbr:"TX",tax:"6.25% + local",llc:"$300",annual:"Franchise tax report",bizPortal:"https://www.sos.state.tx.us/corp/index.shtml",taxPortal:"https://comptroller.texas.gov/taxes/",profPortal:"https://www.tdlr.texas.gov/",domain:"texas.gov"},
+  UT:{name:"Utah",abbr:"UT"}, VT:{name:"Vermont",abbr:"VT"}, VA:{name:"Virginia",abbr:"VA"},
+  WA:{name:"Washington",abbr:"WA",tax:"6.5% + local",llc:"$200",annual:"$60/yr",bizPortal:"https://www.sos.wa.gov/corporations-charities",taxPortal:"https://dor.wa.gov/",profPortal:"https://dol.wa.gov/business-and-professions",domain:"wa.gov"},
+  WV:{name:"West Virginia",abbr:"WV"}, WI:{name:"Wisconsin",abbr:"WI"}, WY:{name:"Wyoming",abbr:"WY"}, DC:{name:"District of Columbia",abbr:"DC"}
+};
+
+const STATE_LOOKUP = {};
+Object.entries(STATES).forEach(([abbr, s]) => { STATE_LOOKUP[s.name.toLowerCase()] = abbr; STATE_LOOKUP[abbr.toLowerCase()] = abbr; });
+const CITY_TO_STATE = {"jacksonville":"FL","miami":"FL","tampa":"FL","orlando":"FL","houston":"TX","dallas":"TX","austin":"TX","san antonio":"TX","los angeles":"CA","san francisco":"CA","san diego":"CA","sacramento":"CA","oakland":"CA","new york":"NY","brooklyn":"NY","queens":"NY","manhattan":"NY","bronx":"NY","atlanta":"GA","savannah":"GA","charlotte":"NC","raleigh":"NC","columbus":"OH","cleveland":"OH","cincinnati":"OH","chicago":"IL","seattle":"WA","spokane":"WA","denver":"CO","boulder":"CO"};
+
+// UPDATED .gov links — verified May 2026
+const FED = {
+  ein:"https://www.irs.gov/businesses/small-businesses-self-employed/get-an-employer-identification-number",
+  boi:"https://www.fincen.gov/boi",
+  usdot_apply:"https://www.fmcsa.dot.gov/registration",
+  mc_number:"https://www.fmcsa.dot.gov/registration/get-mc-number-authority-operate",
+  ucr:"https://www.ucr.gov/",
+  ifta:"https://www.iftach.org/",
+  hvut:"https://www.irs.gov/businesses/small-businesses-self-employed/trucking-tax-center",
+  dea:"https://www.deadiversion.usdoj.gov/",
+  npi:"https://nppes.cms.hhs.gov/#/",
+  cms:"https://www.cms.gov/",
+  ascap:"https://www.ascap.com/music-users/licensing",
+  uspto:"https://www.uspto.gov/trademarks/apply",
+  osha:"https://www.osha.gov/training/outreach"
+};
+
+// Universal BOI requirement (NEW — applies to ALL LLCs/Corps as of 2024)
+const BOI_REQUIREMENT = {
+  name:"Beneficial Ownership Information (BOI) report",
+  desc:"Required by FinCEN for all LLCs and corporations within 90 days of formation. Free to file. Penalty for non-compliance: $500/day. Most founders don't know this exists.",
+  type:"required",
+  linkType:"federal",
+  linkKey:"boi"
+};
+
+const TYPE_MATCHERS = [
+  {id:"food_truck",name:"Food truck",keywords:[
+    {w:["food truck","food-truck","mobile food","food cart","mobile kitchen","truck selling food"],score:10},
+    {w:["truck","mobile","cart","stand","kiosk"],score:3},
+    {w:["taco","burger","ice cream","coffee"],score:1}
+  ]},
+  {id:"restaurant",name:"Restaurant & food",keywords:[
+    {w:["restaurant","cafe","café","bistro","diner","eatery","bakery","pizzeria","fine dining","brewery","brewpub","bar","pub"],score:10},
+    {w:["serving food","prep food","kitchen","catering","menu","dine-in","sit-down"],score:6},
+    {w:["food","coffee","drinks","alcohol","beer","wine","liquor"],score:2}
+  ]},
+  {id:"salon",name:"Salon & beauty",keywords:[
+    {w:["salon","barbershop","barber shop","hair salon","nail salon","beauty salon","spa","day spa","hair studio"],score:10},
+    {w:["stylist","cosmetologist","barber","esthetician","nail tech","hairdresser","makeup artist"],score:7},
+    {w:["hair","nails","beauty","massage","facial","manicure","pedicure"],score:3}
+  ]},
+  {id:"childcare",name:"Childcare",keywords:[
+    {w:["daycare","day care","childcare","child care","preschool","pre-school","nursery school","in-home daycare","family daycare"],score:10},
+    {w:["watching kids","caring for children","babysitting business","kids","children","toddler"],score:5}
+  ]},
+  {id:"trucking",name:"Trucking & logistics",keywords:[
+    {w:["trucking","trucker","semi-truck","18-wheeler","18 wheeler","long-haul","long haul","owner-operator","owner operator","freight","cdl","commercial driving"],score:10},
+    {w:["hauling","transport","logistics","shipping","cargo","freight broker","fleet"],score:6},
+    {w:["truck","driver","route"],score:2}
+  ]},
+  {id:"gym",name:"Gym & fitness",keywords:[
+    {w:["gym","fitness studio","yoga studio","crossfit","fitness center","pilates studio","spin studio","martial arts","dance studio","boxing gym"],score:10},
+    {w:["personal trainer","yoga instructor","fitness instructor","group fitness","training facility"],score:6},
+    {w:["fitness","yoga","workout","training","health club"],score:3}
+  ]},
+  {id:"realEstate",name:"Real estate",keywords:[
+    {w:["real estate","realtor","real estate agent","real estate broker","brokerage","property management"],score:10},
+    {w:["property manager","leasing agent","listing agent","rental management","selling homes"],score:6}
+  ]},
+  {id:"medical",name:"Medical",keywords:[
+    {w:["medical practice","clinic","physician practice","doctor's office","dental practice","therapy practice","chiropractic","mental health","psychology practice","nursing practice","pediatric"],score:10},
+    {w:["doctor","nurse practitioner","therapist","psychologist","dentist","chiropractor","physical therapy"],score:6},
+    {w:["healthcare","medical","clinical","health"],score:2}
+  ]},
+  {id:"cleaning",name:"Cleaning service",keywords:[
+    {w:["cleaning service","cleaning business","house cleaning","commercial cleaning","janitorial","maid service","housekeeping service"],score:10},
+    {w:["cleaning houses","cleaning offices","cleaner"],score:6},
+    {w:["cleaning","maid","janitor"],score:3}
+  ]},
+  {id:"landscaping",name:"Landscaping",keywords:[
+    {w:["landscaping","lawn care","landscape","lawn service","lawn maintenance","tree service","irrigation"],score:10},
+    {w:["mowing lawns","yard work","gardening service"],score:6},
+    {w:["lawn","yard","garden","landscape design"],score:3}
+  ]},
+  {id:"construction",name:"Construction",keywords:[
+    {w:["construction","contractor","general contractor","plumber","plumbing","electrician","electrical","hvac","roofing","builder","remodeling"],score:10},
+    {w:["building homes","handyman","trades","subcontractor","carpentry","drywall"],score:6}
+  ]},
+  {id:"ecommerce",name:"E-commerce",keywords:[
+    {w:["ecommerce","e-commerce","online store","online shop","shopify","amazon seller","etsy shop","dropshipping","drop ship","online retail"],score:10},
+    {w:["selling online","online business","internet store","web shop"],score:6}
+  ]},
+  {id:"freelance",name:"Freelance & consulting",keywords:[
+    {w:["freelance","freelancer","consulting","consultant","coach","copywriter","graphic designer","web developer","marketing agency","branding studio","independent contractor"],score:10},
+    {w:["solo","self-employed","work from home","contractor work"],score:4}
+  ]},
+  {id:"retail",name:"Retail store",keywords:[
+    {w:["retail store","brick and mortar","boutique","clothing store","gift shop","convenience store","kiosk","specialty store"],score:10},
+    {w:["selling products","storefront"],score:5},
+    {w:["shop","store"],score:2}
+  ]}
+];
+
+// Keep your existing DATA object — only adding BOI everywhere
+const DATA = {
+food_truck:{title:"Food truck",licenses:[{name:"Mobile food vendor permit",desc:"Permit for mobile food units. Issued by your local health department.",type:"required",linkType:"search",searchQuery:"mobile food vendor permit health department"},{name:"Local business license",desc:"Base operating license from your city or county.",type:"required",linkType:"search",searchQuery:"city county business license"},{name:"Vehicle commercial registration",desc:"Your food truck is both a business and a vehicle. Register it commercially.",type:"required",linkType:"search",searchQuery:"commercial vehicle registration DMV"},{name:"Federal EIN",desc:"Required for banking, suppliers, and payroll. Free from the IRS.",type:"required",linkType:"federal",linkKey:"ein"},{...BOI_REQUIREMENT},{name:"State sales tax permit",desc:"Required to collect and remit sales tax on food sales.",type:"required",linkType:"state",linkKey:"taxPortal"},{name:"Fire safety inspection",desc:"Mobile food units with cooking equipment must pass fire safety inspection.",type:"required",linkType:"search",searchQuery:"mobile food fire safety inspection"},{name:"Location / vending permits",desc:"Many cities require additional permits to operate in specific locations.",type:"required",linkType:"search",searchQuery:"mobile vending location permit"}],structure:[{name:"LLC",desc:"Best structure for food truck owners. Keeps personal assets separate from business liability.",type:"recommended"}],consider:[{name:"Commissary kitchen requirement",desc:"Most cities require food trucks to operate from a licensed commissary kitchen."},{name:"Location strategy",desc:"Research the best spots, permitted events, and private catering opportunities."},{name:"Commercial vehicle insurance",desc:"Standard auto insurance does not cover commercial vehicles."}],costs:[{name:"Mobile food vendor permit",desc:"Local health department",range:"$100–$1,000/yr",type:"required"},{name:"Commissary kitchen rental",desc:"Monthly access fee",range:"$400–$1,500/mo",type:"required"},{name:"Commercial vehicle insurance",desc:"Truck + liability",range:"$2,000–$6,000/yr",type:"required"},{name:"State LLC filing",desc:"One-time",range:"$50–$300",type:"required"},{name:"BOI report (FinCEN)",desc:"Free if filed on time",range:"Free",type:"required"}]},
+restaurant:{title:"Restaurant & food",licenses:[{name:"Local business license",desc:"Register your business with your local municipality to legally operate.",type:"required",linkType:"search",searchQuery:"city county business license"},{name:"Food service establishment permit",desc:"Issued by the state agency that regulates food service.",type:"required",linkType:"state",linkKey:"profPortal"},{name:"Federal EIN",desc:"Required for employees, banking, or operating as an LLC. Free from the IRS.",type:"required",linkType:"federal",linkKey:"ein"},{...BOI_REQUIREMENT},{name:"State sales tax permit",desc:"Required to collect and remit sales tax on food and beverage sales.",type:"required",linkType:"state",linkKey:"taxPortal"},{name:"Certificate of occupancy",desc:"Issued after a local inspection confirms your space meets zoning and safety codes.",type:"required",linkType:"search",searchQuery:"certificate of occupancy commercial restaurant"},{name:"Liquor / alcohol license",desc:"Beer & wine: $300-2,000. Full liquor in quota states: $5,000-$150,000+.",type:"recommended",linkType:"state",linkKey:"profPortal"},{name:"Food handler / manager certification",desc:"Most states require at least one certified food manager and food handler cards for staff.",type:"required",linkType:"search",searchQuery:"food handler manager certification ServSafe"},{name:"Sign permit",desc:"Most cities require a permit before installing exterior signage.",type:"recommended",linkType:"search",searchQuery:"commercial sign permit application"},{name:"Music license (ASCAP/BMI)",desc:"Required if you publicly play copyrighted music in your establishment.",type:"optional",linkType:"federal",linkKey:"ascap"}],structure:[{name:"Limited Liability Company (LLC)",desc:"Most popular for restaurants. Protects personal assets while offering tax flexibility.",type:"recommended"},{name:"Sole proprietorship",desc:"Cheapest to start, but you are personally liable for business debts and lawsuits.",type:"optional"},{name:"S-Corporation",desc:"Can reduce self-employment taxes once profitable, but adds administrative overhead.",type:"optional"}],consider:[{name:"Location & zoning",desc:"Verify your location is zoned for food service. Outdoor seating, drive-throughs, and liquor each carry additional zoning requirements."},{name:"Health department inspections",desc:"Your kitchen will be inspected before opening and regularly after."},{name:"Point-of-sale system",desc:"Choose a POS that handles inventory, tips, split checks, and sales tax reporting."},{name:"General liability + property insurance",desc:"Essential protection from customer injury claims and equipment damage."},{name:"Workers' compensation",desc:"Required by most states once you have employees."},{name:"Fire suppression system",desc:"Commercial kitchens require fire suppression over cooking equipment."},{name:"ADA accessibility",desc:"Restaurants must comply with ADA requirements."}],costs:[{name:"State LLC filing",desc:"One-time state registration",range:"$50–$300",type:"required"},{name:"BOI report (FinCEN)",desc:"Free if filed on time",range:"Free",type:"required"},{name:"Food establishment permit",desc:"Annual permit from state agency",range:"$50–$500/yr",type:"required"},{name:"Liquor license",desc:"Varies enormously by state",range:"$300–$150,000+",type:"optional"},{name:"General liability insurance",desc:"Annual premium",range:"$2,000–$6,000/yr",type:"recommended"},{name:"Workers' compensation",desc:"Required once you have employees",range:"$1,500–$5,000/yr",type:"recommended"},{name:"POS system",desc:"Software + hardware",range:"$0–$200/mo",type:"recommended"}]},
+retail:{title:"Retail store",licenses:[{name:"Local business license",desc:"Required to legally operate a retail business.",type:"required",linkType:"search",searchQuery:"city county business license retail"},{name:"State sales tax permit",desc:"Retailers must collect and remit sales tax on tangible goods.",type:"required",linkType:"state",linkKey:"taxPortal"},{name:"Federal EIN",desc:"Required for employees, bank accounts, and vendor accounts.",type:"required",linkType:"federal",linkKey:"ein"},{...BOI_REQUIREMENT},{name:"Certificate of occupancy",desc:"Confirms your retail space meets local building and safety codes.",type:"required",linkType:"search",searchQuery:"certificate of occupancy commercial"},{name:"Resale certificate",desc:"Allows you to buy inventory wholesale without paying sales tax.",type:"recommended",linkType:"state",linkKey:"taxPortal"},{name:"Sign permit",desc:"Required before installing exterior signage.",type:"recommended",linkType:"search",searchQuery:"commercial sign permit"}],structure:[{name:"LLC",desc:"Standard for most retail businesses.",type:"recommended"},{name:"S-Corporation",desc:"Can reduce self-employment taxes once profitable.",type:"optional"}],consider:[{name:"Zoning & lease terms",desc:"Verify commercial zoning. Negotiate tenant improvement allowances."},{name:"Inventory management",desc:"Track stock, reorder points, and shrinkage from day one."},{name:"General liability insurance",desc:"Covers slip-and-fall, product liability, and property damage."},{name:"ADA compliance",desc:"Entrances, aisles, and restrooms must meet accessibility standards."},{name:"Payment processing",desc:"Choose a system that handles chip, tap, and online payments."}],costs:[{name:"State LLC filing",desc:"One-time registration",range:"$50–$300",type:"required"},{name:"Annual report",desc:"State annual fee",range:"$0–$200/yr",type:"required"},{name:"General liability insurance",desc:"Annual premium",range:"$500–$3,000/yr",type:"recommended"},{name:"POS system",desc:"Hardware + software",range:"$0–$200/mo",type:"recommended"}]},
+salon:{title:"Salon & beauty",licenses:[{name:"State cosmetology license (per practitioner)",desc:"Every cosmetologist, esthetician, or nail tech must be individually state-licensed.",type:"required",linkType:"state",linkKey:"profPortal"},{name:"Salon establishment license",desc:"Your physical salon location must hold its own establishment license.",type:"required",linkType:"state",linkKey:"profPortal"},{name:"Local business license",desc:"Local operating license for your municipality.",type:"required",linkType:"search",searchQuery:"city county business license"},{name:"Federal EIN",desc:"Required for employees, booth renters, and banking.",type:"required",linkType:"federal",linkKey:"ein"},{...BOI_REQUIREMENT},{name:"State sales tax permit",desc:"Sales tax applies to retail beauty products sold in your salon.",type:"required",linkType:"state",linkKey:"taxPortal"}],structure:[{name:"LLC",desc:"Separates personal and business finances. Recommended for all salon owners.",type:"recommended"},{name:"Booth renter vs. employee structure",desc:"Independent renters (1099) vs. employees (W-2) has major tax and legal implications.",type:"required"}],consider:[{name:"Sanitation standards",desc:"State boards have strict rules for tool sterilization and chemical storage."},{name:"Ventilation for nail salons",desc:"Proper chemical fume ventilation is legally required."},{name:"Salon-specific insurance",desc:"Covers professional liability and general liability."},{name:"Booking software",desc:"Vagaro, Fresha, or Square automate bookings and payments."}],costs:[{name:"Individual license renewal",desc:"Per practitioner",range:"$45–$150",type:"required"},{name:"Establishment license",desc:"Annual renewal",range:"$60–$200/yr",type:"required"},{name:"State LLC filing",desc:"One-time",range:"$50–$300",type:"required"},{name:"Salon insurance",desc:"Annual premium",range:"$500–$2,500/yr",type:"recommended"}]},
+construction:{title:"Construction",licenses:[{name:"State contractor's license",desc:"General contractors and specialty trades must be licensed. Requirements vary by state.",type:"required",linkType:"state",linkKey:"profPortal"},{name:"Local business license",desc:"Many counties require a local license in addition to the state license.",type:"required",linkType:"search",searchQuery:"city county business license"},{name:"Federal EIN",desc:"Required for payroll, subcontractor payments, and bonding.",type:"required",linkType:"federal",linkKey:"ein"},{...BOI_REQUIREMENT},{name:"Contractor bond",desc:"Required to protect clients against incomplete or faulty work.",type:"required",linkType:"search",searchQuery:"contractor surety bond"},{name:"Building permits (per project)",desc:"Each project requires its own permit from the local building department.",type:"required",linkType:"search",searchQuery:"building permit application local"},{name:"OSHA 10 or 30 certification",desc:"Required on many job sites and expected by most commercial clients.",type:"recommended",linkType:"federal",linkKey:"osha"}],structure:[{name:"LLC or S-Corp",desc:"Essential. High liability exposure from accidents and property damage.",type:"required"}],consider:[{name:"General liability insurance",desc:"Most clients require $1M to $2M in GL coverage."},{name:"Workers' compensation",desc:"Required in most states for construction with even one employee."},{name:"Lien rights",desc:"File preliminary notices to preserve your right to be paid."},{name:"Subcontractor agreements",desc:"Written contracts for every sub covering scope and indemnification."}],costs:[{name:"Contractor license exam",desc:"Varies by state and trade",range:"$200–$600",type:"required"},{name:"Contractor bond",desc:"Annual premium",range:"$100–$400/yr",type:"required"},{name:"General liability insurance",desc:"Annual premium",range:"$2,000–$12,000/yr",type:"required"},{name:"Workers' compensation",desc:"High rates in construction",range:"$5,000–$30,000+/yr",type:"required"}]},
+ecommerce:{title:"E-commerce",licenses:[{name:"Local business license",desc:"Even online-only businesses operating from home need a local business license.",type:"required",linkType:"search",searchQuery:"home based business license"},{name:"Federal EIN",desc:"Needed for payment processors, banking, and supplier accounts.",type:"required",linkType:"federal",linkKey:"ein"},{...BOI_REQUIREMENT},{name:"State sales tax permit",desc:"Multi-state nexus rules may require registration in multiple states.",type:"required",linkType:"state",linkKey:"taxPortal"},{name:"Home occupation permit",desc:"Required by some cities if you operate from home.",type:"recommended",linkType:"search",searchQuery:"home occupation permit"},{name:"Resale certificate",desc:"Buy wholesale inventory without paying sales tax.",type:"recommended",linkType:"state",linkKey:"taxPortal"},{name:"Federal trademark (USPTO)",desc:"Protect your brand name and logo at the federal level.",type:"optional",linkType:"federal",linkKey:"uspto"}],structure:[{name:"LLC",desc:"Most e-commerce sellers use an LLC for liability protection.",type:"recommended"},{name:"Sole proprietorship",desc:"Simple to start but no protection from product liability claims.",type:"optional"}],consider:[{name:"Product liability insurance",desc:"Protects if a product you sell causes injury or property damage."},{name:"Multi-state sales tax compliance",desc:"Economic nexus thresholds vary. TaxJar or Avalara automate compliance."},{name:"Terms of service & privacy policy",desc:"Required by payment processors. Essential for GDPR/CCPA."}],costs:[{name:"State LLC filing",desc:"One-time",range:"$50–$300",type:"required"},{name:"E-commerce platform",desc:"Monthly subscription",range:"$29–$299/mo",type:"recommended"},{name:"Product liability insurance",desc:"Annual",range:"$500–$2,000/yr",type:"recommended"},{name:"Federal trademark",desc:"Per class at USPTO",range:"$250–$350",type:"optional"}]},
+freelance:{title:"Freelance & consulting",licenses:[{name:"Local business license",desc:"Required to legally operate as a freelancer in most jurisdictions.",type:"required",linkType:"search",searchQuery:"freelance home business license"},{name:"Federal EIN",desc:"Recommended for privacy (instead of using your SSN on invoices).",type:"recommended",linkType:"federal",linkKey:"ein"},{...BOI_REQUIREMENT},{name:"Professional license (if applicable)",desc:"CPAs, architects, engineers, and therapists need state licenses.",type:"required",linkType:"state",linkKey:"profPortal"},{name:"DBA registration",desc:"If operating under a brand name, file a fictitious name registration.",type:"recommended",linkType:"state",linkKey:"bizPortal"}],structure:[{name:"Single-member LLC",desc:"Recommended for most freelancers. Protects personal assets and adds professionalism.",type:"recommended"},{name:"Sole proprietorship",desc:"Simplest option. No filing required but no liability protection.",type:"optional"},{name:"S-Corporation (once profitable)",desc:"Can significantly reduce self-employment taxes at $50,000+ net profit.",type:"optional"}],consider:[{name:"Client contracts",desc:"Always use written contracts covering scope, payment terms, IP ownership, and termination."},{name:"Professional liability (E&O) insurance",desc:"Protects against claims your work caused financial harm to a client."},{name:"Separate business bank account",desc:"Open a dedicated checking account immediately."},{name:"Quarterly estimated taxes",desc:"Self-employed individuals pay estimated taxes 4 times per year."}],costs:[{name:"State LLC filing",desc:"One-time",range:"$50–$300",type:"recommended"},{name:"E&O insurance",desc:"Annual professional liability",range:"$500–$3,000/yr",type:"recommended"},{name:"Accounting software",desc:"Monthly",range:"$15–$50/mo",type:"recommended"}]},
+childcare:{title:"Childcare",licenses:[{name:"State childcare facility license",desc:"Every state requires a dedicated license. Involves background checks, facility inspections, and staff ratios.",type:"required",linkType:"search",searchQuery:"childcare daycare facility license"},{name:"Local business license",desc:"Required in addition to the state childcare license.",type:"required",linkType:"search",searchQuery:"city county business license"},{name:"Federal EIN",desc:"Required for employees, payroll, and banking.",type:"required",linkType:"federal",linkKey:"ein"},{...BOI_REQUIREMENT},{name:"Fire safety inspection",desc:"Childcare facilities undergo rigorous fire safety inspections.",type:"required",linkType:"search",searchQuery:"childcare fire safety inspection certificate"},{name:"Health department inspection",desc:"Facilities are inspected for sanitation and safety compliance.",type:"required",linkType:"search",searchQuery:"childcare health department inspection"},{name:"State sales tax permit",desc:"Required if you sell food, snacks, or supplies to parents.",type:"recommended",linkType:"state",linkKey:"taxPortal"},{name:"First aid / CPR certification",desc:"Required by most states for all staff working with children.",type:"required",linkType:"search",searchQuery:"CPR first aid certification childcare"}],structure:[{name:"LLC or Corporation",desc:"Strongly recommended due to high liability exposure.",type:"recommended"},{name:"Nonprofit 501(c)(3)",desc:"May qualify for grants, tax exemptions, and community funding.",type:"optional"}],consider:[{name:"Staff-to-child ratios",desc:"Every state mandates ratios. Violations can result in license suspension."},{name:"Background checks for all staff",desc:"Criminal, sex offender registry, and child abuse clearances required."},{name:"Child care liability insurance",desc:"Specialized insurance covering child injury and abuse allegations."},{name:"Subsidy program enrollment",desc:"In Texas, enroll in Texas Rising Star (TRS) to accept state-subsidized children. Big revenue driver."},{name:"Mandated reporter training",desc:"All staff must be trained as mandated reporters."}],costs:[{name:"State childcare license",desc:"Initial licensing fee",range:"$100–$500",type:"required"},{name:"Annual license renewal",desc:"Ongoing annual fee",range:"$50–$300/yr",type:"required"},{name:"Background checks per staff",desc:"FBI + state checks",range:"$30–$80 each",type:"required"},{name:"Child care liability insurance",desc:"Specialized coverage",range:"$2,000–$8,000/yr",type:"required"},{name:"State LLC filing",desc:"One-time",range:"$50–$300",type:"required"}]},
+trucking:{title:"Trucking & logistics",licenses:[{name:"USDOT number (FMCSA)",desc:"Required for all commercial motor vehicles in interstate commerce. Free through FMCSA. Note: FMCSA is migrating to a new system called Motus in May 2026.",type:"required",linkType:"federal",linkKey:"usdot_apply"},{name:"MC number (motor carrier authority)",desc:"Required for-hire carriers transporting goods across state lines.",type:"required",linkType:"federal",linkKey:"mc_number"},{name:"Commercial driver's license (CDL)",desc:"Required for any driver operating a commercial vehicle over 26,001 lbs.",type:"required",linkType:"search",searchQuery:"commercial driver license CDL DMV"},{name:"State operating authority",desc:"Many states require intrastate carriers to register separately with the state DOT.",type:"required",linkType:"search",searchQuery:"intrastate motor carrier authority state DOT"},{name:"Local business license",desc:"For your business headquarters.",type:"required",linkType:"search",searchQuery:"city county business license"},{name:"Federal EIN",desc:"Required for banking, payroll, and fuel tax registration.",type:"required",linkType:"federal",linkKey:"ein"},{...BOI_REQUIREMENT},{name:"International Fuel Tax Agreement (IFTA)",desc:"Required for multi-state operations.",type:"recommended",linkType:"federal",linkKey:"ifta"},{name:"Heavy Vehicle Use Tax (Form 2290)",desc:"IRS form required annually for vehicles over 55,000 lbs.",type:"required",linkType:"federal",linkKey:"hvut"},{name:"Unified Carrier Registration (UCR)",desc:"Annual federal registration for interstate carriers.",type:"required",linkType:"federal",linkKey:"ucr"}],structure:[{name:"LLC or Corporation",desc:"Essential. Trucking has high liability exposure.",type:"required"},{name:"Owner-operator vs. carrier",desc:"Decide whether to operate under your own authority or as a leased owner-operator.",type:"required"}],consider:[{name:"Commercial trucking insurance",desc:"Primary liability ($750K to $1M minimum required by FMCSA), cargo, physical damage."},{name:"Hours of Service compliance",desc:"Federal regulations limit driver hours. ELDs are mandatory."},{name:"Drug & alcohol testing",desc:"FMCSA mandates pre-employment, random, and post-accident testing."},{name:"Vehicle maintenance records",desc:"Detailed inspection and maintenance logs required for FMCSA audits."}],costs:[{name:"USDOT / MC filing",desc:"Free USDOT, $300 for MC operating authority",range:"$300 one-time",type:"required"},{name:"UCR registration",desc:"2026 fees by fleet size",range:"$46–$44,837/yr",type:"required"},{name:"Commercial trucking insurance",desc:"Minimum liability + cargo",range:"$8,000–$20,000+/yr",type:"required"},{name:"ELD device & subscription",desc:"Federal mandate",range:"$200–$600 + $30–$50/mo",type:"required"},{name:"HVUT (Form 2290)",desc:"Annual per-vehicle tax",range:"$100–$550/yr per truck",type:"required"}]},
+gym:{title:"Gym & fitness",licenses:[{name:"Local business license",desc:"Required to legally operate any fitness or wellness business.",type:"required",linkType:"search",searchQuery:"city county business license"},{name:"Federal EIN",desc:"Required for banking, payroll, and vendor accounts.",type:"required",linkType:"federal",linkKey:"ein"},{...BOI_REQUIREMENT},{name:"Certificate of occupancy",desc:"Your facility must pass inspection for occupancy load and fire safety.",type:"required",linkType:"search",searchQuery:"certificate of occupancy commercial"},{name:"State sales tax permit",desc:"Most states tax gym memberships.",type:"recommended",linkType:"state",linkKey:"taxPortal"},{name:"Music license (ASCAP/BMI)",desc:"Required if you play licensed music during classes.",type:"required",linkType:"federal",linkKey:"ascap"}],structure:[{name:"LLC",desc:"Best for gym owners. Protects personal assets from injury claims.",type:"recommended"}],consider:[{name:"Liability insurance",desc:"Protects against member injuries and instructor negligence claims."},{name:"Membership agreement & waiver",desc:"Use an attorney-drafted agreement with comprehensive waiver."},{name:"ADA compliance",desc:"Equipment and facilities must meet ADA standards."},{name:"State health club laws",desc:"Many states regulate contract terms, cancellation, and refunds."}],costs:[{name:"State LLC filing",desc:"One-time",range:"$50–$300",type:"required"},{name:"Liability insurance",desc:"Annual premium",range:"$2,000–$7,000/yr",type:"required"},{name:"Music license",desc:"ASCAP + BMI + SESAC",range:"$400–$1,200/yr",type:"required"}]},
+realEstate:{title:"Real estate",licenses:[{name:"Real estate salesperson license",desc:"Required for any individual representing buyers or sellers. Must pass a state exam.",type:"required",linkType:"state",linkKey:"profPortal"},{name:"Real estate broker's license",desc:"Required to operate your own brokerage.",type:"required",linkType:"state",linkKey:"profPortal"},{name:"Local business license",desc:"For your brokerage.",type:"required",linkType:"search",searchQuery:"city county business license"},{name:"Federal EIN",desc:"Required for banking, agent payments, and tax reporting.",type:"required",linkType:"federal",linkKey:"ein"},{...BOI_REQUIREMENT}],structure:[{name:"LLC",desc:"Standard structure for real estate brokerages.",type:"recommended"}],consider:[{name:"Errors & omissions (E&O) insurance",desc:"Required for protection against claims of negligence or misrepresentation."},{name:"Continuing education",desc:"Every state requires ongoing CE hours for license renewal."},{name:"Trust account management",desc:"Brokerages handling client funds must maintain separate trust/escrow accounts."},{name:"Fair housing compliance",desc:"Federal and state fair housing laws. Violations result in serious fines."}],costs:[{name:"License exam & application",desc:"Varies by state",range:"$300–$800",type:"required"},{name:"License renewal",desc:"State renewal + CE",range:"$200–$600/cycle",type:"required"},{name:"E&O insurance",desc:"Professional liability",range:"$800–$3,000/yr",type:"required"}]},
+medical:{title:"Medical",licenses:[{name:"State professional license (per provider)",desc:"Every healthcare provider must be individually licensed by the state board.",type:"required",linkType:"state",linkKey:"profPortal"},{name:"Local business license",desc:"For the clinic location.",type:"required",linkType:"search",searchQuery:"city county business license"},{name:"Federal EIN",desc:"Required for medical billing, payroll, and insurance credentialing.",type:"required",linkType:"federal",linkKey:"ein"},{...BOI_REQUIREMENT},{name:"DEA registration",desc:"Required for any provider who prescribes controlled substances.",type:"required",linkType:"federal",linkKey:"dea"},{name:"NPI number (CMS)",desc:"National Provider Identifier. Required to bill insurance. Free.",type:"required",linkType:"federal",linkKey:"npi"},{name:"Medicare/Medicaid enrollment",desc:"Required to bill government payers. Enrollment can take 3 to 6 months.",type:"recommended",linkType:"federal",linkKey:"cms"}],structure:[{name:"Professional LLC (PLLC) or PC",desc:"Most states require licensed healthcare providers to form a PLLC or PC.",type:"required"}],consider:[{name:"HIPAA compliance",desc:"Implement administrative, physical, and technical safeguards for PHI."},{name:"Medical malpractice insurance",desc:"Required by most hospital systems and insurance companies."},{name:"Insurance credentialing",desc:"Process can take 60 to 120 days per payer."},{name:"Electronic health record (EHR) system",desc:"Federal law incentivizes use of certified EHRs."}],costs:[{name:"State medical license",desc:"Per provider",range:"$200–$900/renewal",type:"required"},{name:"DEA registration",desc:"Per provider, every 3 years",range:"$888 (3-yr fee)",type:"required"},{name:"Medical malpractice insurance",desc:"Annual per-provider premium",range:"$5,000–$50,000+/yr",type:"required"},{name:"EHR software",desc:"Monthly",range:"$100–$800/mo",type:"required"}]},
+cleaning:{title:"Cleaning service",licenses:[{name:"Local business license",desc:"Required to legally operate a cleaning service.",type:"required",linkType:"search",searchQuery:"city county business license"},{name:"Federal EIN",desc:"Required for banking, payroll, and vendor accounts.",type:"required",linkType:"federal",linkKey:"ein"},{...BOI_REQUIREMENT},{name:"State sales tax permit",desc:"Many states tax residential or commercial cleaning services.",type:"recommended",linkType:"state",linkKey:"taxPortal"},{name:"DBA registration",desc:"If operating under a trade name.",type:"recommended",linkType:"state",linkKey:"bizPortal"}],structure:[{name:"LLC",desc:"Strongly recommended. Daily exposure to client property.",type:"recommended"}],consider:[{name:"General liability insurance",desc:"Protects against property damage, theft claims, and injuries."},{name:"Bonding",desc:"A surety bond protects clients if an employee steals from them."},{name:"Workers' compensation",desc:"Required once you have employees."},{name:"Background checks",desc:"Conduct background and reference checks on all employees."}],costs:[{name:"State LLC filing",desc:"One-time",range:"$50–$300",type:"required"},{name:"General liability insurance",desc:"Annual premium",range:"$500–$2,000/yr",type:"required"},{name:"Surety bond",desc:"Annual bond",range:"$100–$400/yr",type:"recommended"}]},
+landscaping:{title:"Landscaping",licenses:[{name:"Local business license",desc:"Required to operate a landscaping or lawn care business.",type:"required",linkType:"search",searchQuery:"city county business license"},{name:"Federal EIN",desc:"Required for employees, equipment financing, and supplier accounts.",type:"required",linkType:"federal",linkKey:"ein"},{...BOI_REQUIREMENT},{name:"State pesticide applicator license",desc:"Required for businesses applying herbicides, pesticides, or fertilizers.",type:"required",linkType:"search",searchQuery:"pesticide applicator license agriculture"},{name:"Contractor's license (for hardscaping)",desc:"Paving, retaining walls, and irrigation work often require a contractor's license.",type:"recommended",linkType:"state",linkKey:"profPortal"},{name:"State sales tax permit",desc:"Applies to materials sold and, in some states, landscaping services.",type:"recommended",linkType:"state",linkKey:"taxPortal"}],structure:[{name:"LLC",desc:"Recommended. Protects personal assets from property damage claims.",type:"recommended"}],consider:[{name:"General liability insurance",desc:"Covers property damage, injuries, and equipment-related accidents."},{name:"Workers' compensation",desc:"Required once you have employees. Landscaping is a high-injury industry."},{name:"Equipment insurance",desc:"Standard GL does not cover your mowers, trucks, and trailers."},{name:"Seasonal cash flow",desc:"Plan for off-season expenses; consider snow removal as year-round revenue."}],costs:[{name:"State LLC filing",desc:"One-time registration",range:"$50–$300",type:"required"},{name:"Pesticide applicator license",desc:"Exam fee + license",range:"$50–$300",type:"required"},{name:"General liability insurance",desc:"Annual premium",range:"$500–$2,500/yr",type:"required"}]}
+};
+
+function searchURL(q,st){const dom=STATES[st]?.domain||"gov";const sites=dom.split(" OR ").map(d=>"site:"+d.trim()).join(" OR ");return `https://www.google.com/search?q=${encodeURIComponent("("+sites+") "+q+" application")}`;}
+function getLink(item,st){if(item.linkType==="federal"&&FED[item.linkKey])return{url:FED[item.linkKey],verified:true,label:"Apply at .gov",src:"Federal"};if(item.linkType==="state"){const p=STATES[st]?.[item.linkKey];if(p)return{url:p,verified:true,label:`Open ${STATES[st].name} portal`,src:"State portal"};}return{url:searchURL(item.searchQuery||item.name,st),verified:false,label:`Search ${STATES[st]?.name||"state"} .gov`,src:"Smart search"};}
+function parseLocation(input){const lower=input.toLowerCase().trim();const commaMatch=lower.match(/([a-z\s.]+?),\s*([a-z\s]+)/);if(commaMatch){const city=commaMatch[1].trim();const stateRaw=commaMatch[2].trim();if(STATE_LOOKUP[stateRaw])return{state:STATE_LOOKUP[stateRaw],city:capitalize(city)};}for(const key in STATE_LOOKUP){const re=new RegExp(`\\b${key}\\b`,"i");if(re.test(lower))return{state:STATE_LOOKUP[key],city:null};}for(const city in CITY_TO_STATE){if(lower.includes(city))return{state:CITY_TO_STATE[city],city:capitalize(city)};}return{state:null,city:null};}
+function capitalize(s){return s.split(" ").map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(" ");}
+function interpretBusiness(text){const lower=text.toLowerCase();const scores={};for(const m of TYPE_MATCHERS){let score=0;let matchedTerms=[];for(const grp of m.keywords){for(const term of grp.w){const re=new RegExp(`\\b${term.replace(/[-]/g,"[- ]?")}\\b`,"i");if(re.test(lower)){score+=grp.score;matchedTerms.push(term);}}}if(score>0)scores[m.id]={score,matchedTerms,name:m.name};}const sorted=Object.entries(scores).sort((a,b)=>b[1].score-a[1].score);if(sorted.length===0)return{match:null,confidence:"low",scores:[]};const top=sorted[0];const second=sorted[1];let confidence="low";if(top[1].score>=10)confidence="high";else if(top[1].score>=5)confidence="med";if(second&&(top[1].score-second[1].score<4)&&top[1].score<10)confidence="low";return{match:top[0],matchName:top[1].name,confidence,scores:sorted.slice(0,3).map(([id,data])=>({id,...data}))};}
+
+let curMatch=null,curState="FL",curTab="licenses",lastQuery="",lastLocStr="";
+
+function useExample(text){document.getElementById("qInput").value=text;document.getElementById("qInput").focus();}
+
+function onSearch(e){
+  e.preventDefault();
+  const query=document.getElementById("qInput").value.trim();
+  const locText=document.getElementById("locInput").value.trim();
+  if(!query){document.getElementById("qInput").focus();return;}
+  lastQuery=query;
+  const loc=parseLocation(locText);
+  if(!loc.state){toast("Please include a state — e.g., Jacksonville, FL");return;}
+  curState=loc.state;
+  if(typeof gtag === 'function') gtag('event','search_submitted',{state:loc.state});
+  document.getElementById("thinking").classList.add("on");
+  document.getElementById("submitBtn").disabled=true;
+  setTimeout(()=>{
+    const interp=interpretBusiness(query);
+    document.getElementById("thinking").classList.remove("on");
+    document.getElementById("submitBtn").disabled=false;
+    showResult(interp,loc);
+  },1700);
+}
+
+function showResult(interp,loc){
+  const result=document.getElementById("result");
+  const state=STATES[curState];
+  const stateName=state.name;
+  const locStr=loc.city?`${loc.city}, ${stateName}`:stateName;
+  lastLocStr=locStr;
+  if(!interp.match){
+    result.innerHTML=`<div class="ai-summary"><div class="ai-icon">F</div><div class="ai-summary-body"><div class="ai-summary-label">Foundra AI</div><h3>I&rsquo;m not sure which category fits.</h3><p>I couldn&rsquo;t confidently match &ldquo;${escapeHtml(lastQuery)}&rdquo; to a business type in my current database. Rather than guess, here&rsquo;s what you can do:</p><div class="ai-confidence low">Low confidence &mdash; match not found</div><div class="ai-actions"><button class="ai-action-btn primary" onclick="searchOfficial()">Search ${stateName} .gov directly</button><button class="ai-action-btn" onclick="resetView()">Try rephrasing</button></div><p style="margin-top:14px;font-size:12px">Try describing it differently &mdash; e.g., &ldquo;I want to open a small restaurant&rdquo; or &ldquo;freelance graphic designer.&rdquo; Foundra currently covers 14 business types; we add more weekly.</p></div></div>`;
+    document.getElementById("hero").style.display="none";result.classList.add("on");result.scrollIntoView({behavior:"smooth"});return;
+  }
+  curMatch=interp.match;curTab="licenses";
+  const data=DATA[interp.match];const conf=interp.confidence;
+  const confLabel=conf==="high"?"High confidence — direct match":conf==="med"?"Medium confidence — likely match":"Low confidence — best guess";
+  const stateHasFullData=!!state.bizPortal;
+  const altMatches=interp.scores.slice(1).filter(s=>s.score>=3).map(s=>`<button class="ai-action-btn" onclick="forceMatch('${s.id}')">Or try: ${escapeHtml(s.name)}</button>`).join("");
+  const emailMeBar = `<div class="email-me-bar"><div class="email-me-text"><strong>Save this checklist</strong><p>Email yourself a copy so you can come back to it anytime. We'll also notify you when Pro tier features launch.</p></div><button class="email-me-btn" onclick="openEmailModal()">📧 Email me my checklist</button></div>`;
+  result.innerHTML=`<div class="ai-summary"><div class="ai-icon">F</div><div class="ai-summary-body"><div class="ai-summary-label">Foundra AI &middot; Interpretation</div><h3>${conf==="high"?"Got it.":conf==="med"?"Best match:":"My best guess:"} ${escapeHtml(data.title)} in ${escapeHtml(locStr)}.</h3><p>I matched your description to <strong>${escapeHtml(data.title)}</strong> based on terms like <em>${interp.scores[0].matchedTerms.slice(0,3).map(escapeHtml).join(", ")}</em>. Below is a verified checklist of what you&rsquo;ll need.</p><div class="ai-confidence ${conf}">${confLabel}</div>${conf!=="high"?`<div class="ai-actions">${altMatches}<button class="ai-action-btn" onclick="resetView()">Refine description</button></div>`:""}</div></div>${emailMeBar}${renderChecklist(data,state,stateHasFullData)}`;
+  document.getElementById("hero").style.display="none";result.classList.add("on");result.scrollIntoView({behavior:"smooth"});
+}
+
+function forceMatch(id){
+  curMatch=id;curTab="licenses";
+  const data=DATA[id];const state=STATES[curState];const stateHasFullData=!!state.bizPortal;
+  const result=document.getElementById("result");
+  const emailMeBar = `<div class="email-me-bar"><div class="email-me-text"><strong>Save this checklist</strong><p>Email yourself a copy so you can come back to it anytime.</p></div><button class="email-me-btn" onclick="openEmailModal()">📧 Email me my checklist</button></div>`;
+  result.innerHTML=`<div class="ai-summary"><div class="ai-icon">F</div><div class="ai-summary-body"><div class="ai-summary-label">Foundra AI &middot; Switched category</div><h3>Switched to ${escapeHtml(data.title)}.</h3><p>Showing verified requirements for ${escapeHtml(data.title)} in ${escapeHtml(state.name)}.</p></div></div>${emailMeBar}${renderChecklist(data,state,stateHasFullData)}`;
+  result.scrollIntoView({behavior:"smooth"});
+}
+
+function renderChecklist(data,state,stateHasFullData){
+  const noticeText=stateHasFullData?`Federal links are verified .gov URLs. State portal links go to ${state.name}&rsquo;s official agency landing pages. Permit-specific links use a smart search scoped to ${state.name} .gov domains.`:`${state.name} doesn&rsquo;t yet have curated portal links in Foundra. All license links use a smart search scoped to ${state.name} .gov domains, so results stay official.`;
+  const tax=state.tax||"—";const llc=state.llc||"—";const annual=state.annual||"—";
+  const portalRow=stateHasFullData?`<div class="work-portals">State portals: <a href="${state.bizPortal}" target="_blank" rel="noopener">Business registration</a>·<a href="${state.taxPortal}" target="_blank" rel="noopener">Tax</a>·<a href="${state.profPortal}" target="_blank" rel="noopener">Professional licensing</a></div>`:"";
+  return `<div class="work-head"><h2>${escapeHtml(data.title)}</h2><div class="work-meta"><div>State <strong>${escapeHtml(state.name)}</strong></div>${stateHasFullData?`<div>Sales tax <strong>${escapeHtml(tax)}</strong></div><div>LLC filing <strong>${escapeHtml(llc)}</strong></div><div>Annual report <strong>${escapeHtml(annual)}</strong></div>`:`<div><em>State-specific data coming soon</em></div>`}</div>${portalRow}</div><div class="notice"><strong>How links work.</strong> ${noticeText}</div><div class="tabs"><button class="tab ${curTab==='licenses'?'on':''}" onclick="setTab('licenses')">Licenses & permits</button><button class="tab ${curTab==='structure'?'on':''}" onclick="setTab('structure')">Structure</button><button class="tab ${curTab==='consider'?'on':''}" onclick="setTab('consider')">Consider</button><button class="tab ${curTab==='costs'?'on':''}" onclick="setTab('costs')">Costs</button></div><div class="pane ${curTab==='licenses'?'on':''}">${renderLicenses(data.licenses,curState)}</div><div class="pane ${curTab==='structure'?'on':''}">${renderItems(data.structure)}</div><div class="pane ${curTab==='consider'?'on':''}">${renderConsider(data.consider)}</div><div class="pane ${curTab==='costs'?'on':''}">${renderCosts(data.costs)}</div>`;
+}
+
+function setTab(tab){
+  curTab=tab;
+  const data=DATA[curMatch];const state=STATES[curState];const stateHasFullData=!!state.bizPortal;
+  const summary=document.querySelector(".ai-summary");const emailBar=document.querySelector(".email-me-bar");
+  const result=document.getElementById("result");
+  result.innerHTML=(summary?summary.outerHTML:"")+(emailBar?emailBar.outerHTML:"")+renderChecklist(data,state,stateHasFullData);
+}
+
+function renderLicenses(items,st){return `<div class="items">${items.map(r=>{const L=getLink(r,st);return `<div class="item"><div class="item-main"><h4>${escapeHtml(r.name)}</h4><p>${escapeHtml(r.desc)}</p><span class="item-tag ${r.type}">${r.type}</span></div><div class="item-action"><a class="item-link" href="${L.url}" target="_blank" rel="noopener">${L.label} ${arrow()}</a><span class="item-source">${L.src}</span></div></div>`;}).join("")}</div>`;}
+function renderItems(items){return `<div class="items">${items.map(r=>`<div class="item"><div class="item-main"><h4>${escapeHtml(r.name)}</h4><p>${escapeHtml(r.desc)}</p><span class="item-tag ${r.type}">${r.type}</span></div></div>`).join("")}</div>`;}
+function renderConsider(items){return `<div class="consider-list items">${items.map(r=>`<div class="item"><div class="item-main"><h4>${escapeHtml(r.name)}</h4><p>${escapeHtml(r.desc)}</p></div></div>`).join("")}</div>`;}
+function renderCosts(items){return `<table class="costs"><thead><tr><th>Item</th><th>Notes</th><th>Cost</th><th>Tier</th></tr></thead><tbody>${items.map(r=>`<tr><td>${escapeHtml(r.name)}</td><td>${escapeHtml(r.desc)}</td><td>${escapeHtml(r.range)}</td><td><span class="item-tag ${r.type}" style="border:none;padding:0;margin:0">${r.type}</span></td></tr>`).join("")}</tbody></table>`;}
+function arrow(){return '<svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 8L8 2M8 2H3M8 2V7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>';}
+function escapeHtml(s){if(!s)return"";return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));}
+function searchOfficial(){const url=searchURL(lastQuery+" business license",curState);window.open(url,"_blank");}
+function resetView(){curMatch=null;document.getElementById("hero").style.display="block";document.getElementById("result").classList.remove("on");document.getElementById("result").innerHTML="";document.getElementById("qInput").value="";document.getElementById("qInput").focus();window.scrollTo({top:0,behavior:"smooth"});}
+function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("on");clearTimeout(window._t);window._t=setTimeout(()=>t.classList.remove("on"),2200);}
+document.getElementById("qInput").addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.key==="Enter")onSearch(new Event("submit"));});
+
+// EMAIL ME MY CHECKLIST
+function openEmailModal(){
+  document.getElementById("emailModal").classList.add("on");
+  document.body.style.overflow="hidden";
+  if(typeof gtag === 'function') gtag('event','email_me_modal_open');
+}
+function closeEmailModal(){
+  document.getElementById("emailModal").classList.remove("on");
+  document.body.style.overflow="";
+  document.getElementById("emailModalForm").style.display="block";
+  document.getElementById("emailModalSuccess").classList.remove("on");
+  document.getElementById("emailMeForm").reset();
+  document.getElementById("em-submit").disabled=false;
+  document.getElementById("em-submit").textContent="Send my checklist";
+}
+function closeIfBgEmail(e){if(e.target.id==="emailModal") closeEmailModal();}
+
+async function onEmailMe(e){
+  e.preventDefault();
+  const form=document.getElementById("emailMeForm");
+  const btn=document.getElementById("em-submit");
+  const data=new FormData(form);
+  const data_obj = {
+    name: data.get("name"),
+    email: data.get("email"),
+    business_type: DATA[curMatch] ? DATA[curMatch].title : "Unknown",
+    state: lastLocStr,
+    query: lastQuery,
+    source: "Email me my checklist"
+  };
+  btn.disabled=true; btn.textContent="Sending...";
+  if(typeof gtag === 'function') gtag('event','checklist_email_request',{business_type:data_obj.business_type});
+
+  if(FORMSPREE_ID === "YOUR_FORM_ID"){
+    const subject=encodeURIComponent(`Foundra checklist request: ${data_obj.business_type} in ${data_obj.state}`);
+    const body=encodeURIComponent(`A Foundra beta user has requested their checklist:\n\nName: ${data_obj.name}\nEmail: ${data_obj.email}\nBusiness type: ${data_obj.business_type}\nLocation: ${data_obj.state}\nOriginal query: ${data_obj.query}\n\n→ Send them their checklist by visiting: https://www.foundra.us/foundra-platform.html`);
+    window.location.href=`mailto:info@foundra.us?subject=${subject}&body=${body}`;
+    setTimeout(()=>{
+      document.getElementById("emailModalForm").style.display="none";
+      document.getElementById("emailModalSuccess").classList.add("on");
+    },500);
+    return;
+  }
+  try{
+    const formData = new FormData();
+    Object.keys(data_obj).forEach(k => formData.append(k, data_obj[k]));
+    const res=await fetch(`https://formspree.io/f/${FORMSPREE_ID}`,{method:"POST",headers:{"Accept":"application/json"},body:formData});
+    if(res.ok){
+      document.getElementById("emailModalForm").style.display="none";
+      document.getElementById("emailModalSuccess").classList.add("on");
+    } else {
+      btn.disabled=false; btn.textContent="Send my checklist";
+      alert("Something went wrong. Please email us at info@foundra.us");
+    }
+  } catch(err){
+    btn.disabled=false; btn.textContent="Send my checklist";
+    alert("Something went wrong. Please email us at info@foundra.us");
+  }
+}
+</script>
+</body>
+</html>

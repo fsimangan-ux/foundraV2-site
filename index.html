@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Foundra — Start your business, without the maze.</title>
+<meta name="description" content="AI-powered compliance navigator for first-time founders. Every license, permit, and step you need — by business type and state. Free to start. Beta launching Q3 2026.">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+
+<!-- Google Analytics -->
+<!-- TO ACTIVATE: Replace G-XXXXXXXXXX below with your real Google Analytics Measurement ID -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+<!-- End Google Analytics -->
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#0A0A0A;--paper:#FAFAF7;--line:#E6E4DC;--line-soft:#EFEDE5;--muted:#8A8780;--beta:#9A6B00;--beta-bg:#FEF7E6}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+a{color:inherit;text-decoration:none}
+input,select{font-family:inherit;font-size:inherit;color:inherit}
+.wrap{max-width:1280px;margin:0 auto;background:var(--paper)}
+
+/* Beta banner — subtle but clearly visible */
+.beta-banner{background:var(--beta-bg);border-bottom:1px solid #F0DCB0;padding:9px 40px;font-size:12px;color:var(--beta);text-align:center;display:flex;align-items:center;justify-content:center;gap:8px}
+.beta-banner strong{font-weight:600}
+.beta-banner span{color:#7A5500}
+
+header{display:flex;align-items:center;justify-content:space-between;padding:24px 40px;border-bottom:1px solid var(--line)}
+.brand{font-family:'Instrument Serif',serif;font-size:24px;letter-spacing:-.6px;display:flex;align-items:center;gap:10px}
+.brand-mark{width:24px;height:24px;background:var(--ink);border-radius:5px;position:relative;flex-shrink:0}
+.brand-mark::before{content:'';position:absolute;left:8px;top:6px;width:2px;height:12px;background:var(--paper)}
+.brand-mark::after{content:'';position:absolute;left:8px;top:6px;width:9px;height:2px;background:var(--paper);box-shadow:0 5px 0 var(--paper)}
+.brand-mark .spark{position:absolute;right:5px;top:6px;width:3px;height:3px;background:var(--paper);border-radius:50%}
+.beta-pill{display:inline-block;font-size:9px;font-weight:600;letter-spacing:1px;padding:2px 7px;border-radius:100px;background:var(--beta-bg);color:var(--beta);border:1px solid #F0DCB0;margin-left:6px;vertical-align:middle;text-transform:uppercase}
+nav{display:flex;gap:32px;align-items:center}
+nav a{font-size:13px;color:var(--muted);transition:color .15s}
+nav a:hover{color:var(--ink)}
+.cta-sm{font-size:13px;padding:8px 14px;border:1px solid var(--ink);border-radius:6px;transition:all .15s}
+.cta-sm:hover{background:var(--ink);color:var(--paper)}
+
+section{padding:120px 40px;border-bottom:1px solid var(--line)}
+.frame{max-width:920px}
+.kicker{font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:24px;display:flex;align-items:center;gap:10px}
+.kicker::before{content:'';width:24px;height:1px;background:var(--muted)}
+
+.hero h1{font-family:'Instrument Serif',serif;font-size:88px;line-height:1.02;letter-spacing:-3px;font-weight:400;margin-bottom:32px}
+.hero h1 em{font-style:italic;color:var(--muted)}
+.hero p{font-size:18px;color:var(--muted);max-width:520px;margin-bottom:48px;line-height:1.55}
+.hero-actions{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.btn-primary{font-size:14px;padding:13px 22px;background:var(--ink);color:var(--paper);border-radius:6px;display:inline-flex;align-items:center;gap:8px;transition:opacity .15s;cursor:pointer;border:none;font-family:inherit;font-weight:500}
+.btn-primary:hover{opacity:.85}
+.btn-outline{font-size:14px;padding:13px 22px;background:transparent;color:var(--ink);border:1px solid var(--ink);border-radius:6px;display:inline-flex;align-items:center;gap:8px;transition:all .15s;cursor:pointer;font-family:inherit;font-weight:500}
+.btn-outline:hover{background:var(--ink);color:var(--paper)}
+.btn-secondary{font-size:14px;color:var(--muted);transition:color .15s;display:inline-flex;align-items:center;gap:6px}
+.btn-secondary:hover{color:var(--ink)}
+
+.numbers{display:grid;grid-template-columns:repeat(4,1fr);margin-top:80px;border-top:1px solid var(--line);padding-top:32px}
+.num{display:flex;flex-direction:column;gap:6px}
+.num-val{font-family:'Instrument Serif',serif;font-size:36px;letter-spacing:-1px;line-height:1}
+.num-lbl{font-size:12px;color:var(--muted)}
+
+.section-title{font-family:'Instrument Serif',serif;font-size:48px;line-height:1.1;letter-spacing:-1.5px;margin-bottom:16px;font-weight:400}
+.section-title em{font-style:italic;color:var(--muted)}
+.section-sub{font-size:16px;color:var(--muted);max-width:560px;line-height:1.6}
+
+.steps{margin-top:64px;display:flex;flex-direction:column}
+.step{display:grid;grid-template-columns:60px 1fr;gap:32px;padding:32px 0;border-top:1px solid var(--line);align-items:start}
+.step:last-child{border-bottom:1px solid var(--line)}
+.step-num{font-family:'Instrument Serif',serif;font-size:32px;color:var(--muted);font-style:italic}
+.step h3{font-size:20px;font-weight:500;margin-bottom:8px;letter-spacing:-.3px}
+.step p{font-size:14px;color:var(--muted);max-width:520px;line-height:1.65}
+
+.types-list{margin-top:64px;display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.type-row{display:grid;grid-template-columns:60px 1fr 100px;gap:20px;padding:20px 0;border-bottom:1px solid var(--line);align-items:center;font-size:15px;cursor:pointer;transition:padding-left .15s}
+.type-row:hover{padding-left:8px}
+.type-row span:first-child{color:var(--muted);font-size:12px;font-family:'Instrument Serif',serif;font-style:italic}
+.type-row span:last-child{font-size:11px;color:var(--muted);text-align:right;text-transform:uppercase;letter-spacing:.6px}
+
+.pricing-grid{margin-top:64px;display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.plan{padding:32px 28px;border-right:1px solid var(--line);display:flex;flex-direction:column}
+.plan:last-child{border-right:none}
+.plan-name{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:18px}
+.plan-price{font-family:'Instrument Serif',serif;font-size:48px;letter-spacing:-1.5px;line-height:1;margin-bottom:6px}
+.plan-price small{font-size:14px;color:var(--muted);font-family:'Inter',sans-serif;letter-spacing:0}
+.plan-tag{font-size:13px;color:var(--muted);margin-bottom:24px;line-height:1.5;min-height:40px}
+.plan-list{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:32px;flex:1}
+.plan-list li{font-size:13px;color:var(--ink);padding-left:16px;position:relative;line-height:1.5}
+.plan-list li::before{content:'·';position:absolute;left:0;color:var(--muted)}
+.plan-cta{width:100%;padding:14px;border-radius:100px;font-size:14px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;border:1px solid var(--line);background:var(--paper);color:var(--ink);text-align:center;transition:all .15s;display:block;text-decoration:none}
+.plan-cta:hover{border-color:var(--ink)}
+.plan.featured{background:var(--ink);color:var(--paper)}
+.plan.featured .plan-name,.plan.featured .plan-tag,.plan.featured .plan-price small{color:#9A9890}
+.plan.featured .plan-list li{color:var(--paper)}
+.plan.featured .plan-list li::before{color:#9A9890}
+.plan.featured .plan-cta{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.plan.featured .plan-cta:hover{opacity:.9}
+
+.quotes-grid{margin-top:64px;display:grid;grid-template-columns:repeat(3,1fr);gap:48px}
+.quote p{font-family:'Instrument Serif',serif;font-size:22px;line-height:1.4;letter-spacing:-.4px;margin-bottom:20px;font-style:italic;color:var(--ink)}
+.quote-author{font-size:12px;color:var(--muted);padding-top:16px;border-top:1px solid var(--line)}
+.quote-author strong{color:var(--ink);font-weight:500;display:block;margin-bottom:2px}
+
+.final-cta{padding:160px 40px;text-align:center;border-bottom:1px solid var(--line)}
+.final-cta h2{font-family:'Instrument Serif',serif;font-size:72px;letter-spacing:-2px;line-height:1;margin-bottom:24px;font-weight:400}
+.final-cta h2 em{font-style:italic;color:var(--muted)}
+.final-cta p{color:var(--muted);max-width:480px;margin:0 auto 40px;font-size:16px}
+
+footer{padding:48px 40px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px}
+.footer-col h4{font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:18px}
+.footer-col a{display:block;font-size:13px;color:var(--ink);margin-bottom:10px;transition:color .15s}
+.footer-col a:hover{color:var(--muted)}
+.foot-brand p{font-size:13px;color:var(--muted);margin-top:14px;line-height:1.5;max-width:240px}
+.foot-bottom{padding:24px 40px;border-top:1px solid var(--line);display:flex;justify-content:space-between;font-size:12px;color:var(--muted);flex-wrap:wrap;gap:12px}
+
+.modal-bg{position:fixed;inset:0;background:rgba(10,10,10,0.5);display:none;align-items:center;justify-content:center;z-index:200;padding:20px}
+.modal-bg.on{display:flex}
+.modal{background:var(--paper);border-radius:14px;max-width:440px;width:100%;padding:32px;position:relative}
+.modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;background:var(--line);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;color:var(--muted);border:none}
+.modal-close:hover{background:var(--muted);color:var(--paper)}
+.modal h3{font-family:'Instrument Serif',serif;font-size:28px;letter-spacing:-.7px;margin-bottom:8px;font-weight:400}
+.modal h3 em{font-style:italic;color:var(--muted)}
+.modal-sub{font-size:14px;color:var(--muted);margin-bottom:24px;line-height:1.6}
+.modal form{display:flex;flex-direction:column;gap:14px}
+.modal .field{display:flex;flex-direction:column;gap:6px}
+.modal label{font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}
+.modal input,.modal select{padding:11px 14px;border:1px solid var(--line);border-radius:8px;font-size:14px;outline:none;background:#fff;transition:border-color .15s}
+.modal input:focus,.modal select:focus{border-color:var(--ink)}
+.modal-btn{padding:13px;background:var(--ink);color:var(--paper);border-radius:8px;font-size:14px;font-weight:500;margin-top:6px;cursor:pointer;border:none;transition:opacity .15s}
+.modal-btn:hover{opacity:.85}
+.modal-btn:disabled{opacity:.5;cursor:not-allowed}
+.modal-success{text-align:center;padding:20px 0;display:none}
+.modal-success.on{display:block}
+
+@media(max-width:880px){
+  header,section,.final-cta,footer,.foot-bottom,.beta-banner{padding-left:24px;padding-right:24px}
+  nav{display:none}
+  section{padding:64px 24px}
+  .hero h1{font-size:48px;letter-spacing:-1.5px}
+  .section-title{font-size:32px}
+  .final-cta h2{font-size:42px}
+  .numbers,.pricing-grid,.quotes-grid{grid-template-columns:1fr}
+  .plan{border-right:none;border-bottom:1px solid var(--line)}
+  .plan:last-child{border-bottom:none}
+  footer{grid-template-columns:1fr 1fr;gap:32px}
+  .step{grid-template-columns:1fr;gap:8px}
+  .type-row{grid-template-columns:30px 1fr 60px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="beta-banner">
+  <strong>Beta</strong><span>· Foundra is in active beta. Free to use during this period. Paid tiers launch Q3 2026.</span>
+</div>
+
+<header>
+  <a href="index.html" class="brand"><span class="brand-mark"><span class="spark"></span></span>Foundra<span class="beta-pill">Beta</span></a>
+  <nav>
+    <a href="#how">How it works</a>
+    <a href="#types">Business types</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="about.html">About</a>
+    <a href="foundra-platform.html" class="cta-sm">Get started</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="frame">
+    <div class="kicker">A clearer way to start</div>
+    <h1>Start your business,<br><em>without the maze.</em></h1>
+    <p>Every license, permit, and step you need &mdash; clear, current, and tailored to your business and state.</p>
+    <div class="hero-actions">
+      <a href="foundra-platform.html" class="btn-primary">Try the beta &mdash; free
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      </a>
+      <button class="btn-outline" onclick="openWaitlist('Pro')">Join Pro waitlist
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      </button>
+      <a href="#how" class="btn-secondary">See how it works →</a>
+    </div>
+    <div class="numbers">
+      <div class="num"><div class="num-val">14</div><div class="num-lbl">Business types covered</div></div>
+      <div class="num"><div class="num-val">10</div><div class="num-lbl">States with verified portals</div></div>
+      <div class="num"><div class="num-val">200+</div><div class="num-lbl">Requirements mapped</div></div>
+      <div class="num"><div class="num-val">$0</div><div class="num-lbl">During beta</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="frame">
+    <div class="kicker">How it works</div>
+    <h2 class="section-title">Three steps. <em>That&rsquo;s it.</em></h2>
+    <p class="section-sub">No confusing government websites. No expensive lawyers for basic questions. A clear path forward.</p>
+    <div class="steps">
+      <div class="step"><div class="step-num">i.</div><div><h3>Pick your business type</h3><p>Restaurant, food truck, daycare, trucking, gym &mdash; choose from fourteen pre-mapped categories or search for your specific idea.</p></div></div>
+      <div class="step"><div class="step-num">ii.</div><div><h3>Set your state</h3><p>Every state has different rules. We surface only what applies to where you&rsquo;ll operate, with state-specific costs and timelines.</p></div></div>
+      <div class="step"><div class="step-num">iii.</div><div><h3>Get your checklist</h3><p>Receive a prioritized list with verified federal links, state portal links, and direct paths to every government application you need. Email yourself a copy to keep track.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="types">
+  <div class="frame">
+    <div class="kicker">Business types</div>
+    <h2 class="section-title">Built for the business <em>you actually want to start.</em></h2>
+    <p class="section-sub">From food trucks to medical clinics &mdash; we cover the licenses, structure decisions, and compliance considerations for each.</p>
+    <div class="types-list">
+      <a href="foundra-platform.html" class="type-row"><span>01</span>Restaurant &amp; food<span>Required permits</span></a>
+      <a href="foundra-platform.html" class="type-row"><span>02</span>Retail store<span>Standard</span></a>
+      <a href="foundra-platform.html" class="type-row"><span>03</span>Salon &amp; beauty<span>State board</span></a>
+      <a href="foundra-platform.html" class="type-row"><span>04</span>Construction<span>Bonded</span></a>
+      <a href="foundra-platform.html" class="type-row"><span>05</span>E-commerce<span>Multi-state</span></a>
+      <a href="foundra-platform.html" class="type-row"><span>06</span>Freelance &amp; consulting<span>Simple</span></a>
+      <a href="foundra-platform.html" class="type-row"><span>07</span>Childcare<span>Highly regulated</span></a>
+      <a href="foundra-platform.html" class="type-row"><span>08</span>Trucking &amp; logistics<span>Federal</span></a>
+      <a href="foundra-platform.html" class="type-row"><span>09</span>Gym &amp; fitness<span>Insured</span></a>
+      <a href="foundra-platform.html" class="type-row"><span>10</span>Real estate<span>State licensed</span></a>
+      <a href="foundra-platform.html" class="type-row"><span>11</span>Medical<span>HIPAA</span></a>
+      <a href="foundra-platform.html" class="type-row"><span>12</span>Cleaning service<span>Simple</span></a>
+      <a href="foundra-platform.html" class="type-row"><span>13</span>Landscaping<span>Pesticide</span></a>
+      <a href="foundra-platform.html" class="type-row"><span>14</span>Food truck<span>Mobile</span></a>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="frame">
+    <div class="kicker">Pricing</div>
+    <h2 class="section-title">Free during beta. <em>Pay for what you need later.</em></h2>
+    <p class="section-sub">Everything is free right now. Pro and Business+ launch Q3 2026 — waitlist members get 50% off their first 3 months.</p>
+    <div class="pricing-grid">
+      <div class="plan">
+        <div class="plan-name">Beta · Free</div>
+        <div class="plan-price">$0<small>/mo</small></div>
+        <div class="plan-tag">Currently available. Free during beta.</div>
+        <ul class="plan-list">
+          <li>Business type checklists</li>
+          <li>Top requirements per state</li>
+          <li>Cost ranges</li>
+          <li>Verified federal links</li>
+          <li>Email yourself a saved copy</li>
+        </ul>
+        <a href="foundra-platform.html" class="plan-cta">Try beta now →</a>
+      </div>
+      <div class="plan featured">
+        <div class="plan-name">Pro · Q3 2026</div>
+        <div class="plan-price">$19<small>/mo</small></div>
+        <div class="plan-tag">For the depth most founders need.</div>
+        <ul class="plan-list">
+          <li>Full 50-state coverage</li>
+          <li>AI advisor &mdash; unlimited</li>
+          <li>Account &amp; progress tracker</li>
+          <li>Document templates</li>
+          <li>Priority support</li>
+        </ul>
+        <button class="plan-cta" onclick="openWaitlist('Pro')">Join Pro waitlist →</button>
+      </div>
+      <div class="plan">
+        <div class="plan-name">Business+ · Q3 2026</div>
+        <div class="plan-price">$49<small>/mo</small></div>
+        <div class="plan-tag">For advisors and multi-business owners.</div>
+        <ul class="plan-list">
+          <li>Everything in Pro</li>
+          <li>Multi-business management</li>
+          <li>Expert consultation hours</li>
+          <li>API access</li>
+        </ul>
+        <button class="plan-cta" onclick="openWaitlist('Business+')">Contact sales →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="frame">
+    <div class="kicker">From our beta</div>
+    <h2 class="section-title">Built for real founders.</h2>
+    <div class="quotes-grid">
+      <div class="quote"><p>&ldquo;I&rsquo;d been researching food truck permits for weeks. Foundra handed me a complete list in three minutes.&rdquo;</p><div class="quote-author"><strong>Marcus R.</strong>Food Truck &mdash; Austin, TX</div></div>
+      <div class="quote"><p>&ldquo;The childcare licensing section saved me from three expensive mistakes I didn&rsquo;t even know I was about to make.&rdquo;</p><div class="quote-author"><strong>Danielle S.</strong>Daycare &mdash; Atlanta, GA</div></div>
+      <div class="quote"><p>&ldquo;I help small businesses launch. I use this with every client now. It cuts my prep time in half.&rdquo;</p><div class="quote-author"><strong>James T.</strong>Consultant &mdash; Chicago, IL</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="final-cta" id="start">
+  <h2>Don&rsquo;t let red tape <em>stop your dream.</em></h2>
+  <p>Try the Foundra beta &mdash; free, no sign-up needed.</p>
+  <a href="foundra-platform.html" class="btn-primary">Open the platform
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+  </a>
+</div>
+
+<div class="modal-bg" id="modal" onclick="closeIfBg(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeWaitlist()">×</button>
+    <div id="modalForm">
+      <h3 id="modalTitle">Join the Pro <em>waitlist.</em></h3>
+      <p class="modal-sub">Be the first to know when paid tiers launch in Q3 2026 &mdash; and get 50% off your first 3 months.</p>
+      <form id="waitlistForm" onsubmit="onWaitlistSubmit(event)">
+        <div class="field"><label for="wl-name">Your name</label><input type="text" id="wl-name" name="name" required/></div>
+        <div class="field"><label for="wl-email">Email</label><input type="email" id="wl-email" name="email" required/></div>
+        <div class="field"><label for="wl-tier">Tier</label><select id="wl-tier" name="tier" required><option value="Pro">Pro ($19/mo)</option><option value="Business+">Business+ ($49/mo)</option></select></div>
+        <div class="field"><label for="wl-business">What kind of business?</label><input type="text" id="wl-business" name="business" placeholder="e.g. food truck, salon, freelance design"/></div>
+        <button type="submit" class="modal-btn" id="wl-submit">Join waitlist</button>
+      </form>
+    </div>
+    <div class="modal-success" id="modalSuccess">
+      <h3>You&rsquo;re on the list.</h3>
+      <p style="color:var(--muted);font-size:14px;margin-top:10px">We&rsquo;ll email you the moment Pro is ready &mdash; and you&rsquo;ll get 50% off your first 3 months.</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-brand">
+    <a href="index.html" class="brand"><span class="brand-mark"><span class="spark"></span></span>Foundra<span class="beta-pill">Beta</span></a>
+    <p>A clearer way to start a business &mdash; every license, permit, and requirement, mapped for you.</p>
+  </div>
+  <div class="footer-col"><h4>Product</h4><a href="#how">How it works</a><a href="#types">Business types</a><a href="pricing.html">Pricing</a></div>
+  <div class="footer-col"><h4>Company</h4><a href="about.html">About</a><a href="contact.html">Contact</a></div>
+  <div class="footer-col"><h4>Legal</h4><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></div>
+</footer>
+<div class="foot-bottom">
+  <span>© 2026 Foundra, Inc.</span>
+  <span>Informational, not legal advice.</span>
+</div>
+
+</div>
+
+<script>
+const FORMSPREE_ID = "YOUR_FORM_ID";
+function openWaitlist(tier){
+  document.getElementById("modal").classList.add("on");
+  document.getElementById("wl-tier").value = tier;
+  document.getElementById("modalTitle").innerHTML = tier === "Business+" ? "Join the Business+ <em>waitlist.</em>" : "Join the Pro <em>waitlist.</em>";
+  document.body.style.overflow = "hidden";
+  if(typeof gtag === 'function') gtag('event','waitlist_modal_open',{tier:tier});
+}
+function closeWaitlist(){
+  document.getElementById("modal").classList.remove("on");
+  document.body.style.overflow = "";
+  document.getElementById("modalForm").style.display = "block";
+  document.getElementById("modalSuccess").classList.remove("on");
+  document.getElementById("waitlistForm").reset();
+  document.getElementById("wl-submit").disabled = false;
+  document.getElementById("wl-submit").textContent = "Join waitlist";
+}
+function closeIfBg(e){if(e.target.id==="modal") closeWaitlist();}
+async function onWaitlistSubmit(e){
+  e.preventDefault();
+  const form = document.getElementById("waitlistForm");
+  const btn = document.getElementById("wl-submit");
+  const data = new FormData(form);
+  data.append("source","Homepage waitlist");
+  btn.disabled = true; btn.textContent = "Joining...";
+  if(typeof gtag === 'function') gtag('event','waitlist_signup',{tier:data.get("tier")});
+  if(FORMSPREE_ID === "YOUR_FORM_ID"){
+    const subject = encodeURIComponent(`Foundra ${data.get("tier")} Waitlist: ${data.get("name")}`);
+    const body = encodeURIComponent(`Name: ${data.get("name")}\nEmail: ${data.get("email")}\nTier: ${data.get("tier")}\nBusiness: ${data.get("business")||"(not provided)"}`);
+    window.location.href = `mailto:info@foundra.us?subject=${subject}&body=${body}`;
+    setTimeout(()=>{
+      document.getElementById("modalForm").style.display = "none";
+      document.getElementById("modalSuccess").classList.add("on");
+    },500);
+    return;
+  }
+  try{
+    const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`,{method:"POST",headers:{"Accept":"application/json"},body:data});
+    if(res.ok){
+      document.getElementById("modalForm").style.display = "none";
+      document.getElementById("modalSuccess").classList.add("on");
+    } else {
+      btn.disabled = false; btn.textContent = "Join waitlist";
+      alert("Something went wrong. Please email us at info@foundra.us");
+    }
+  } catch(err){
+    btn.disabled = false; btn.textContent = "Join waitlist";
+    alert("Something went wrong. Please email us at info@foundra.us");
+  }
+}
+</script>
+</body>
+</html>
