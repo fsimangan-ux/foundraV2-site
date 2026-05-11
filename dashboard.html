@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Dashboard — Foundra</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script src="shared-auth.js"></script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#0A0A0A;--paper:#FAFAF7;--line:#E6E4DC;--line-soft:#EFEDE5;--muted:#8A8780;--beta:#9A6B00;--beta-bg:#FEF7E6;--ok:#2A7A2A;--ok-bg:#F0F8EE;--warn:#9A6B00;--warn-bg:#FEF7E6;--alert:#9A2B2B;--alert-bg:#FBE9E9}
+html,body{height:100%}
+body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;display:flex;min-height:100vh}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+a{color:inherit;text-decoration:none}
+
+/* ─── SIDEBAR ─── */
+.sidebar{width:240px;background:#fff;border-right:1px solid var(--line);display:flex;flex-direction:column;flex-shrink:0;height:100vh;position:sticky;top:0}
+.sidebar-brand{padding:24px 24px 28px;border-bottom:1px solid var(--line)}
+.brand{font-family:'Instrument Serif',serif;font-size:22px;letter-spacing:-.5px;display:flex;align-items:center;gap:9px}
+.brand-mark{width:22px;height:22px;background:var(--ink);border-radius:5px;position:relative;flex-shrink:0}
+.brand-mark::before{content:'';position:absolute;left:7px;top:5px;width:2px;height:11px;background:var(--paper)}
+.brand-mark::after{content:'';position:absolute;left:7px;top:5px;width:8px;height:2px;background:var(--paper);box-shadow:0 4px 0 var(--paper)}
+.brand-mark .spark{position:absolute;right:5px;top:5px;width:3px;height:3px;background:var(--paper);border-radius:50%}
+.beta-pill{display:inline-block;font-size:8px;font-weight:600;letter-spacing:1px;padding:2px 6px;border-radius:100px;background:var(--beta-bg);color:var(--beta);border:1px solid #F0DCB0;margin-left:4px;vertical-align:middle;text-transform:uppercase}
+
+.nav{padding:16px 12px;flex:1;display:flex;flex-direction:column;gap:2px}
+.nav-section{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;padding:14px 12px 6px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:6px;font-size:13px;color:var(--ink);transition:background .15s;cursor:pointer}
+.nav-item:hover{background:var(--paper)}
+.nav-item.active{background:var(--paper);font-weight:500}
+.nav-item.active::before{content:'';width:3px;height:14px;background:var(--ink);border-radius:2px;position:absolute;margin-left:-15px}
+.nav-item svg{flex-shrink:0;opacity:.7}
+.nav-item.active svg{opacity:1}
+.nav-item.locked{color:var(--muted);cursor:not-allowed}
+.nav-item.locked::after{content:'PRO';font-size:8px;font-weight:600;background:var(--ink);color:var(--paper);padding:2px 5px;border-radius:3px;margin-left:auto}
+
+.sidebar-foot{padding:16px;border-top:1px solid var(--line)}
+.user-chip{display:flex;align-items:center;gap:10px;padding:10px;border-radius:8px;background:var(--paper);cursor:pointer;transition:background .15s}
+.user-chip:hover{background:var(--line-soft)}
+.user-avatar{width:32px;height:32px;border-radius:50%;background:var(--ink);color:var(--paper);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;flex-shrink:0}
+.user-info{flex:1;min-width:0}
+.user-name{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.user-plan{font-size:11px;color:var(--muted)}
+.user-plan.pro{color:var(--ok)}
+.user-plan.business{color:#0066CC}
+
+/* ─── MAIN CONTENT ─── */
+.main{flex:1;display:flex;flex-direction:column;min-height:100vh;overflow-x:hidden}
+.topbar{padding:18px 32px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;background:#fff;position:sticky;top:0;z-index:10}
+.topbar-title{font-size:14px;font-weight:500}
+.topbar-actions{display:flex;gap:10px;align-items:center}
+.btn-icon{padding:8px 12px;border:1px solid var(--line);border-radius:6px;font-size:12px;color:var(--ink);transition:border-color .15s;display:inline-flex;align-items:center;gap:6px;background:#fff}
+.btn-icon:hover{border-color:var(--ink)}
+.btn-primary{padding:8px 14px;background:var(--ink);color:var(--paper);border-radius:6px;font-size:12px;font-weight:500;transition:opacity .15s;display:inline-flex;align-items:center;gap:6px}
+.btn-primary:hover{opacity:.85}
+
+.content{padding:40px 40px 60px;max-width:1100px}
+
+.welcome{margin-bottom:36px}
+.welcome h1{font-family:'Instrument Serif',serif;font-size:42px;letter-spacing:-1.2px;font-weight:400;margin-bottom:8px}
+.welcome h1 em{font-style:italic;color:var(--muted)}
+.welcome p{font-size:15px;color:var(--muted);max-width:560px;line-height:1.55}
+
+/* Upgrade banner for free users */
+.upgrade-banner{background:var(--ink);color:var(--paper);border-radius:14px;padding:28px 32px;margin-bottom:36px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center}
+.upgrade-banner h3{font-family:'Instrument Serif',serif;font-size:24px;letter-spacing:-.5px;font-weight:400;margin-bottom:6px}
+.upgrade-banner h3 em{font-style:italic;color:#9A9890}
+.upgrade-banner p{font-size:13px;color:#9A9890;line-height:1.55;max-width:480px}
+.upgrade-banner .btn-up{padding:11px 18px;background:var(--paper);color:var(--ink);border-radius:8px;font-size:13px;font-weight:500;transition:opacity .15s}
+.upgrade-banner .btn-up:hover{opacity:.85}
+
+/* Stat cards */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:36px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px}
+.stat-label{font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px}
+.stat-value{font-family:'Instrument Serif',serif;font-size:32px;letter-spacing:-1px;line-height:1;font-weight:400}
+.stat-detail{font-size:11px;color:var(--muted);margin-top:6px}
+
+/* Sections */
+.section{margin-bottom:48px}
+.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.section-head h2{font-family:'Instrument Serif',serif;font-size:22px;letter-spacing:-.4px;font-weight:400}
+
+/* Businesses grid */
+.businesses{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+.biz-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:24px;transition:border-color .15s;cursor:pointer;display:flex;flex-direction:column;gap:12px}
+.biz-card:hover{border-color:var(--ink)}
+.biz-card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.biz-card h3{font-size:16px;font-weight:500;letter-spacing:-.2px}
+.biz-card-state{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;background:var(--paper);padding:3px 8px;border-radius:100px;border:1px solid var(--line)}
+.biz-progress{margin-top:8px}
+.progress-bar{height:6px;background:var(--line);border-radius:100px;overflow:hidden;margin-bottom:8px}
+.progress-fill{height:100%;background:var(--ink);transition:width .3s}
+.progress-text{font-size:12px;color:var(--muted)}
+.progress-text strong{color:var(--ink);font-weight:500}
+.biz-card-foot{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);padding-top:12px;border-top:1px solid var(--line)}
+.biz-card-foot a{color:var(--ink);border-bottom:1px solid var(--line);padding-bottom:1px;transition:border-color .15s}
+.biz-card-foot a:hover{border-bottom-color:var(--ink)}
+
+.biz-add{background:transparent;border:1.5px dashed var(--line);border-radius:12px;padding:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:pointer;transition:all .15s;color:var(--muted);min-height:180px}
+.biz-add:hover{border-color:var(--ink);color:var(--ink);background:#fff}
+.biz-add-icon{width:40px;height:40px;border-radius:50%;background:var(--paper);display:flex;align-items:center;justify-content:center;border:1px solid var(--line)}
+.biz-add h3{font-size:14px;font-weight:500;color:inherit}
+.biz-add p{font-size:12px;color:inherit;opacity:.8;text-align:center}
+
+.empty-state{background:#fff;border:1px solid var(--line);border-radius:14px;padding:60px 32px;text-align:center}
+.empty-state-icon{width:56px;height:56px;border-radius:50%;background:var(--paper);display:flex;align-items:center;justify-content:center;margin:0 auto 18px}
+.empty-state h3{font-family:'Instrument Serif',serif;font-size:24px;letter-spacing:-.4px;margin-bottom:8px;font-weight:400}
+.empty-state h3 em{font-style:italic;color:var(--muted)}
+.empty-state p{font-size:14px;color:var(--muted);max-width:380px;margin:0 auto 24px;line-height:1.6}
+
+/* Alerts panel */
+.alerts-panel{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.alert-row{display:grid;grid-template-columns:auto 1fr auto;gap:14px;padding:18px 20px;border-bottom:1px solid var(--line);align-items:center}
+.alert-row:last-child{border-bottom:none}
+.alert-dot{width:8px;height:8px;border-radius:50%;background:var(--warn)}
+.alert-dot.urgent{background:var(--alert)}
+.alert-dot.info{background:var(--muted)}
+.alert-content{flex:1}
+.alert-title{font-size:13px;font-weight:500;letter-spacing:-.1px;margin-bottom:2px}
+.alert-meta{font-size:11px;color:var(--muted)}
+.alert-action{font-size:12px;color:var(--ink);border-bottom:1px solid var(--line);padding-bottom:1px;cursor:pointer}
+.alert-action:hover{border-bottom-color:var(--ink)}
+
+/* Modal */
+.modal-bg{position:fixed;inset:0;background:rgba(10,10,10,0.55);display:none;align-items:center;justify-content:center;z-index:300;padding:20px}
+.modal-bg.on{display:flex}
+.modal{background:var(--paper);border-radius:14px;max-width:480px;width:100%;padding:32px;position:relative;max-height:90vh;overflow-y:auto}
+.modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;background:var(--line);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;color:var(--muted);border:none}
+.modal-close:hover{background:var(--muted);color:var(--paper)}
+.modal h3{font-family:'Instrument Serif',serif;font-size:24px;letter-spacing:-.5px;margin-bottom:8px;font-weight:400}
+.modal h3 em{font-style:italic;color:var(--muted)}
+.modal p.modal-sub{font-size:13px;color:var(--muted);margin-bottom:24px;line-height:1.55}
+.modal form{display:flex;flex-direction:column;gap:14px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}
+.field input,.field select,.field textarea{padding:11px 14px;border:1px solid var(--line);border-radius:8px;font-size:14px;outline:none;background:#fff;transition:border-color .15s;font-family:inherit}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--ink)}
+.field textarea{resize:vertical;min-height:80px;line-height:1.55}
+.modal-btn{padding:12px;background:var(--ink);color:var(--paper);border-radius:8px;font-size:14px;font-weight:500;margin-top:6px;cursor:pointer;border:none;transition:opacity .15s}
+.modal-btn:hover{opacity:.85}
+
+/* Business+ section */
+.b-plus-banner{background:linear-gradient(135deg,#1A1A2E 0%,#16213E 100%);color:var(--paper);border-radius:14px;padding:24px 28px;margin-bottom:36px;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center}
+.b-plus-banner h3{font-family:'Instrument Serif',serif;font-size:22px;font-weight:400;margin-bottom:6px;color:var(--paper)}
+.b-plus-banner p{font-size:13px;color:#9A9890}
+.b-plus-badge{display:inline-block;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1.2px;background:rgba(255,255,255,.1);color:#FFD700;padding:3px 9px;border-radius:100px;margin-bottom:8px}
+
+@media(max-width:880px){
+  .sidebar{width:60px;position:fixed;z-index:50}
+  .sidebar-brand{padding:18px 12px}
+  .nav-item span,.nav-section,.user-info{display:none}
+  .nav-item{justify-content:center}
+  .main{margin-left:60px}
+  .content{padding:24px 20px 40px}
+  .welcome h1{font-size:32px}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .upgrade-banner,.b-plus-banner{grid-template-columns:1fr;text-align:center}
+  .businesses{grid-template-columns:1fr}
+  .topbar{padding:14px 20px}
+}
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <a href="dashboard.html" class="brand">
+      <span class="brand-mark"><span class="spark"></span></span>
+      Foundra<span class="beta-pill">Beta</span>
+    </a>
+  </div>
+  
+  <nav class="nav">
+    <div class="nav-section">Workspace</div>
+    <a href="dashboard.html" class="nav-item active">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" stroke="currentColor" stroke-width="1.4"/><rect x="9" y="2" width="5" height="5" stroke="currentColor" stroke-width="1.4"/><rect x="2" y="9" width="5" height="5" stroke="currentColor" stroke-width="1.4"/><rect x="9" y="9" width="5" height="5" stroke="currentColor" stroke-width="1.4"/></svg>
+      <span>Dashboard</span>
+    </a>
+    <a href="#" onclick="goBiz()" class="nav-item">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 6V13H13V6M5 6V4a1 1 0 011-1h4a1 1 0 011 1v2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      <span>My businesses</span>
+    </a>
+    <a href="#" onclick="goAlerts()" class="nav-item" id="navAlerts">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 014 4v3l1 2H3l1-2V6a4 4 0 014-4z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M6 13a2 2 0 004 0" stroke="currentColor" stroke-width="1.4"/></svg>
+      <span>Alerts & renewals</span>
+    </a>
+    <a href="foundra-platform.html" class="nav-item">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="4.5" stroke="currentColor" stroke-width="1.4"/><path d="M11 11l3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      <span>New search</span>
+    </a>
+    
+    <div class="nav-section">Resources</div>
+    <a href="#" onclick="goTemplates()" class="nav-item" id="navTemplates">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 2h7l3 3v9H3V2z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M10 2v3h3" stroke="currentColor" stroke-width="1.4"/></svg>
+      <span>Documents</span>
+    </a>
+    <a href="#" onclick="goAdvisor()" class="nav-item" id="navAdvisor">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.4"/><path d="M6 7a2 2 0 114 0c0 1.5-2 1.5-2 3M8 12h.01" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      <span>AI advisor</span>
+    </a>
+    
+    <div class="nav-section" id="bizPlusSection" style="display:none">For Professionals</div>
+    <a href="#" onclick="goClients()" class="nav-item" id="navClients" style="display:none">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="5" cy="6" r="2" stroke="currentColor" stroke-width="1.4"/><circle cx="11" cy="6" r="2" stroke="currentColor" stroke-width="1.4"/><path d="M2 13c0-1.5 1.5-3 3-3s3 1.5 3 3M8 13c0-1.5 1.5-3 3-3s3 1.5 3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      <span>Clients</span>
+    </a>
+    <a href="#" onclick="goReports()" class="nav-item" id="navReports" style="display:none">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="3" y="2" width="10" height="12" stroke="currentColor" stroke-width="1.4"/><path d="M6 6h4M6 9h4M6 12h2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      <span>Client reports</span>
+    </a>
+  </nav>
+  
+  <div class="sidebar-foot">
+    <a href="account.html" class="user-chip">
+      <div class="user-avatar" id="userAvatar">F</div>
+      <div class="user-info">
+        <div class="user-name" id="userName">Loading...</div>
+        <div class="user-plan" id="userPlan">Free plan</div>
+      </div>
+    </a>
+  </div>
+</aside>
+
+<main class="main">
+  <div class="topbar">
+    <div class="topbar-title">Dashboard</div>
+    <div class="topbar-actions">
+      <button class="btn-icon" onclick="openAddBusiness()">
+        <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Add business
+      </button>
+      <a href="foundra-platform.html" class="btn-primary">
+        New search
+        <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </a>
+    </div>
+  </div>
+  
+  <div class="content">
+    
+    <div class="welcome">
+      <h1>Welcome back, <em id="welcomeName">there</em>.</h1>
+      <p id="welcomeSubtitle">Here's the status of your business compliance across all your ventures.</p>
+    </div>
+    
+    <!-- Upgrade banner (only shows for free users) -->
+    <div class="upgrade-banner" id="upgradeBanner" style="display:none">
+      <div>
+        <h3>Unlock your <em>complete checklist.</em></h3>
+        <p>Upgrade to Pro to see every requirement, get renewal alerts, and stay compliant year-round. Beta members get 50% off their first 3 months.</p>
+      </div>
+      <a href="upgrade.html" class="btn-up">Upgrade to Pro →</a>
+    </div>
+    
+    <!-- Business+ welcome banner (only shows for Business+ users) -->
+    <div class="b-plus-banner" id="bizPlusBanner" style="display:none">
+      <div>
+        <div class="b-plus-badge">Business+ Member</div>
+        <h3>Manage compliance for all your clients.</h3>
+        <p>Access multi-client tools, white-label reports, and API in the For Professionals section.</p>
+      </div>
+      <a href="#" onclick="goClients()" class="btn-up" style="background:#fff;color:#1A1A2E">View clients →</a>
+    </div>
+    
+    <!-- Stats -->
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-label">Businesses tracked</div>
+        <div class="stat-value" id="statBusinesses">0</div>
+        <div class="stat-detail" id="statBusinessesDetail">Start by adding one</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Tasks complete</div>
+        <div class="stat-value" id="statComplete">0</div>
+        <div class="stat-detail" id="statCompleteDetail">No items yet</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Pending alerts</div>
+        <div class="stat-value" id="statAlerts">0</div>
+        <div class="stat-detail" id="statAlertsDetail">All clear</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Compliance score</div>
+        <div class="stat-value" id="statScore">—</div>
+        <div class="stat-detail" id="statScoreDetail">Add a business to start</div>
+      </div>
+    </div>
+    
+    <!-- My businesses -->
+    <div class="section">
+      <div class="section-head">
+        <h2>My businesses</h2>
+        <button class="btn-icon" onclick="openAddBusiness()">+ Add business</button>
+      </div>
+      <div id="businessesContainer"></div>
+    </div>
+    
+    <!-- Alerts -->
+    <div class="section" id="alertsSection">
+      <div class="section-head">
+        <h2>Upcoming alerts &amp; renewals</h2>
+      </div>
+      <div id="alertsContainer"></div>
+    </div>
+    
+  </div>
+</main>
+
+<!-- Add business modal -->
+<div class="modal-bg" id="addBizModal" onclick="closeIfBg(event,'addBizModal')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('addBizModal')">×</button>
+    <h3>Add a <em>business.</em></h3>
+    <p class="modal-sub">Describe what you're building and we'll generate your compliance checklist.</p>
+    <form onsubmit="addBusiness(event)">
+      <div class="field">
+        <label for="biz-name">Business name (optional)</label>
+        <input type="text" id="biz-name" placeholder="e.g. Maya's Tacos"/>
+      </div>
+      <div class="field">
+        <label for="biz-desc">What kind of business is it?</label>
+        <textarea id="biz-desc" required placeholder="I want to open a small bakery that also serves coffee..."></textarea>
+      </div>
+      <div class="field">
+        <label for="biz-state">State</label>
+        <select id="biz-state" required>
+          <option value="">Select a state...</option>
+          <option value="FL">Florida</option><option value="TX">Texas</option><option value="CA">California</option>
+          <option value="NY">New York</option><option value="GA">Georgia</option><option value="NC">North Carolina</option>
+          <option value="OH">Ohio</option><option value="IL">Illinois</option><option value="WA">Washington</option>
+          <option value="CO">Colorado</option><option value="AL">Alabama</option><option value="AK">Alaska</option>
+          <option value="AZ">Arizona</option><option value="AR">Arkansas</option><option value="CT">Connecticut</option>
+          <option value="DE">Delaware</option><option value="HI">Hawaii</option><option value="ID">Idaho</option>
+          <option value="IN">Indiana</option><option value="IA">Iowa</option><option value="KS">Kansas</option>
+          <option value="KY">Kentucky</option><option value="LA">Louisiana</option><option value="ME">Maine</option>
+          <option value="MD">Maryland</option><option value="MA">Massachusetts</option><option value="MI">Michigan</option>
+          <option value="MN">Minnesota</option><option value="MS">Mississippi</option><option value="MO">Missouri</option>
+          <option value="MT">Montana</option><option value="NE">Nebraska</option><option value="NV">Nevada</option>
+          <option value="NH">New Hampshire</option><option value="NJ">New Jersey</option><option value="NM">New Mexico</option>
+          <option value="ND">North Dakota</option><option value="OK">Oklahoma</option><option value="OR">Oregon</option>
+          <option value="PA">Pennsylvania</option><option value="RI">Rhode Island</option><option value="SC">South Carolina</option>
+          <option value="SD">South Dakota</option><option value="TN">Tennessee</option><option value="UT">Utah</option>
+          <option value="VT">Vermont</option><option value="VA">Virginia</option><option value="WV">West Virginia</option>
+          <option value="WI">Wisconsin</option><option value="WY">Wyoming</option><option value="DC">District of Columbia</option>
+        </select>
+      </div>
+      <button type="submit" class="modal-btn">Add business</button>
+    </form>
+  </div>
+</div>
+
+<script>
+// Auth guard
+if (!FoundraAuth.requireAuth()) {
+  // requireAuth handles the redirect
+}
+
+const user = FoundraAuth.getCurrentUser();
+
+function init() {
+  if (!user) return;
+  
+  document.getElementById("welcomeName").textContent = user.name.split(" ")[0];
+  document.getElementById("userName").textContent = user.name;
+  document.getElementById("userAvatar").textContent = user.name.charAt(0).toUpperCase();
+  
+  const planEl = document.getElementById("userPlan");
+  const isPro = user.plan === "pro" || user.plan === "business";
+  const isBusiness = user.plan === "business";
+  
+  if (isBusiness) {
+    planEl.textContent = "Business+ plan";
+    planEl.classList.add("business");
+    document.getElementById("bizPlusBanner").style.display = "grid";
+    document.getElementById("bizPlusSection").style.display = "block";
+    document.getElementById("navClients").style.display = "flex";
+    document.getElementById("navReports").style.display = "flex";
+  } else if (isPro) {
+    planEl.textContent = "Pro plan";
+    planEl.classList.add("pro");
+  } else {
+    planEl.textContent = "Free plan";
+    document.getElementById("upgradeBanner").style.display = "grid";
+  }
+  
+  // Lock pro features for free users
+  if (!isPro) {
+    ["navAlerts","navTemplates","navAdvisor"].forEach(id => {
+      document.getElementById(id).classList.add("locked");
+    });
+  }
+  
+  renderStats();
+  renderBusinesses();
+  renderAlerts();
+}
+
+function renderStats() {
+  const businesses = user.businesses || [];
+  const totalItems = businesses.reduce((sum, b) => sum + (b.checklist?.length || 0), 0);
+  const completedItems = businesses.reduce((sum, b) => sum + (b.checklist?.filter(c => c.done).length || 0), 0);
+  
+  document.getElementById("statBusinesses").textContent = businesses.length;
+  document.getElementById("statBusinessesDetail").textContent = businesses.length === 0 ? "Start by adding one" : `${businesses.length} active`;
+  
+  document.getElementById("statComplete").textContent = completedItems;
+  document.getElementById("statCompleteDetail").textContent = totalItems > 0 ? `of ${totalItems} tracked` : "No items yet";
+  
+  // Simulated alerts: 2 if pro & has businesses
+  const alertCount = FoundraAuth.isPro() && businesses.length > 0 ? Math.min(businesses.length, 3) : 0;
+  document.getElementById("statAlerts").textContent = alertCount;
+  document.getElementById("statAlertsDetail").textContent = alertCount === 0 ? "All clear" : `${alertCount} upcoming`;
+  
+  if (businesses.length > 0 && totalItems > 0) {
+    const score = Math.round((completedItems / totalItems) * 100);
+    document.getElementById("statScore").textContent = score + "%";
+    const detail = score >= 80 ? "Great progress" : score >= 40 ? "On track" : "Get started";
+    document.getElementById("statScoreDetail").textContent = detail;
+  }
+}
+
+function renderBusinesses() {
+  const container = document.getElementById("businessesContainer");
+  const businesses = user.businesses || [];
+  
+  if (businesses.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 9V20h14V9M7 9V6a3 3 0 013-3h4a3 3 0 013 3v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <h3>No businesses <em>yet.</em></h3>
+        <p>Add your first business to see your compliance checklist, track progress, and never miss a renewal.</p>
+        <button class="btn-primary" onclick="openAddBusiness()" style="padding:11px 18px;font-size:13px">
+          + Add your first business
+        </button>
+      </div>
+    `;
+    return;
+  }
+  
+  const cardsHtml = businesses.map(b => {
+    const completed = (b.checklist || []).filter(c => c.done).length;
+    const total = Math.max(b.totalItems || 0, b.checklist?.length || 0);
+    const pct = total > 0 ? Math.round((completed / total) * 100) : 0;
+    return `
+      <div class="biz-card" onclick="viewBusiness('${b.id}')">
+        <div class="biz-card-head">
+          <h3>${escapeHtml(b.name || b.type)}</h3>
+          <span class="biz-card-state">${escapeHtml(b.state)}</span>
+        </div>
+        <p style="font-size:13px;color:var(--muted);line-height:1.5">${escapeHtml(b.type)}</p>
+        <div class="biz-progress">
+          <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+          <div class="progress-text"><strong>${completed}/${total || "—"}</strong> tasks complete${total > 0 ? ' · ' + pct + '%' : ''}</div>
+        </div>
+        <div class="biz-card-foot">
+          <span>Added ${FoundraAuth.formatDate(b.createdAt)}</span>
+          <a onclick="event.stopPropagation();viewBusiness('${b.id}')">Open →</a>
+        </div>
+      </div>
+    `;
+  }).join("");
+  
+  container.innerHTML = `<div class="businesses">${cardsHtml}<button class="biz-add" onclick="openAddBusiness()"><div class="biz-add-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div><h3>Add another business</h3><p>Track compliance for multiple ventures</p></button></div>`;
+}
+
+function renderAlerts() {
+  const container = document.getElementById("alertsContainer");
+  const businesses = user.businesses || [];
+  const isPro = FoundraAuth.isPro();
+  
+  if (!isPro) {
+    container.innerHTML = `
+      <div class="empty-state" style="padding:36px 32px">
+        <h3>Renewal alerts are a <em>Pro feature.</em></h3>
+        <p>Pro members get 90/60/30-day reminders for every license renewal, so you never miss a deadline or pay a fine.</p>
+        <a href="upgrade.html" class="btn-primary" style="padding:11px 18px;font-size:13px">Upgrade to Pro →</a>
+      </div>
+    `;
+    return;
+  }
+  
+  if (businesses.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state" style="padding:36px 32px">
+        <h3>No alerts <em>yet.</em></h3>
+        <p>Add your first business to start receiving renewal reminders.</p>
+      </div>
+    `;
+    return;
+  }
+  
+  // Simulated alerts for Pro users with businesses
+  const sampleAlerts = [];
+  if (businesses[0]) {
+    sampleAlerts.push({type:"urgent",title:`Annual report due for ${businesses[0].name || businesses[0].type}`,meta:"Due in 14 days · Florida Sunbiz",action:"View →"});
+    sampleAlerts.push({type:"warn",title:"BOI report deadline approaching",meta:"FinCEN · $500/day penalty if missed",action:"File now →"});
+  }
+  if (businesses[1]) {
+    sampleAlerts.push({type:"info",title:`Sales tax filing due for ${businesses[1].name || businesses[1].type}`,meta:"Due in 23 days · Quarterly",action:"View →"});
+  }
+  
+  container.innerHTML = `
+    <div class="alerts-panel">
+      ${sampleAlerts.map(a => `
+        <div class="alert-row">
+          <span class="alert-dot ${a.type === 'urgent' ? 'urgent' : a.type === 'info' ? 'info' : ''}"></span>
+          <div class="alert-content">
+            <div class="alert-title">${escapeHtml(a.title)}</div>
+            <div class="alert-meta">${escapeHtml(a.meta)}</div>
+          </div>
+          <a class="alert-action">${a.action}</a>
+        </div>
+      `).join("")}
+    </div>
+  `;
+}
+
+function openAddBusiness() {
+  document.getElementById("addBizModal").classList.add("on");
+  document.body.style.overflow = "hidden";
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove("on");
+  document.body.style.overflow = "";
+}
+
+function closeIfBg(e, id) {
+  if (e.target.id === id) closeModal(id);
+}
+
+function addBusiness(e) {
+  e.preventDefault();
+  const name = document.getElementById("biz-name").value.trim();
+  const desc = document.getElementById("biz-desc").value.trim();
+  const state = document.getElementById("biz-state").value;
+  if (!desc || !state) return;
+  
+  // Quick business type guess based on keywords
+  const typeGuess = guessBusinessType(desc);
+  
+  FoundraAuth.addBusiness({
+    name: name || typeGuess,
+    type: typeGuess,
+    description: desc,
+    state: state,
+    totalItems: 8 // simulated
+  });
+  
+  closeModal("addBizModal");
+  document.getElementById("biz-name").value = "";
+  document.getElementById("biz-desc").value = "";
+  document.getElementById("biz-state").value = "";
+  
+  // Re-render
+  Object.assign(user, FoundraAuth.getCurrentUser());
+  renderStats();
+  renderBusinesses();
+  renderAlerts();
+  
+  if (typeof gtag === 'function') gtag('event','business_added',{type:typeGuess,state:state});
+}
+
+function guessBusinessType(desc) {
+  const lower = desc.toLowerCase();
+  if (lower.match(/food truck|mobile food|food cart/)) return "Food truck";
+  if (lower.match(/restaurant|cafe|bakery|bistro|diner/)) return "Restaurant & food";
+  if (lower.match(/salon|barber|nail|spa|stylist/)) return "Salon & beauty";
+  if (lower.match(/daycare|childcare|preschool/)) return "Childcare";
+  if (lower.match(/trucking|owner.operator|cdl|freight/)) return "Trucking & logistics";
+  if (lower.match(/gym|fitness|yoga|crossfit/)) return "Gym & fitness";
+  if (lower.match(/real estate|realtor|brokerage/)) return "Real estate";
+  if (lower.match(/medical|clinic|doctor|therapy/)) return "Medical";
+  if (lower.match(/cleaning|janitorial|maid/)) return "Cleaning service";
+  if (lower.match(/landscaping|lawn care/)) return "Landscaping";
+  if (lower.match(/construction|contractor|plumber|electrician/)) return "Construction";
+  if (lower.match(/ecommerce|online store|shopify/)) return "E-commerce";
+  if (lower.match(/freelance|consulting|consultant/)) return "Freelance & consulting";
+  if (lower.match(/retail|boutique|store/)) return "Retail store";
+  return "Business";
+}
+
+function viewBusiness(id) {
+  // For prototype: just take them to the platform with state preset
+  const biz = (user.businesses || []).find(b => b.id === id);
+  if (biz) {
+    localStorage.setItem("foundra_view_biz", JSON.stringify(biz));
+    window.location.href = "foundra-platform.html?biz=" + id;
+  }
+}
+
+function goBiz() { document.querySelector(".section .section-head h2").scrollIntoView({behavior:"smooth"}); }
+function goAlerts() { 
+  if (!FoundraAuth.isPro()) return alert("Renewal alerts is a Pro feature. Upgrade to unlock!");
+  document.getElementById("alertsSection").scrollIntoView({behavior:"smooth"}); 
+}
+function goTemplates() {
+  if (!FoundraAuth.isPro()) return alert("Document templates is a Pro feature. Upgrade to unlock!");
+  alert("Document templates — coming soon for Pro members:\n\n• LLC operating agreements\n• Employee handbooks\n• Independent contractor agreements\n• Non-disclosure agreements\n• Customer terms of service\n\n(This is a prototype demo)");
+}
+function goAdvisor() {
+  if (!FoundraAuth.isPro()) return alert("AI advisor is a Pro feature. Upgrade to unlock!");
+  alert("AI Advisor — Pro feature\n\nAsk Foundra anything about your compliance:\n\n\"What's the difference between an LLC and an S-Corp for a salon?\"\n\"Do I need workers' comp if I'm a 1099 contractor?\"\n\"How do I file a BOI report?\"\n\n(This is a prototype demo — in production, this would be a real chat interface powered by Claude/GPT-4)");
+}
+function goClients() {
+  if (!FoundraAuth.isBusiness()) return alert("Client management is a Business+ feature.");
+  alert("Client Management — Business+ feature\n\nThis would show:\n• All your clients in one dashboard\n• Compliance status across every client\n• Bulk renewal tracking\n• White-label client portals\n• Bulk export to CSV\n\n(This is a prototype demo)");
+}
+function goReports() {
+  if (!FoundraAuth.isBusiness()) return alert("Client reports is a Business+ feature.");
+  alert("Client Reports — Business+ feature\n\nGenerate professional compliance reports for your clients:\n• White-label PDF reports\n• Custom branded with your logo\n• Quarterly compliance summaries\n• Risk assessments\n• Renewal calendars\n\n(This is a prototype demo)");
+}
+
+function escapeHtml(s){if(!s)return"";return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));}
+
+init();
+</script>
+</body>
+</html>

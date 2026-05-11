@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Upgrade — Foundra</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script src="shared-auth.js"></script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#0A0A0A;--paper:#FAFAF7;--line:#E6E4DC;--line-soft:#EFEDE5;--muted:#8A8780;--beta:#9A6B00;--beta-bg:#FEF7E6;--ok:#2A7A2A;--ok-bg:#F0F8EE}
+body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased;min-height:100vh}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+a{color:inherit;text-decoration:none}
+input,select{font-family:inherit;font-size:inherit;color:inherit}
+
+.beta-banner{background:var(--beta-bg);border-bottom:1px solid #F0DCB0;padding:9px 40px;font-size:12px;color:var(--beta);text-align:center}
+.beta-banner strong{font-weight:600}
+
+header{display:flex;align-items:center;justify-content:space-between;padding:24px 40px;border-bottom:1px solid var(--line);max-width:1280px;margin:0 auto}
+.brand{font-family:'Instrument Serif',serif;font-size:24px;letter-spacing:-.6px;display:flex;align-items:center;gap:10px}
+.brand-mark{width:24px;height:24px;background:var(--ink);border-radius:5px;position:relative;flex-shrink:0}
+.brand-mark::before{content:'';position:absolute;left:8px;top:6px;width:2px;height:12px;background:var(--paper)}
+.brand-mark::after{content:'';position:absolute;left:8px;top:6px;width:9px;height:2px;background:var(--paper);box-shadow:0 5px 0 var(--paper)}
+.brand-mark .spark{position:absolute;right:5px;top:6px;width:3px;height:3px;background:var(--paper);border-radius:50%}
+.beta-pill{display:inline-block;font-size:9px;font-weight:600;letter-spacing:1px;padding:2px 7px;border-radius:100px;background:var(--beta-bg);color:var(--beta);border:1px solid #F0DCB0;margin-left:6px;text-transform:uppercase}
+.header-back{font-size:13px;color:var(--muted);display:inline-flex;align-items:center;gap:6px}
+.header-back:hover{color:var(--ink)}
+
+.page{max-width:1100px;margin:0 auto;padding:60px 40px}
+
+.step{display:none}
+.step.on{display:block}
+
+/* Step 1: Plan selection */
+.hero-title{text-align:center;margin-bottom:48px}
+.hero-title h1{font-family:'Instrument Serif',serif;font-size:54px;line-height:1.05;letter-spacing:-1.8px;font-weight:400;margin-bottom:16px}
+.hero-title h1 em{font-style:italic;color:var(--muted)}
+.hero-title p{font-size:16px;color:var(--muted);max-width:520px;margin:0 auto}
+
+.billing-toggle{display:flex;justify-content:center;margin-bottom:32px}
+.billing-toggle-inner{display:inline-flex;background:#fff;border:1px solid var(--line);border-radius:100px;padding:4px;gap:2px}
+.billing-toggle-inner button{padding:9px 22px;border-radius:100px;font-size:13px;font-weight:500;color:var(--muted);transition:all .15s}
+.billing-toggle-inner button.on{background:var(--ink);color:var(--paper)}
+.save-badge{display:inline-block;font-size:10px;font-weight:600;color:var(--ok);background:var(--ok-bg);border:1px solid #C8DEC0;padding:1px 6px;border-radius:100px;margin-left:6px}
+
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:880px;margin:0 auto 40px}
+.plan-card{background:#fff;border:2px solid var(--line);border-radius:14px;padding:32px 28px;cursor:pointer;transition:all .2s;display:flex;flex-direction:column}
+.plan-card:hover{border-color:var(--ink)}
+.plan-card.selected{border-color:var(--ink);background:var(--ink);color:var(--paper)}
+.plan-card.selected .plan-tag,.plan-card.selected .plan-price small{color:#9A9890}
+.plan-card.selected .plan-list li{color:var(--paper)}
+.plan-card.selected .plan-list li::before{border-color:var(--paper)}
+.plan-badge{display:inline-block;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;padding:3px 9px;border-radius:100px;background:var(--paper);color:var(--ink);margin-bottom:14px;align-self:flex-start}
+.plan-card.selected .plan-badge{background:#FFD700;color:#1A1A2E}
+.plan-name{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:14px}
+.plan-card.selected .plan-name{color:#9A9890}
+.plan-price{font-family:'Instrument Serif',serif;font-size:48px;letter-spacing:-1.5px;line-height:1;margin-bottom:4px;font-weight:400}
+.plan-price small{font-size:14px;color:var(--muted);font-family:'Inter',sans-serif;letter-spacing:0;font-weight:400}
+.plan-billed{font-size:11px;color:var(--muted);margin-bottom:14px;min-height:16px}
+.plan-card.selected .plan-billed{color:#9A9890}
+.plan-tag{font-size:13px;color:var(--muted);margin-bottom:24px;line-height:1.5}
+.plan-list{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:24px;flex:1}
+.plan-list li{font-size:13px;padding-left:22px;position:relative;line-height:1.5}
+.plan-list li::before{content:'';position:absolute;left:0;top:7px;width:10px;height:6px;border-left:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);transform:rotate(-45deg)}
+.plan-select{padding:13px;border-radius:100px;font-size:13px;font-weight:500;text-align:center;border:1px solid var(--line);background:transparent;color:var(--ink);transition:all .15s;width:100%;cursor:pointer}
+.plan-card.selected .plan-select{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.plan-card:hover .plan-select{border-color:var(--ink)}
+
+.continue-row{display:flex;justify-content:center;margin-top:24px}
+.btn-continue{padding:14px 32px;background:var(--ink);color:var(--paper);border-radius:8px;font-size:14px;font-weight:500;display:inline-flex;align-items:center;gap:8px;transition:opacity .15s}
+.btn-continue:hover{opacity:.85}
+
+/* Step 2: Payment */
+.payment-grid{display:grid;grid-template-columns:1fr 380px;gap:48px;max-width:980px;margin:0 auto}
+.payment-form-side h2{font-family:'Instrument Serif',serif;font-size:32px;letter-spacing:-1px;font-weight:400;margin-bottom:8px}
+.payment-form-side h2 em{font-style:italic;color:var(--muted)}
+.payment-form-side > p{font-size:14px;color:var(--muted);margin-bottom:32px;line-height:1.55}
+
+.form-section{margin-bottom:28px}
+.form-section-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:14px}
+form{display:flex;flex-direction:column;gap:14px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}
+.field input{padding:13px 14px;border:1px solid var(--line);border-radius:8px;font-size:14px;outline:none;background:#fff;transition:border-color .15s;font-family:inherit}
+.field input:focus{border-color:var(--ink)}
+.field-row{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px}
+.field-row-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+.card-input-wrap{position:relative}
+.card-icons{position:absolute;right:12px;top:50%;transform:translateY(-50%);display:flex;gap:4px;opacity:.6}
+.card-icons div{height:18px;padding:2px 5px;background:var(--paper);border:1px solid var(--line);border-radius:3px;font-size:9px;font-weight:600;color:var(--muted)}
+
+.btn-pay{padding:15px;background:var(--ink);color:var(--paper);border-radius:8px;font-size:14px;font-weight:500;margin-top:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity .15s}
+.btn-pay:hover{opacity:.85}
+.btn-pay:disabled{opacity:.6;cursor:not-allowed}
+
+.legal-note{font-size:11px;color:var(--muted);margin-top:14px;line-height:1.6}
+.legal-note a{color:var(--ink);border-bottom:1px solid var(--line);padding-bottom:1px}
+
+.summary{background:#fff;border:1px solid var(--line);border-radius:14px;padding:28px;height:fit-content;position:sticky;top:24px}
+.summary h3{font-family:'Instrument Serif',serif;font-size:22px;letter-spacing:-.4px;font-weight:400;margin-bottom:6px}
+.summary h3 em{font-style:italic;color:var(--muted)}
+.summary-plan{font-size:12px;color:var(--muted);margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--line)}
+.summary-row{display:flex;justify-content:space-between;padding:8px 0;font-size:13px}
+.summary-row.total{font-weight:500;font-size:15px;border-top:1px solid var(--line);margin-top:8px;padding-top:14px}
+.summary-row .muted{color:var(--muted)}
+.summary-discount{color:var(--ok)}
+.promo-note{background:var(--ok-bg);border:1px solid #C8DEC0;border-radius:8px;padding:10px 12px;font-size:12px;color:var(--ok);margin-top:14px;line-height:1.5}
+.promo-note strong{font-weight:600}
+
+.back-btn{font-size:13px;color:var(--muted);margin-bottom:20px;display:inline-flex;align-items:center;gap:6px;transition:color .15s}
+.back-btn:hover{color:var(--ink)}
+
+/* Step 3: Success */
+.success-step{text-align:center;padding:60px 0;max-width:560px;margin:0 auto}
+.success-icon{width:80px;height:80px;border-radius:50%;background:var(--ok);color:#fff;margin:0 auto 28px;display:flex;align-items:center;justify-content:center}
+.success-step h2{font-family:'Instrument Serif',serif;font-size:48px;letter-spacing:-1.5px;font-weight:400;margin-bottom:16px;line-height:1.1}
+.success-step h2 em{font-style:italic;color:var(--muted)}
+.success-step p{font-size:16px;color:var(--muted);margin-bottom:32px;line-height:1.6}
+.success-receipt{background:#fff;border:1px solid var(--line);border-radius:12px;padding:24px;margin-bottom:32px;text-align:left}
+.success-receipt .summary-row{padding:6px 0}
+
+.demo-note{position:fixed;bottom:20px;right:20px;background:var(--beta-bg);border:1px solid #F0DCB0;border-radius:8px;padding:10px 14px;font-size:11px;color:var(--beta);max-width:240px;line-height:1.5;z-index:100;box-shadow:0 4px 12px rgba(0,0,0,.05)}
+.demo-note strong{font-weight:600;display:block;margin-bottom:3px}
+
+@media(max-width:880px){
+  header{padding:18px 24px}
+  .page{padding:32px 20px}
+  .hero-title h1{font-size:34px}
+  .plans{grid-template-columns:1fr}
+  .payment-grid{grid-template-columns:1fr}
+  .summary{position:static}
+  .field-row{grid-template-columns:1fr}
+  .field-row-2{grid-template-columns:1fr 1fr}
+  .demo-note{position:static;margin:20px auto;max-width:none}
+}
+</style>
+</head>
+<body>
+
+<div class="beta-banner"><strong>Beta</strong> · This is a prototype payment flow. No real charges will be made.</div>
+
+<header>
+  <a href="dashboard.html" class="brand"><span class="brand-mark"><span class="spark"></span></span>Foundra<span class="beta-pill">Beta</span></a>
+  <a href="dashboard.html" class="header-back">← Back to dashboard</a>
+</header>
+
+<div class="page">
+  
+  <!-- STEP 1: PLAN SELECTION -->
+  <div class="step on" id="step1">
+    <div class="hero-title">
+      <h1>Choose your <em>plan.</em></h1>
+      <p>Beta members get 50% off their first 3 months. Cancel anytime.</p>
+    </div>
+    
+    <div class="billing-toggle">
+      <div class="billing-toggle-inner">
+        <button class="on" id="billMonthly" onclick="setBilling('monthly')">Monthly</button>
+        <button id="billAnnual" onclick="setBilling('annual')">Annual <span class="save-badge">Save 20%</span></button>
+      </div>
+    </div>
+    
+    <div class="plans">
+      <div class="plan-card selected" id="planPro" onclick="selectPlan('pro')">
+        <span class="plan-badge">Most popular</span>
+        <div class="plan-name">Pro</div>
+        <div class="plan-price" id="proPrice">$49<small>/mo</small></div>
+        <div class="plan-billed" id="proBilled">Billed monthly</div>
+        <div class="plan-tag">For founders who want to stay compliant — not just get a checklist once.</div>
+        <ul class="plan-list">
+          <li><strong>Complete checklist</strong> — every license, permit, step</li>
+          <li>All 50 states with full portal data</li>
+          <li><strong>Renewal alerts</strong> — 90/60/30 day reminders</li>
+          <li>Regulation change notifications</li>
+          <li>Save & track progress</li>
+          <li>Multi-business + multi-state</li>
+          <li>AI advisor — unlimited Q&A</li>
+          <li>Document templates</li>
+        </ul>
+        <button class="plan-select" id="proBtn">Selected</button>
+      </div>
+      
+      <div class="plan-card" id="planBusiness" onclick="selectPlan('business')">
+        <div class="plan-name">Business+</div>
+        <div class="plan-price" id="bizPrice">$99<small>/mo</small></div>
+        <div class="plan-billed" id="bizBilled">Billed monthly</div>
+        <div class="plan-tag">For accountants, attorneys, and consultants managing multiple businesses.</div>
+        <ul class="plan-list">
+          <li>Everything in Pro</li>
+          <li>Manage 10+ businesses</li>
+          <li>White-label client reports</li>
+          <li>Bulk compliance tracking</li>
+          <li>Compliance reports for clients</li>
+          <li>API access</li>
+          <li>Priority support</li>
+          <li>Dedicated account manager</li>
+        </ul>
+        <button class="plan-select" id="bizBtn">Select Business+</button>
+      </div>
+    </div>
+    
+    <div class="continue-row">
+      <button class="btn-continue" onclick="goToPayment()">
+        Continue to payment
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+  
+  <!-- STEP 2: PAYMENT -->
+  <div class="step" id="step2">
+    <a class="back-btn" onclick="goToStep(1)">← Back to plans</a>
+    
+    <div class="payment-grid">
+      <div class="payment-form-side">
+        <h2>Payment <em>details.</em></h2>
+        <p>Secure checkout. You won't be charged until your beta period ends (Q3 2026), and you'll get 50% off your first 3 months.</p>
+        
+        <form id="paymentForm" onsubmit="onPayment(event)">
+          <div class="form-section">
+            <div class="form-section-title">Card information</div>
+            <div class="field" style="margin-bottom:12px">
+              <label for="card-number">Card number</label>
+              <div class="card-input-wrap">
+                <input type="text" id="card-number" maxlength="19" placeholder="1234 5678 9012 3456" required oninput="formatCard(this)"/>
+                <div class="card-icons">
+                  <div>VISA</div>
+                  <div>MC</div>
+                  <div>AMEX</div>
+                </div>
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="card-name">Name on card</label>
+                <input type="text" id="card-name" required placeholder="John Smith"/>
+              </div>
+              <div class="field">
+                <label for="card-exp">Expires</label>
+                <input type="text" id="card-exp" maxlength="5" required placeholder="MM/YY" oninput="formatExp(this)"/>
+              </div>
+              <div class="field">
+                <label for="card-cvc">CVC</label>
+                <input type="text" id="card-cvc" maxlength="4" required placeholder="123"/>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-section">
+            <div class="form-section-title">Billing address</div>
+            <div class="field" style="margin-bottom:12px">
+              <label for="addr-line">Address</label>
+              <input type="text" id="addr-line" required placeholder="123 Main Street"/>
+            </div>
+            <div class="field-row-2">
+              <div class="field">
+                <label for="addr-city">City</label>
+                <input type="text" id="addr-city" required/>
+              </div>
+              <div class="field">
+                <label for="addr-zip">ZIP</label>
+                <input type="text" id="addr-zip" required maxlength="10"/>
+              </div>
+            </div>
+          </div>
+          
+          <button type="submit" class="btn-pay" id="payBtn">
+            Activate <span id="payPlanName">Pro</span> · <span id="payAmount">$24.50</span>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </button>
+          <p class="legal-note">By activating, you agree to our <a href="terms.html">Terms</a> and authorize Foundra to charge your card according to your <a href="pricing.html">selected plan</a>. Cancel anytime.</p>
+        </form>
+      </div>
+      
+      <div class="summary">
+        <h3>Order <em>summary.</em></h3>
+        <div class="summary-plan" id="summaryPlan">Foundra Pro · Monthly</div>
+        <div class="summary-row">
+          <span class="muted" id="sumLabel">Pro subscription</span>
+          <span id="sumPrice">$49.00</span>
+        </div>
+        <div class="summary-row summary-discount">
+          <span>Beta member discount (50% off · 3 months)</span>
+          <span id="sumDiscount">−$24.50</span>
+        </div>
+        <div class="summary-row">
+          <span class="muted">Tax</span>
+          <span>$0.00</span>
+        </div>
+        <div class="summary-row total">
+          <span>Today</span>
+          <span id="sumToday">$24.50</span>
+        </div>
+        <div class="promo-note">
+          <strong>You're getting:</strong> 50% off for your first 3 months. Regular pricing resumes after.
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- STEP 3: SUCCESS -->
+  <div class="step" id="step3">
+    <div class="success-step">
+      <div class="success-icon">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h2>Welcome to <em>Foundra <span id="welcomePlan">Pro</span>.</em></h2>
+      <p>Your account has been upgraded. You now have access to your complete checklist, renewal alerts, and your dashboard.</p>
+      
+      <div class="success-receipt">
+        <div class="summary-row">
+          <span class="muted">Plan</span>
+          <span id="receiptPlan">Foundra Pro</span>
+        </div>
+        <div class="summary-row">
+          <span class="muted">Billing</span>
+          <span id="receiptBilling">Monthly</span>
+        </div>
+        <div class="summary-row">
+          <span class="muted">Charged today</span>
+          <span id="receiptCharge">$24.50</span>
+        </div>
+        <div class="summary-row">
+          <span class="muted">Next charge</span>
+          <span id="receiptNext">—</span>
+        </div>
+      </div>
+      
+      <a href="dashboard.html" class="btn-continue">Go to your dashboard
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </a>
+    </div>
+  </div>
+  
+</div>
+
+<div class="demo-note">
+  <strong>Prototype mode</strong>
+  No real card processing. Enter any details to demo the upgrade flow.
+</div>
+
+<script>
+if (!FoundraAuth.requireAuth()) {}
+
+let selectedPlan = "pro";
+let billingType = "monthly";
+
+const PRICES = {
+  pro: { monthly: 49, annual: 39, annualTotal: 470 },
+  business: { monthly: 99, annual: 79, annualTotal: 950 }
+};
+
+function selectPlan(plan) {
+  selectedPlan = plan;
+  document.getElementById("planPro").classList.toggle("selected", plan === "pro");
+  document.getElementById("planBusiness").classList.toggle("selected", plan === "business");
+  document.getElementById("proBtn").textContent = plan === "pro" ? "Selected" : "Select Pro";
+  document.getElementById("bizBtn").textContent = plan === "business" ? "Selected" : "Select Business+";
+  updatePricing();
+}
+
+function setBilling(type) {
+  billingType = type;
+  document.getElementById("billMonthly").classList.toggle("on", type === "monthly");
+  document.getElementById("billAnnual").classList.toggle("on", type === "annual");
+  updatePricing();
+}
+
+function updatePricing() {
+  const proPrice = billingType === "annual" ? PRICES.pro.annual : PRICES.pro.monthly;
+  const bizPrice = billingType === "annual" ? PRICES.business.annual : PRICES.business.monthly;
+  document.getElementById("proPrice").innerHTML = `$${proPrice}<small>/mo</small>`;
+  document.getElementById("bizPrice").innerHTML = `$${bizPrice}<small>/mo</small>`;
+  document.getElementById("proBilled").textContent = billingType === "annual" ? `Billed $${PRICES.pro.annualTotal} annually · save $118` : "Billed monthly";
+  document.getElementById("bizBilled").textContent = billingType === "annual" ? `Billed $${PRICES.business.annualTotal} annually · save $238` : "Billed monthly";
+}
+
+function goToPayment() {
+  document.getElementById("step1").classList.remove("on");
+  document.getElementById("step2").classList.add("on");
+  updateSummary();
+  window.scrollTo(0,0);
+  if (typeof gtag === 'function') gtag('event','upgrade_plan_selected',{plan:selectedPlan,billing:billingType});
+}
+
+function goToStep(n) {
+  document.querySelectorAll(".step").forEach(s => s.classList.remove("on"));
+  document.getElementById("step" + n).classList.add("on");
+  window.scrollTo(0,0);
+}
+
+function updateSummary() {
+  const planName = selectedPlan === "pro" ? "Pro" : "Business+";
+  const billLabel = billingType === "annual" ? "Annual" : "Monthly";
+  const basePrice = billingType === "annual" ? PRICES[selectedPlan].annualTotal : PRICES[selectedPlan].monthly;
+  const todayCharge = billingType === "annual" ? Math.round(basePrice * 0.5) : Math.round(PRICES[selectedPlan].monthly * 0.5 * 100) / 100;
+  
+  document.getElementById("summaryPlan").textContent = `Foundra ${planName} · ${billLabel}`;
+  document.getElementById("sumLabel").textContent = `${planName} subscription`;
+  document.getElementById("sumPrice").textContent = `$${basePrice}.00`;
+  
+  const discount = Math.round((basePrice - todayCharge) * 100) / 100;
+  document.getElementById("sumDiscount").textContent = `−$${discount.toFixed(2)}`;
+  document.getElementById("sumToday").textContent = `$${todayCharge.toFixed(2)}`;
+  
+  document.getElementById("payPlanName").textContent = planName;
+  document.getElementById("payAmount").textContent = `$${todayCharge.toFixed(2)}`;
+}
+
+function formatCard(input) {
+  let v = input.value.replace(/\s/g,'').replace(/[^0-9]/gi,'');
+  let parts = [];
+  for (let i = 0; i < v.length; i += 4) parts.push(v.substring(i, i + 4));
+  input.value = parts.join(' ');
+}
+
+function formatExp(input) {
+  let v = input.value.replace(/[^0-9]/g,'');
+  if (v.length >= 2) v = v.substring(0,2) + '/' + v.substring(2,4);
+  input.value = v;
+}
+
+function onPayment(e) {
+  e.preventDefault();
+  const btn = document.getElementById("payBtn");
+  btn.disabled = true;
+  btn.innerHTML = `Processing payment...`;
+  
+  setTimeout(() => {
+    // Simulate the upgrade
+    FoundraAuth.upgradeTo(selectedPlan);
+    
+    if (typeof gtag === 'function') gtag('event','upgrade_complete',{plan:selectedPlan,billing:billingType});
+    
+    // Show success
+    const planName = selectedPlan === "pro" ? "Pro" : "Business+";
+    const todayCharge = billingType === "annual" 
+      ? Math.round(PRICES[selectedPlan].annualTotal * 0.5)
+      : Math.round(PRICES[selectedPlan].monthly * 0.5 * 100) / 100;
+    
+    document.getElementById("welcomePlan").textContent = planName;
+    document.getElementById("receiptPlan").textContent = "Foundra " + planName;
+    document.getElementById("receiptBilling").textContent = billingType === "annual" ? "Annual" : "Monthly";
+    document.getElementById("receiptCharge").textContent = `$${todayCharge.toFixed(2)}`;
+    
+    const nextDate = new Date();
+    if (billingType === "annual") nextDate.setFullYear(nextDate.getFullYear() + 1);
+    else nextDate.setMonth(nextDate.getMonth() + 1);
+    document.getElementById("receiptNext").textContent = nextDate.toLocaleDateString("en-US", {month:"long",day:"numeric",year:"numeric"});
+    
+    goToStep(3);
+  }, 1800);
+}
+</script>
+</body>
+</html>

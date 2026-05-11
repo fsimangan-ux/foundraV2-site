@@ -3,64 +3,135 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Pricing — Foundra</title>
+<title>Pricing — Foundra (Beta)</title>
+<meta name="description" content="Foundra pricing — free during beta. Pro tier $49/mo for ongoing compliance monitoring. Business+ $99/mo for advisors and multi-business owners.">
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--ink:#0A0A0A;--paper:#FAFAF7;--line:#E6E4DC;--muted:#8A8780}
+:root{--ink:#0A0A0A;--paper:#FAFAF7;--line:#E6E4DC;--line-soft:#EFEDE5;--muted:#8A8780;--beta:#9A6B00;--beta-bg:#FEF7E6}
+html{scroll-behavior:smooth}
 body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased}
 button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
 a{color:inherit;text-decoration:none}
-input,textarea{font-family:inherit;font-size:inherit;color:inherit}
+input,select{font-family:inherit;font-size:inherit;color:inherit}
 .wrap{max-width:1280px;margin:0 auto;background:var(--paper)}
+
+.beta-banner{background:var(--beta-bg);border-bottom:1px solid #F0DCB0;padding:9px 40px;font-size:12px;color:var(--beta);text-align:center;display:flex;align-items:center;justify-content:center;gap:8px}
+.beta-banner strong{font-weight:600}
+.beta-banner span{color:#7A5500}
+
 header{display:flex;align-items:center;justify-content:space-between;padding:24px 40px;border-bottom:1px solid var(--line)}
 .brand{font-family:'Instrument Serif',serif;font-size:24px;letter-spacing:-.6px;display:flex;align-items:center;gap:10px}
 .brand-mark{width:24px;height:24px;background:var(--ink);border-radius:5px;position:relative;flex-shrink:0}
 .brand-mark::before{content:'';position:absolute;left:8px;top:6px;width:2px;height:12px;background:var(--paper)}
 .brand-mark::after{content:'';position:absolute;left:8px;top:6px;width:9px;height:2px;background:var(--paper);box-shadow:0 5px 0 var(--paper)}
 .brand-mark .spark{position:absolute;right:5px;top:6px;width:3px;height:3px;background:var(--paper);border-radius:50%}
+.beta-pill{display:inline-block;font-size:9px;font-weight:600;letter-spacing:1px;padding:2px 7px;border-radius:100px;background:var(--beta-bg);color:var(--beta);border:1px solid #F0DCB0;margin-left:6px;vertical-align:middle;text-transform:uppercase}
 nav{display:flex;gap:32px;align-items:center}
 nav a{font-size:13px;color:var(--muted);transition:color .15s}
 nav a:hover{color:var(--ink)}
-nav a.active{color:var(--ink);font-weight:500}
 .cta-sm{font-size:13px;padding:8px 14px;border:1px solid var(--ink);border-radius:6px;transition:all .15s}
 .cta-sm:hover{background:var(--ink);color:var(--paper)}
-.hero{padding:80px 40px 40px;text-align:center;border-bottom:1px solid var(--line)}
-.kicker{font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:24px;display:inline-flex;align-items:center;gap:10px}
+
+section{padding:80px 40px;border-bottom:1px solid var(--line)}
+.frame{max-width:1100px;margin:0 auto}
+.kicker{font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:24px;display:flex;align-items:center;gap:10px;justify-content:center}
 .kicker::before{content:'';width:24px;height:1px;background:var(--muted)}
-.hero h1{font-family:'Instrument Serif',serif;font-size:64px;line-height:1.05;letter-spacing:-2px;font-weight:400;margin-bottom:18px}
-.hero h1 em{font-style:italic;color:var(--muted)}
-.hero p{font-size:17px;color:var(--muted);max-width:480px;margin:0 auto;line-height:1.6}
-.pricing{padding:40px 40px 80px;border-bottom:1px solid var(--line)}
-.pricing-grid{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
-.plan{padding:36px 32px;border-right:1px solid var(--line);display:flex;flex-direction:column;background:#fff}
+
+.pricing-hero{text-align:center;padding:100px 40px 60px}
+.pricing-hero h1{font-family:'Instrument Serif',serif;font-size:72px;line-height:1.05;letter-spacing:-2px;font-weight:400;margin-bottom:24px}
+.pricing-hero h1 em{font-style:italic;color:var(--muted)}
+.pricing-hero p{font-size:18px;color:var(--muted);max-width:560px;margin:0 auto 40px;line-height:1.55}
+
+.billing-toggle{display:inline-flex;background:#fff;border:1px solid var(--line);border-radius:100px;padding:4px;margin-bottom:48px;gap:2px}
+.billing-toggle button{padding:9px 22px;border-radius:100px;font-size:13px;font-weight:500;color:var(--muted);transition:all .15s;border:none;background:transparent;cursor:pointer}
+.billing-toggle button.on{background:var(--ink);color:var(--paper)}
+.save-badge{display:inline-block;font-size:10px;font-weight:600;color:#2A7A2A;background:#F0F8EE;border:1px solid #C8DEC0;padding:1px 7px;border-radius:100px;margin-left:6px;text-transform:uppercase;letter-spacing:.5px;vertical-align:middle}
+
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff}
+.plan{padding:40px 32px;border-right:1px solid var(--line);display:flex;flex-direction:column;background:#fff;position:relative}
 .plan:last-child{border-right:none}
-.plan-name{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:18px}
-.plan-price{font-family:'Instrument Serif',serif;font-size:54px;letter-spacing:-1.5px;line-height:1;margin-bottom:6px}
-.plan-price small{font-size:14px;color:var(--muted);font-family:'Inter',sans-serif;letter-spacing:0}
-.plan-tag{font-size:13px;color:var(--muted);margin-bottom:28px;line-height:1.5;min-height:44px}
-.plan-list{list-style:none;display:flex;flex-direction:column;gap:11px;margin-bottom:32px;flex:1}
-.plan-list li{font-size:13.5px;color:var(--ink);padding-left:18px;position:relative;line-height:1.5}
-.plan-list li::before{content:'·';position:absolute;left:0;color:var(--muted);font-size:18px;line-height:1}
-.plan-cta{font-size:14px;padding:13px;border:1px solid var(--line);border-radius:8px;text-align:center;transition:all .15s;cursor:pointer;color:var(--ink);background:transparent;width:100%;font-weight:500}
-.plan-cta:hover{border-color:var(--ink)}
 .plan.featured{background:var(--ink);color:var(--paper)}
-.plan.featured .plan-name,.plan.featured .plan-tag,.plan.featured .plan-price small{color:#9A9890}
+.plan-badge{position:absolute;top:16px;right:16px;font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:1px;padding:4px 9px;border-radius:100px;background:var(--paper);color:var(--ink)}
+.plan-name{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:18px}
+.plan.featured .plan-name{color:#9A9890}
+.plan-price-row{display:flex;align-items:baseline;gap:8px;margin-bottom:6px}
+.plan-price{font-family:'Instrument Serif',serif;font-size:54px;letter-spacing:-1.5px;line-height:1;font-weight:400}
+.plan-price-unit{font-size:14px;color:var(--muted)}
+.plan.featured .plan-price-unit{color:#9A9890}
+.plan-billed{font-size:11px;color:var(--muted);margin-bottom:8px;height:16px}
+.plan.featured .plan-billed{color:#9A9890}
+.plan-tag{font-size:13px;color:var(--muted);margin-bottom:24px;line-height:1.5;min-height:42px}
+.plan.featured .plan-tag{color:#9A9890}
+.plan-list{list-style:none;display:flex;flex-direction:column;gap:11px;margin-bottom:32px;flex:1}
+.plan-list li{font-size:13px;color:var(--ink);padding-left:22px;position:relative;line-height:1.5}
+.plan-list li::before{content:'';position:absolute;left:0;top:7px;width:10px;height:6px;border-left:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);transform:rotate(-45deg)}
 .plan.featured .plan-list li{color:var(--paper)}
-.plan.featured .plan-list li::before{color:#9A9890}
+.plan.featured .plan-list li::before{border-color:var(--paper)}
+.plan-list li.disabled{color:var(--muted);text-decoration:line-through}
+.plan-list li.disabled::before{display:none}
+.plan-cta{width:100%;padding:14px;border-radius:100px;font-size:14px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;border:1px solid var(--line);background:var(--paper);color:var(--ink);text-align:center;transition:all .15s;display:block;text-decoration:none}
+.plan-cta:hover{border-color:var(--ink)}
 .plan.featured .plan-cta{background:var(--paper);color:var(--ink);border-color:var(--paper)}
 .plan.featured .plan-cta:hover{opacity:.9}
-.faq{padding:80px 40px;border-bottom:1px solid var(--line)}
-.faq-frame{max-width:760px}
-.faq h2{font-family:'Instrument Serif',serif;font-size:40px;letter-spacing:-1.2px;font-weight:400;margin-bottom:48px}
+
+.value-prop{margin-top:64px;padding:48px;background:#fff;border:1px solid var(--line);border-radius:14px;text-align:center}
+.value-prop h3{font-family:'Instrument Serif',serif;font-size:32px;letter-spacing:-.8px;font-weight:400;margin-bottom:14px}
+.value-prop h3 em{font-style:italic;color:var(--muted)}
+.value-prop p{font-size:15px;color:var(--muted);max-width:580px;margin:0 auto;line-height:1.6}
+
+.compare-section{padding:100px 40px}
+.compare-section h2{font-family:'Instrument Serif',serif;font-size:48px;letter-spacing:-1.5px;line-height:1.1;margin-bottom:48px;font-weight:400;text-align:center}
+.compare-section h2 em{font-style:italic;color:var(--muted)}
+.compare-table{width:100%;border-collapse:collapse;font-size:13px;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.compare-table th{text-align:left;padding:18px 20px;background:var(--paper);font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;border-bottom:1px solid var(--line)}
+.compare-table th:not(:first-child){text-align:center}
+.compare-table th.featured-col{background:var(--ink);color:var(--paper)}
+.compare-table td{padding:16px 20px;border-bottom:1px solid var(--line);vertical-align:middle}
+.compare-table tr:last-child td{border-bottom:none}
+.compare-table td:not(:first-child){text-align:center;color:var(--muted)}
+.compare-table td.check{color:#2A7A2A;font-weight:500}
+.compare-table .row-label{font-weight:500;color:var(--ink)}
+.compare-table .row-section{background:var(--paper);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);padding:14px 20px}
+.compare-table .row-section td{border-bottom:none}
+
+.faq-section{padding:100px 40px;border-top:1px solid var(--line)}
+.faq-section h2{font-family:'Instrument Serif',serif;font-size:48px;letter-spacing:-1.5px;line-height:1.1;margin-bottom:48px;font-weight:400;text-align:center}
+.faq-section h2 em{font-style:italic;color:var(--muted)}
+.faq{max-width:780px;margin:0 auto;display:flex;flex-direction:column;gap:0}
 .faq-item{padding:24px 0;border-top:1px solid var(--line)}
 .faq-item:last-child{border-bottom:1px solid var(--line)}
-.faq-item h3{font-size:16px;font-weight:500;margin-bottom:8px}
-.faq-item p{font-size:14px;color:var(--muted);line-height:1.7}
+.faq-q{font-size:16px;font-weight:500;letter-spacing:-.2px;margin-bottom:8px}
+.faq-a{font-size:14px;color:var(--muted);line-height:1.65}
+
+.final-cta{padding:120px 40px;text-align:center;border-top:1px solid var(--line)}
+.final-cta h2{font-family:'Instrument Serif',serif;font-size:60px;letter-spacing:-2px;line-height:1.05;margin-bottom:20px;font-weight:400}
+.final-cta h2 em{font-style:italic;color:var(--muted)}
+.final-cta p{color:var(--muted);max-width:520px;margin:0 auto 36px;font-size:16px}
+.btn-primary{font-size:14px;padding:13px 22px;background:var(--ink);color:var(--paper);border-radius:6px;display:inline-flex;align-items:center;gap:8px;transition:opacity .15s;cursor:pointer;border:none;font-family:inherit;font-weight:500}
+.btn-primary:hover{opacity:.85}
+
+footer{padding:48px 40px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px}
+.footer-col h4{font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:18px}
+.footer-col a{display:block;font-size:13px;color:var(--ink);margin-bottom:10px;transition:color .15s}
+.footer-col a:hover{color:var(--muted)}
+.foot-brand p{font-size:13px;color:var(--muted);margin-top:14px;line-height:1.5;max-width:240px}
+.foot-bottom{padding:24px 40px;border-top:1px solid var(--line);display:flex;justify-content:space-between;font-size:12px;color:var(--muted);flex-wrap:wrap;gap:12px}
+
 .modal-bg{position:fixed;inset:0;background:rgba(10,10,10,0.5);display:none;align-items:center;justify-content:center;z-index:200;padding:20px}
 .modal-bg.on{display:flex}
 .modal{background:var(--paper);border-radius:14px;max-width:440px;width:100%;padding:32px;position:relative}
-.modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;background:var(--line);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;color:var(--muted)}
+.modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;background:var(--line);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;color:var(--muted);border:none}
 .modal-close:hover{background:var(--muted);color:var(--paper)}
 .modal h3{font-family:'Instrument Serif',serif;font-size:28px;letter-spacing:-.7px;margin-bottom:8px;font-weight:400}
 .modal h3 em{font-style:italic;color:var(--muted)}
@@ -70,144 +141,219 @@ nav a.active{color:var(--ink);font-weight:500}
 .modal label{font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}
 .modal input,.modal select{padding:11px 14px;border:1px solid var(--line);border-radius:8px;font-size:14px;outline:none;background:#fff;transition:border-color .15s}
 .modal input:focus,.modal select:focus{border-color:var(--ink)}
-.modal-btn{padding:13px;background:var(--ink);color:var(--paper);border-radius:8px;font-size:14px;font-weight:500;margin-top:6px;cursor:pointer;transition:opacity .15s}
+.modal-btn{padding:13px;background:var(--ink);color:var(--paper);border-radius:8px;font-size:14px;font-weight:500;margin-top:6px;cursor:pointer;border:none;transition:opacity .15s}
 .modal-btn:hover{opacity:.85}
 .modal-success{text-align:center;padding:20px 0;display:none}
 .modal-success.on{display:block}
-.modal-success h3{margin-bottom:10px}
-.modal-success p{color:var(--muted);font-size:14px}
-footer{padding:48px 40px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px}
-.footer-col h4{font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:18px}
-.footer-col a{display:block;font-size:13px;color:var(--ink);margin-bottom:10px;transition:color .15s}
-.footer-col a:hover{color:var(--muted)}
-.foot-brand p{font-size:13px;color:var(--muted);margin-top:14px;line-height:1.5;max-width:240px}
-.foot-bottom{padding:24px 40px;border-top:1px solid var(--line);display:flex;justify-content:space-between;font-size:12px;color:var(--muted);flex-wrap:wrap;gap:12px}
+
 @media(max-width:880px){
-  header,.hero,.pricing,.faq,footer,.foot-bottom{padding-left:24px;padding-right:24px}
+  header,section,.final-cta,footer,.foot-bottom,.beta-banner,.pricing-hero,.compare-section,.faq-section{padding-left:24px;padding-right:24px}
   nav{display:none}
-  .hero{padding:48px 24px 32px}.hero h1{font-size:42px;letter-spacing:-1.2px}
+  .pricing-hero{padding:60px 24px 40px}
+  .pricing-hero h1{font-size:42px;letter-spacing:-1.2px}
+  .compare-section h2,.faq-section h2{font-size:32px}
+  .final-cta h2{font-size:38px}
   .pricing-grid{grid-template-columns:1fr;border-radius:14px}
   .plan{border-right:none;border-bottom:1px solid var(--line)}
   .plan:last-child{border-bottom:none}
-  .faq h2{font-size:30px}
   footer{grid-template-columns:1fr 1fr;gap:32px}
+  .compare-table{font-size:11px}
+  .compare-table th,.compare-table td{padding:12px 8px}
+  .value-prop{padding:32px 22px}
+  .value-prop h3{font-size:24px}
 }
 </style>
 </head>
 <body>
 <div class="wrap">
+
+<div class="beta-banner">
+  <strong>Beta</strong><span>· Foundra is in active beta. Free to use during this period. Paid tiers launch Q3 2026.</span>
+</div>
+
 <header>
-  <a href="index.html" class="brand"><span class="brand-mark"><span class="spark"></span></span>Foundra</a>
+  <a href="index.html" class="brand"><span class="brand-mark"><span class="spark"></span></span>Foundra<span class="beta-pill">Beta</span></a>
   <nav>
     <a href="index.html#how">How it works</a>
     <a href="index.html#types">Business types</a>
-    <a href="pricing.html" class="active">Pricing</a>
+    <a href="pricing.html">Pricing</a>
     <a href="about.html">About</a>
-    <a href="foundra-platform.html" class="cta-sm">Get started</a>
+    <a href="foundra-platform.html" class="cta-sm">Try beta free</a>
   </nav>
 </header>
 
-<section class="hero">
+<section class="pricing-hero">
   <div class="kicker">Pricing</div>
-  <h1>Free to start.<br><em>Pay for what you need.</em></h1>
-  <p>No paywall on basics. Upgrade only when you need depth or expert access. Paid tiers launch Q3 2026.</p>
-</section>
+  <h1>Stay compliant, <em>year after year.</em></h1>
+  <p>Free during beta. When paid tiers launch in Q3 2026, members get 50% off their first 3 months.</p>
 
-<section class="pricing">
+  <div class="billing-toggle">
+    <button class="on" id="billMonthly" onclick="setBilling('monthly')">Monthly</button>
+    <button id="billAnnual" onclick="setBilling('annual')">Annual <span class="save-badge">Save 20%</span></button>
+  </div>
+
   <div class="pricing-grid">
     <div class="plan">
-      <div class="plan-name">Free</div>
-      <div class="plan-price">$0<small>/mo</small></div>
-      <div class="plan-tag">For exploring what&rsquo;s required to start.</div>
+      <div class="plan-name">Free Forever</div>
+      <div class="plan-price-row">
+        <div class="plan-price">$0</div>
+        <div class="plan-price-unit">/forever</div>
+      </div>
+      <div class="plan-billed">No card required</div>
+      <div class="plan-tag">See your top 3 required licenses to get a feel for what's needed.</div>
       <ul class="plan-list">
-        <li>Business type checklists</li>
-        <li>Top requirements per state</li>
-        <li>Cost ranges</li>
-        <li>Verified federal links</li>
-        <li>State portal links</li>
+        <li>Top 3 required licenses per business</li>
+        <li>Federal links (IRS, FinCEN, FMCSA)</li>
+        <li>Basic cost overview</li>
+        <li class="disabled">Complete checklist</li>
+        <li class="disabled">All 50 state portal data</li>
+        <li class="disabled">Renewal alerts</li>
+        <li class="disabled">Multi-business tracking</li>
       </ul>
-      <a href="foundra-platform.html" class="plan-cta">Start free →</a>
+      <a href="foundra-platform.html" class="plan-cta">Try free →</a>
     </div>
+
     <div class="plan featured">
-      <div class="plan-name">Pro</div>
-      <div class="plan-price">$19<small>/mo</small></div>
-      <div class="plan-tag">For the depth most founders need.</div>
+      <div class="plan-badge">Most popular</div>
+      <div class="plan-name">Pro · Q3 2026</div>
+      <div class="plan-price-row">
+        <div class="plan-price" id="proPrice">$49</div>
+        <div class="plan-price-unit" id="proUnit">/month</div>
+      </div>
+      <div class="plan-billed" id="proBilled">Billed monthly</div>
+      <div class="plan-tag">For founders who want to stay compliant — not just get a checklist once.</div>
       <ul class="plan-list">
-        <li>Full 50-state coverage</li>
-        <li>AI advisor &mdash; unlimited</li>
-        <li>Progress tracker &amp; reminders</li>
+        <li><strong>Complete checklist</strong> — every license, permit, step</li>
+        <li>All 50 states with full portal data</li>
+        <li><strong>Renewal alerts</strong> — 90/60/30 day reminders</li>
+        <li><strong>Regulation change notifications</strong></li>
+        <li>Save & track progress across devices</li>
+        <li>Multi-business + multi-state support</li>
+        <li>AI advisor — unlimited follow-up questions</li>
         <li>Document templates</li>
-        <li>Priority support</li>
-        <li>Multi-device sync</li>
+        <li>Email support</li>
       </ul>
       <button class="plan-cta" onclick="openWaitlist('Pro')">Join Pro waitlist →</button>
     </div>
+
     <div class="plan">
-      <div class="plan-name">Business+</div>
-      <div class="plan-price">$49<small>/mo</small></div>
-      <div class="plan-tag">For advisors and multi-business owners.</div>
+      <div class="plan-name">Business+ · Q3 2026</div>
+      <div class="plan-price-row">
+        <div class="plan-price" id="bizPrice">$99</div>
+        <div class="plan-price-unit" id="bizUnit">/month</div>
+      </div>
+      <div class="plan-billed" id="bizBilled">Billed monthly</div>
+      <div class="plan-tag">For accountants, attorneys, and consultants managing multiple businesses.</div>
       <ul class="plan-list">
         <li>Everything in Pro</li>
-        <li>Multi-business management</li>
-        <li>Expert consultation hours</li>
+        <li>Manage 10+ businesses in one dashboard</li>
+        <li>White-label client reports</li>
+        <li>Bulk compliance tracking</li>
+        <li>Compliance reports for clients</li>
         <li>API access</li>
+        <li>Priority support</li>
         <li>Dedicated account manager</li>
       </ul>
       <button class="plan-cta" onclick="openWaitlist('Business+')">Contact sales →</button>
     </div>
   </div>
-</section>
 
-<section class="faq">
-  <div class="faq-frame">
-    <h2>Frequently asked.</h2>
-    <div class="faq-item">
-      <h3>When are paid tiers launching?</h3>
-      <p>Pro and Business+ are launching in Q3 2026. Join the waitlist and we&rsquo;ll notify you the moment they go live &mdash; early waitlist members get 50% off their first 3 months.</p>
-    </div>
-    <div class="faq-item">
-      <h3>What&rsquo;s actually included in the free plan?</h3>
-      <p>Everything you need to understand what&rsquo;s required to start a business: industry-specific checklists, cost ranges, verified federal links to .gov applications, and direct links to state agency portals. Free forever, no credit card.</p>
-    </div>
-    <div class="faq-item">
-      <h3>Is Foundra a substitute for an attorney?</h3>
-      <p>No. Foundra is an informational tool that helps you understand what&rsquo;s typically required. For advice specific to your situation, consult a licensed attorney or accountant. Our Business+ tier includes expert consultation hours with vetted attorneys.</p>
-    </div>
-    <div class="faq-item">
-      <h3>Can I cancel anytime?</h3>
-      <p>Yes. Pro and Business+ are month-to-month with no contracts. Cancel anytime, no questions asked.</p>
-    </div>
-    <div class="faq-item">
-      <h3>How accurate is the information?</h3>
-      <p>Federal links (IRS, FMCSA, DEA, etc.) are verified .gov URLs. State portal links go to official agency landing pages. Industry-specific requirements are reviewed by licensed attorneys before publication. We update our database monthly. That said, regulations change &mdash; always verify with the relevant agency before acting.</p>
-    </div>
+  <div class="value-prop">
+    <h3>One missed renewal can cost <em>more than a year of Pro.</em></h3>
+    <p>The federal BOI report alone carries a $500/day fine. State license renewals, sales tax filings, annual reports — they all have deadlines. Foundra Pro tracks every one, so you never get blindsided.</p>
   </div>
 </section>
+
+<section class="compare-section">
+  <h2>What you <em>actually get.</em></h2>
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th>Feature</th>
+        <th>Free</th>
+        <th class="featured-col">Pro</th>
+        <th>Business+</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="row-section"><td colspan="4">Checklist & Discovery</td></tr>
+      <tr><td class="row-label">AI-powered business matching</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+      <tr><td class="row-label">Top 3 required licenses</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+      <tr><td class="row-label">Complete checklist (all items)</td><td>—</td><td class="check">✓</td><td class="check">✓</td></tr>
+      <tr><td class="row-label">Federal links (IRS, FinCEN, etc.)</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+      <tr><td class="row-label">State portal links (all 50)</td><td>—</td><td class="check">✓</td><td class="check">✓</td></tr>
+      <tr><td class="row-label">Cost breakdown by item</td><td>Overview</td><td class="check">Detailed</td><td class="check">Detailed</td></tr>
+
+      <tr class="row-section"><td colspan="4">Stay Compliant</td></tr>
+      <tr><td class="row-label">Save & track progress</td><td>—</td><td class="check">✓</td><td class="check">✓</td></tr>
+      <tr><td class="row-label">Renewal alerts (90/60/30 day)</td><td>—</td><td class="check">✓</td><td class="check">✓</td></tr>
+      <tr><td class="row-label">Regulation change notifications</td><td>—</td><td class="check">✓</td><td class="check">✓</td></tr>
+      <tr><td class="row-label">Multi-device sync</td><td>—</td><td class="check">✓</td><td class="check">✓</td></tr>
+
+      <tr class="row-section"><td colspan="4">Advanced</td></tr>
+      <tr><td class="row-label">Number of businesses</td><td>1</td><td class="check">Unlimited</td><td class="check">Unlimited</td></tr>
+      <tr><td class="row-label">AI advisor (follow-up Q&A)</td><td>—</td><td class="check">✓</td><td class="check">✓</td></tr>
+      <tr><td class="row-label">Document templates</td><td>—</td><td class="check">✓</td><td class="check">✓</td></tr>
+      <tr><td class="row-label">Multi-state operations</td><td>—</td><td class="check">✓</td><td class="check">✓</td></tr>
+
+      <tr class="row-section"><td colspan="4">For Professionals</td></tr>
+      <tr><td class="row-label">White-label client reports</td><td>—</td><td>—</td><td class="check">✓</td></tr>
+      <tr><td class="row-label">Bulk client compliance tracking</td><td>—</td><td>—</td><td class="check">✓</td></tr>
+      <tr><td class="row-label">API access</td><td>—</td><td>—</td><td class="check">✓</td></tr>
+      <tr><td class="row-label">Dedicated account manager</td><td>—</td><td>—</td><td class="check">✓</td></tr>
+
+      <tr class="row-section"><td colspan="4">Support</td></tr>
+      <tr><td class="row-label">Email support</td><td>Community</td><td class="check">Standard</td><td class="check">Priority</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="faq-section">
+  <h2>Common <em>questions.</em></h2>
+  <div class="faq">
+    <div class="faq-item"><div class="faq-q">When does Pro actually launch?</div><div class="faq-a">Pro and Business+ tiers launch in Q3 2026. Waitlist members get 50% off their first 3 months — that's $24.50/month for Pro and $49.50/month for Business+ during your first quarter.</div></div>
+    <div class="faq-item"><div class="faq-q">Why $49/month for Pro? Other tools are cheaper.</div><div class="faq-a">Most "cheaper" tools are paperwork filers (LegalZoom, ZenBusiness) that charge per filing. Foundra is different — we tell you what you need AND keep you compliant year-round. One missed renewal can cost more than a year of Pro. A single attorney consultation costs $200-500. We think $49/month is honestly priced for what you get.</div></div>
+    <div class="faq-item"><div class="faq-q">What's the difference between Pro and Business+?</div><div class="faq-a">Pro is for founders managing their own businesses. Business+ is for professionals (accountants, attorneys, consultants) managing compliance for multiple clients. If you're running 1-3 of your own businesses, Pro is right. If you're managing compliance for 10+ businesses or clients, Business+ pays for itself.</div></div>
+    <div class="faq-item"><div class="faq-q">Can I cancel anytime?</div><div class="faq-a">Yes. Monthly plans cancel anytime — you'll keep access until the end of your billing period. Annual plans get a prorated refund for unused months. No questions asked.</div></div>
+    <div class="faq-item"><div class="faq-q">Do I really only see 3 licenses on the free tier?</div><div class="faq-a">Yes. The free tier shows the top 3 required licenses so you can see Foundra's quality. The complete checklist (typically 7-15 items per business type, plus things most founders miss like FinCEN BOI reporting) is part of Pro. We'd rather be honest about this than bait-and-switch you later.</div></div>
+    <div class="faq-item"><div class="faq-q">Is Foundra legal advice?</div><div class="faq-a">No. Foundra is informational software. We help you understand which licenses, permits, and compliance steps apply to your business — but for legal questions specific to your situation, consult a licensed attorney in your state. Foundra is the layer that should exist before you need a lawyer, not a replacement for one.</div></div>
+    <div class="faq-item"><div class="faq-q">What happens to my data?</div><div class="faq-a">Your data is yours. We don't sell it to third parties, ever. See our <a href="privacy.html" style="border-bottom:1px solid var(--line);padding-bottom:1px">privacy policy</a> for details.</div></div>
+    <div class="faq-item"><div class="faq-q">Will the free tier always exist?</div><div class="faq-a">Yes. We're committed to a free tier that gives meaningful value forever. We believe every founder deserves to know what licenses they need — even if they can't afford Pro.</div></div>
+  </div>
+</section>
+
+<div class="final-cta">
+  <h2>Get on the <em>waitlist.</em></h2>
+  <p>Be the first to know when Pro launches in Q3 2026 — and get 50% off your first 3 months.</p>
+  <button class="btn-primary" onclick="openWaitlist('Pro')">Join Pro waitlist
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+  </button>
+</div>
 
 <div class="modal-bg" id="modal" onclick="closeIfBg(event)">
   <div class="modal">
     <button class="modal-close" onclick="closeWaitlist()">×</button>
     <div id="modalForm">
       <h3 id="modalTitle">Join the Pro <em>waitlist.</em></h3>
-      <p class="modal-sub">Be the first to know when paid tiers launch in Q3 2026 &mdash; and get 50% off your first 3 months.</p>
+      <p class="modal-sub">Be the first to know when paid tiers launch in Q3 2026 — and get 50% off your first 3 months.</p>
       <form id="waitlistForm" onsubmit="onWaitlistSubmit(event)">
         <div class="field"><label for="wl-name">Your name</label><input type="text" id="wl-name" name="name" required/></div>
         <div class="field"><label for="wl-email">Email</label><input type="email" id="wl-email" name="email" required/></div>
-        <div class="field"><label for="wl-tier">Tier</label><select id="wl-tier" name="tier" required><option value="Pro">Pro ($19/mo)</option><option value="Business+">Business+ ($49/mo)</option></select></div>
-        <div class="field"><label for="wl-business">What kind of business?</label><input type="text" id="wl-business" name="business" placeholder="e.g. food truck, salon, freelance design"/></div>
+        <div class="field"><label for="wl-tier">Tier</label><select id="wl-tier" name="tier" required><option value="Pro">Pro ($49/mo)</option><option value="Business+">Business+ ($99/mo)</option></select></div>
+        <div class="field"><label for="wl-business">What kind of business?</label><input type="text" id="wl-business" name="business" placeholder="e.g. food truck, salon, accounting firm"/></div>
         <button type="submit" class="modal-btn" id="wl-submit">Join waitlist</button>
       </form>
     </div>
     <div class="modal-success" id="modalSuccess">
       <h3>You&rsquo;re on the list.</h3>
-      <p>We&rsquo;ll email you the moment Pro is ready &mdash; and you&rsquo;ll get 50% off your first 3 months.</p>
+      <p style="color:var(--muted);font-size:14px;margin-top:10px">We&rsquo;ll email you the moment Pro is ready &mdash; and you&rsquo;ll get 50% off your first 3 months.</p>
     </div>
   </div>
 </div>
 
 <footer>
   <div class="foot-brand">
-    <a href="index.html" class="brand"><span class="brand-mark"><span class="spark"></span></span>Foundra</a>
+    <a href="index.html" class="brand"><span class="brand-mark"><span class="spark"></span></span>Foundra<span class="beta-pill">Beta</span></a>
     <p>A clearer way to start a business &mdash; every license, permit, and requirement, mapped for you.</p>
   </div>
   <div class="footer-col"><h4>Product</h4><a href="index.html#how">How it works</a><a href="index.html#types">Business types</a><a href="pricing.html">Pricing</a></div>
@@ -218,15 +364,39 @@ footer{padding:48px 40px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:
   <span>© 2026 Foundra, Inc.</span>
   <span>Informational, not legal advice.</span>
 </div>
+
 </div>
 
 <script>
 const FORMSPREE_ID = "YOUR_FORM_ID";
+
+function setBilling(type){
+  const monthBtn = document.getElementById("billMonthly");
+  const annualBtn = document.getElementById("billAnnual");
+  const proPrice = document.getElementById("proPrice");
+  const proUnit = document.getElementById("proUnit");
+  const proBilled = document.getElementById("proBilled");
+  const bizPrice = document.getElementById("bizPrice");
+  const bizUnit = document.getElementById("bizUnit");
+  const bizBilled = document.getElementById("bizBilled");
+  if(type === "annual"){
+    monthBtn.classList.remove("on"); annualBtn.classList.add("on");
+    proPrice.textContent = "$39"; proUnit.textContent = "/month"; proBilled.textContent = "Billed $470 annually · save $118";
+    bizPrice.textContent = "$79"; bizUnit.textContent = "/month"; bizBilled.textContent = "Billed $950 annually · save $238";
+  } else {
+    monthBtn.classList.add("on"); annualBtn.classList.remove("on");
+    proPrice.textContent = "$49"; proUnit.textContent = "/month"; proBilled.textContent = "Billed monthly";
+    bizPrice.textContent = "$99"; bizUnit.textContent = "/month"; bizBilled.textContent = "Billed monthly";
+  }
+  if(typeof gtag === 'function') gtag('event','pricing_toggle',{billing_type:type});
+}
+
 function openWaitlist(tier){
   document.getElementById("modal").classList.add("on");
   document.getElementById("wl-tier").value = tier;
   document.getElementById("modalTitle").innerHTML = tier === "Business+" ? "Join the Business+ <em>waitlist.</em>" : "Join the Pro <em>waitlist.</em>";
   document.body.style.overflow = "hidden";
+  if(typeof gtag === 'function') gtag('event','waitlist_modal_open',{tier:tier});
 }
 function closeWaitlist(){
   document.getElementById("modal").classList.remove("on");
@@ -243,31 +413,21 @@ async function onWaitlistSubmit(e){
   const form = document.getElementById("waitlistForm");
   const btn = document.getElementById("wl-submit");
   const data = new FormData(form);
-  data.append("source", "Pricing waitlist");
+  data.append("source","Pricing page waitlist");
   btn.disabled = true; btn.textContent = "Joining...";
+  if(typeof gtag === 'function') gtag('event','waitlist_signup',{tier:data.get("tier")});
   if(FORMSPREE_ID === "YOUR_FORM_ID"){
     const subject = encodeURIComponent(`Foundra ${data.get("tier")} Waitlist: ${data.get("name")}`);
     const body = encodeURIComponent(`Name: ${data.get("name")}\nEmail: ${data.get("email")}\nTier: ${data.get("tier")}\nBusiness: ${data.get("business")||"(not provided)"}`);
     window.location.href = `mailto:info@foundra.us?subject=${subject}&body=${body}`;
-    setTimeout(()=>{
-      document.getElementById("modalForm").style.display = "none";
-      document.getElementById("modalSuccess").classList.add("on");
-    }, 500);
+    setTimeout(()=>{document.getElementById("modalForm").style.display = "none";document.getElementById("modalSuccess").classList.add("on");},500);
     return;
   }
   try{
-    const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {method:"POST",headers:{"Accept":"application/json"},body: data});
-    if(res.ok){
-      document.getElementById("modalForm").style.display = "none";
-      document.getElementById("modalSuccess").classList.add("on");
-    } else {
-      btn.disabled = false; btn.textContent = "Join waitlist";
-      alert("Something went wrong. Please email us at info@foundra.us");
-    }
-  } catch(err){
-    btn.disabled = false; btn.textContent = "Join waitlist";
-    alert("Something went wrong. Please email us at info@foundra.us");
-  }
+    const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`,{method:"POST",headers:{"Accept":"application/json"},body:data});
+    if(res.ok){document.getElementById("modalForm").style.display = "none";document.getElementById("modalSuccess").classList.add("on");}
+    else {btn.disabled = false; btn.textContent = "Join waitlist"; alert("Please email info@foundra.us");}
+  } catch(err){btn.disabled = false; btn.textContent = "Join waitlist"; alert("Please email info@foundra.us");}
 }
 </script>
 </body>

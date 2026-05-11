@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Account — Foundra</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script src="shared-auth.js"></script>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#0A0A0A;--paper:#FAFAF7;--line:#E6E4DC;--line-soft:#EFEDE5;--muted:#8A8780;--beta:#9A6B00;--beta-bg:#FEF7E6;--ok:#2A7A2A;--ok-bg:#F0F8EE;--alert:#9A2B2B;--alert-bg:#FBE9E9}
+body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased;min-height:100vh}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+a{color:inherit;text-decoration:none}
+input{font-family:inherit;font-size:inherit;color:inherit}
+
+.beta-banner{background:var(--beta-bg);border-bottom:1px solid #F0DCB0;padding:9px 40px;font-size:12px;color:var(--beta);text-align:center}
+.beta-banner strong{font-weight:600}
+
+header{display:flex;align-items:center;justify-content:space-between;padding:24px 40px;border-bottom:1px solid var(--line);max-width:1280px;margin:0 auto}
+.brand{font-family:'Instrument Serif',serif;font-size:24px;letter-spacing:-.6px;display:flex;align-items:center;gap:10px}
+.brand-mark{width:24px;height:24px;background:var(--ink);border-radius:5px;position:relative;flex-shrink:0}
+.brand-mark::before{content:'';position:absolute;left:8px;top:6px;width:2px;height:12px;background:var(--paper)}
+.brand-mark::after{content:'';position:absolute;left:8px;top:6px;width:9px;height:2px;background:var(--paper);box-shadow:0 5px 0 var(--paper)}
+.brand-mark .spark{position:absolute;right:5px;top:6px;width:3px;height:3px;background:var(--paper);border-radius:50%}
+.beta-pill{display:inline-block;font-size:9px;font-weight:600;letter-spacing:1px;padding:2px 7px;border-radius:100px;background:var(--beta-bg);color:var(--beta);border:1px solid #F0DCB0;margin-left:6px;text-transform:uppercase}
+.header-back{font-size:13px;color:var(--muted);display:inline-flex;align-items:center;gap:6px}
+.header-back:hover{color:var(--ink)}
+
+.page{max-width:780px;margin:0 auto;padding:60px 40px}
+
+.page-title{margin-bottom:40px}
+.page-title h1{font-family:'Instrument Serif',serif;font-size:48px;letter-spacing:-1.5px;font-weight:400;margin-bottom:8px}
+.page-title h1 em{font-style:italic;color:var(--muted)}
+.page-title p{font-size:15px;color:var(--muted)}
+
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;margin-bottom:20px;overflow:hidden}
+.card-head{padding:20px 24px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+.card-head h3{font-size:16px;font-weight:500;letter-spacing:-.2px}
+.card-head .meta{font-size:12px;color:var(--muted)}
+.card-body{padding:24px}
+
+.row{display:grid;grid-template-columns:140px 1fr auto;gap:20px;padding:14px 0;border-bottom:1px solid var(--line-soft);align-items:center}
+.row:last-child{border-bottom:none}
+.row-label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;font-weight:500}
+.row-value{font-size:14px;color:var(--ink)}
+.row-action{font-size:12px;color:var(--ink);border:1px solid var(--line);padding:6px 12px;border-radius:6px;transition:border-color .15s;cursor:pointer;background:transparent}
+.row-action:hover{border-color:var(--ink)}
+
+.plan-badge{display:inline-block;padding:4px 10px;border-radius:100px;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.6px}
+.plan-badge.free{background:var(--paper);color:var(--muted);border:1px solid var(--line)}
+.plan-badge.pro{background:var(--ink);color:var(--paper)}
+.plan-badge.business{background:#1A1A2E;color:#FFD700}
+
+.subscription-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 0;border-bottom:1px solid var(--line-soft)}
+.subscription-row:last-child{border-bottom:none}
+.sub-info{flex:1}
+.sub-info-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px}
+.sub-info-value{font-size:14px}
+.sub-info-value strong{font-weight:500}
+
+.btn-primary{padding:10px 18px;background:var(--ink);color:var(--paper);border-radius:6px;font-size:13px;font-weight:500;display:inline-flex;align-items:center;gap:6px;transition:opacity .15s}
+.btn-primary:hover{opacity:.85}
+.btn-secondary{padding:10px 18px;background:transparent;color:var(--ink);border:1px solid var(--line);border-radius:6px;font-size:13px;font-weight:500;transition:border-color .15s}
+.btn-secondary:hover{border-color:var(--ink)}
+.btn-danger{padding:10px 18px;background:transparent;color:var(--alert);border:1px solid var(--alert-bg);border-radius:6px;font-size:13px;font-weight:500;transition:all .15s}
+.btn-danger:hover{background:var(--alert-bg);border-color:var(--alert)}
+
+.upgrade-cta{background:var(--ink);color:var(--paper);border-radius:14px;padding:32px;margin-bottom:24px}
+.upgrade-cta h3{font-family:'Instrument Serif',serif;font-size:24px;letter-spacing:-.5px;font-weight:400;margin-bottom:8px}
+.upgrade-cta h3 em{font-style:italic;color:#9A9890}
+.upgrade-cta p{font-size:13px;color:#9A9890;margin-bottom:20px;line-height:1.55;max-width:480px}
+.upgrade-cta a{padding:11px 18px;background:var(--paper);color:var(--ink);border-radius:8px;font-size:13px;font-weight:500;display:inline-flex;align-items:center;gap:6px;transition:opacity .15s}
+.upgrade-cta a:hover{opacity:.9}
+
+.danger-zone{border:1px solid var(--alert-bg)}
+.danger-zone .card-head{border-color:var(--alert-bg)}
+.danger-zone .card-head h3{color:var(--alert)}
+
+.modal-bg{position:fixed;inset:0;background:rgba(10,10,10,0.55);display:none;align-items:center;justify-content:center;z-index:300;padding:20px}
+.modal-bg.on{display:flex}
+.modal{background:var(--paper);border-radius:14px;max-width:440px;width:100%;padding:32px;position:relative}
+.modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;background:var(--line);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;color:var(--muted);border:none}
+.modal h3{font-family:'Instrument Serif',serif;font-size:24px;letter-spacing:-.5px;margin-bottom:8px;font-weight:400}
+.modal h3 em{font-style:italic;color:var(--muted)}
+.modal-sub{font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.55}
+.modal form{display:flex;flex-direction:column;gap:14px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}
+.field input{padding:11px 14px;border:1px solid var(--line);border-radius:8px;font-size:14px;outline:none;background:#fff;transition:border-color .15s}
+.field input:focus{border-color:var(--ink)}
+.modal-btn{padding:12px;background:var(--ink);color:var(--paper);border-radius:8px;font-size:14px;font-weight:500;margin-top:6px}
+.modal-btn.danger{background:var(--alert)}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--paper);padding:12px 20px;border-radius:8px;font-size:13px;opacity:0;transition:all .25s;pointer-events:none;z-index:400}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media(max-width:680px){
+  header{padding:18px 24px}
+  .page{padding:32px 20px}
+  .page-title h1{font-size:32px}
+  .row{grid-template-columns:1fr;gap:8px;align-items:flex-start}
+  .row-action{justify-self:flex-start}
+  .subscription-row{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<div class="beta-banner"><strong>Beta</strong> · Free during this period.</div>
+
+<header>
+  <a href="dashboard.html" class="brand"><span class="brand-mark"><span class="spark"></span></span>Foundra<span class="beta-pill">Beta</span></a>
+  <a href="dashboard.html" class="header-back">← Back to dashboard</a>
+</header>
+
+<div class="page">
+  <div class="page-title">
+    <h1>Account <em>settings.</em></h1>
+    <p>Manage your profile, subscription, and security.</p>
+  </div>
+  
+  <!-- Upgrade CTA for free users -->
+  <div class="upgrade-cta" id="upgradeCta" style="display:none">
+    <h3>You're on the <em>free plan.</em></h3>
+    <p>Upgrade to Pro to unlock your complete checklist, renewal alerts, multi-business tracking, and your AI advisor. 50% off for beta members.</p>
+    <a href="upgrade.html">Upgrade to Pro →</a>
+  </div>
+  
+  <!-- Profile -->
+  <div class="card">
+    <div class="card-head">
+      <h3>Profile</h3>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="row-label">Name</div>
+        <div class="row-value" id="profileName">—</div>
+        <button class="row-action" onclick="openEditName()">Edit</button>
+      </div>
+      <div class="row">
+        <div class="row-label">Email</div>
+        <div class="row-value" id="profileEmail">—</div>
+        <button class="row-action" onclick="openEditEmail()">Edit</button>
+      </div>
+      <div class="row">
+        <div class="row-label">Member since</div>
+        <div class="row-value" id="profileSince">—</div>
+        <span></span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Subscription -->
+  <div class="card">
+    <div class="card-head">
+      <h3>Subscription</h3>
+      <span class="meta" id="subPlanBadge"></span>
+    </div>
+    <div class="card-body">
+      <div id="subscriptionBody"></div>
+    </div>
+  </div>
+  
+  <!-- Security -->
+  <div class="card">
+    <div class="card-head">
+      <h3>Security</h3>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="row-label">Password</div>
+        <div class="row-value">••••••••</div>
+        <button class="row-action" onclick="openChangePassword()">Change</button>
+      </div>
+      <div class="row">
+        <div class="row-label">Sessions</div>
+        <div class="row-value">Currently logged in on this device</div>
+        <button class="row-action" onclick="signOut()">Sign out</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Notifications (Pro only) -->
+  <div class="card" id="notifCard" style="display:none">
+    <div class="card-head">
+      <h3>Notifications</h3>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="row-label">Renewal alerts</div>
+        <div class="row-value">90, 60, and 30 days before each deadline</div>
+        <span class="plan-badge pro">On</span>
+      </div>
+      <div class="row">
+        <div class="row-label">Regulation changes</div>
+        <div class="row-value">When laws change in your state</div>
+        <span class="plan-badge pro">On</span>
+      </div>
+      <div class="row">
+        <div class="row-label">Product updates</div>
+        <div class="row-value">Occasional emails about new features</div>
+        <button class="row-action" onclick="toast('Notification preferences saved')">Manage</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Danger zone -->
+  <div class="card danger-zone">
+    <div class="card-head">
+      <h3>Danger zone</h3>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="row-label">Delete account</div>
+        <div class="row-value">Permanently delete your account and all data.</div>
+        <button class="row-action btn-danger" onclick="openDelete()">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Name Modal -->
+<div class="modal-bg" id="editNameModal" onclick="closeBg(event,'editNameModal')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('editNameModal')">×</button>
+    <h3>Edit your <em>name.</em></h3>
+    <form onsubmit="saveName(event)">
+      <div class="field"><label>Name</label><input type="text" id="editNameInput" required/></div>
+      <button type="submit" class="modal-btn">Save</button>
+    </form>
+  </div>
+</div>
+
+<!-- Edit Email Modal -->
+<div class="modal-bg" id="editEmailModal" onclick="closeBg(event,'editEmailModal')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('editEmailModal')">×</button>
+    <h3>Change your <em>email.</em></h3>
+    <p class="modal-sub">In the real product, we'd send a verification email to your new address. This is a prototype.</p>
+    <form onsubmit="saveEmail(event)">
+      <div class="field"><label>New email</label><input type="email" id="editEmailInput" required/></div>
+      <button type="submit" class="modal-btn">Update email</button>
+    </form>
+  </div>
+</div>
+
+<!-- Change Password Modal -->
+<div class="modal-bg" id="changePassModal" onclick="closeBg(event,'changePassModal')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('changePassModal')">×</button>
+    <h3>Change <em>password.</em></h3>
+    <form onsubmit="savePassword(event)">
+      <div class="field"><label>Current password</label><input type="password" id="curPass" required/></div>
+      <div class="field"><label>New password</label><input type="password" id="newPass" required minlength="6"/></div>
+      <div class="field"><label>Confirm new password</label><input type="password" id="confPass" required minlength="6"/></div>
+      <button type="submit" class="modal-btn">Update password</button>
+    </form>
+  </div>
+</div>
+
+<!-- Cancel Subscription Modal -->
+<div class="modal-bg" id="cancelSubModal" onclick="closeBg(event,'cancelSubModal')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('cancelSubModal')">×</button>
+    <h3>Cancel your <em>subscription?</em></h3>
+    <p class="modal-sub">You'll keep access until the end of your billing period. Your data will be saved if you decide to return.</p>
+    <button class="modal-btn danger" onclick="confirmCancel()">Yes, cancel subscription</button>
+    <button class="modal-btn" style="background:transparent;color:var(--ink);border:1px solid var(--line);margin-top:8px" onclick="closeModal('cancelSubModal')">Keep my subscription</button>
+  </div>
+</div>
+
+<!-- Delete Account Modal -->
+<div class="modal-bg" id="deleteModal" onclick="closeBg(event,'deleteModal')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('deleteModal')">×</button>
+    <h3>Delete your <em>account?</em></h3>
+    <p class="modal-sub" style="color:var(--alert)">This action is permanent. All your businesses, checklists, and account data will be permanently deleted.</p>
+    <p class="modal-sub">Type <strong>DELETE</strong> to confirm.</p>
+    <form onsubmit="confirmDelete(event)">
+      <div class="field"><input type="text" id="deleteConfirm" required placeholder="Type DELETE to confirm"/></div>
+      <button type="submit" class="modal-btn danger">Permanently delete account</button>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+if (!FoundraAuth.requireAuth()) {}
+const user = FoundraAuth.getCurrentUser();
+
+function init() {
+  document.getElementById("profileName").textContent = user.name;
+  document.getElementById("profileEmail").textContent = user.email;
+  document.getElementById("profileSince").textContent = FoundraAuth.formatDate(user.createdAt);
+  
+  // Subscription panel
+  const sub = document.getElementById("subscriptionBody");
+  const isPro = user.plan === "pro" || user.plan === "business";
+  const isBusiness = user.plan === "business";
+  const planName = isBusiness ? "Business+" : isPro ? "Pro" : "Free";
+  const planClass = isBusiness ? "business" : isPro ? "pro" : "free";
+  const planPrice = isBusiness ? "$99/mo" : isPro ? "$49/mo" : "Free forever";
+  
+  document.getElementById("subPlanBadge").innerHTML = `<span class="plan-badge ${planClass}">${planName}</span>`;
+  
+  if (!isPro) {
+    document.getElementById("upgradeCta").style.display = "block";
+    sub.innerHTML = `
+      <div class="subscription-row">
+        <div class="sub-info">
+          <div class="sub-info-label">Current plan</div>
+          <div class="sub-info-value"><strong>Free</strong> &middot; Top 3 licenses, federal links</div>
+        </div>
+        <a href="upgrade.html" class="btn-primary">Upgrade to Pro
+          <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </a>
+      </div>
+    `;
+  } else {
+    document.getElementById("notifCard").style.display = "block";
+    const nextBill = user.nextBillingDate ? FoundraAuth.formatDate(user.nextBillingDate) : "—";
+    const status = user.subscriptionStatus === "canceled" ? "Canceling at period end" : "Active";
+    sub.innerHTML = `
+      <div class="subscription-row">
+        <div class="sub-info">
+          <div class="sub-info-label">Plan</div>
+          <div class="sub-info-value"><strong>Foundra ${planName}</strong> &middot; ${planPrice}</div>
+        </div>
+      </div>
+      <div class="subscription-row">
+        <div class="sub-info">
+          <div class="sub-info-label">Status</div>
+          <div class="sub-info-value">${status}</div>
+        </div>
+      </div>
+      <div class="subscription-row">
+        <div class="sub-info">
+          <div class="sub-info-label">Next billing</div>
+          <div class="sub-info-value">${nextBill}</div>
+        </div>
+      </div>
+      <div class="subscription-row">
+        <div class="sub-info">
+          <div class="sub-info-label">Payment method</div>
+          <div class="sub-info-value">Visa ending in 4242</div>
+        </div>
+        <button class="btn-secondary" onclick="toast('Payment method updates coming soon')">Update card</button>
+      </div>
+      <div class="subscription-row">
+        <div class="sub-info">
+          <div class="sub-info-label">Billing history</div>
+          <div class="sub-info-value">View past invoices</div>
+        </div>
+        <button class="btn-secondary" onclick="toast('Billing history is a prototype feature')">View invoices</button>
+      </div>
+      ${user.subscriptionStatus !== "canceled" ? `
+        <div class="subscription-row">
+          <div class="sub-info">
+            <div class="sub-info-label">Cancel subscription</div>
+            <div class="sub-info-value">You'll keep access until ${nextBill}</div>
+          </div>
+          <button class="btn-danger" onclick="openCancel()">Cancel plan</button>
+        </div>
+      ` : `
+        <div class="subscription-row">
+          <div class="sub-info">
+            <div class="sub-info-label">Resume subscription</div>
+            <div class="sub-info-value">Reactivate before ${nextBill} to keep access</div>
+          </div>
+          <button class="btn-primary" onclick="resumeSubscription()">Resume</button>
+        </div>
+      `}
+    `;
+  }
+}
+
+function openEditName() {
+  document.getElementById("editNameInput").value = user.name;
+  document.getElementById("editNameModal").classList.add("on");
+}
+function openEditEmail() { document.getElementById("editEmailModal").classList.add("on"); }
+function openChangePassword() { document.getElementById("changePassModal").classList.add("on"); }
+function openCancel() { document.getElementById("cancelSubModal").classList.add("on"); }
+function openDelete() { document.getElementById("deleteModal").classList.add("on"); }
+
+function closeModal(id) { document.getElementById(id).classList.remove("on"); }
+function closeBg(e,id) { if (e.target.id === id) closeModal(id); }
+
+function saveName(e) {
+  e.preventDefault();
+  const name = document.getElementById("editNameInput").value.trim();
+  FoundraAuth.updateUser({ name });
+  user.name = name;
+  document.getElementById("profileName").textContent = name;
+  closeModal("editNameModal");
+  toast("Name updated");
+}
+
+function saveEmail(e) {
+  e.preventDefault();
+  closeModal("editEmailModal");
+  toast("In the real product, you'd verify the new email via a confirmation link.");
+}
+
+function savePassword(e) {
+  e.preventDefault();
+  const cur = document.getElementById("curPass").value;
+  const newP = document.getElementById("newPass").value;
+  const conf = document.getElementById("confPass").value;
+  if (cur !== user.password) { toast("Current password is incorrect"); return; }
+  if (newP !== conf) { toast("New passwords don't match"); return; }
+  FoundraAuth.updateUser({ password: newP });
+  user.password = newP;
+  closeModal("changePassModal");
+  toast("Password updated");
+}
+
+function confirmCancel() {
+  FoundraAuth.cancelSubscription();
+  Object.assign(user, FoundraAuth.getCurrentUser());
+  closeModal("cancelSubModal");
+  toast("Subscription canceled. You'll keep access until " + FoundraAuth.formatDate(user.nextBillingDate));
+  init();
+}
+
+function resumeSubscription() {
+  FoundraAuth.updateUser({ subscriptionStatus: "active" });
+  Object.assign(user, FoundraAuth.getCurrentUser());
+  toast("Subscription resumed");
+  init();
+}
+
+function confirmDelete(e) {
+  e.preventDefault();
+  const confirm = document.getElementById("deleteConfirm").value;
+  if (confirm !== "DELETE") { toast("Please type DELETE to confirm"); return; }
+  
+  // Delete the account
+  const users = FoundraAuth.getAllUsers();
+  delete users[user.email];
+  FoundraAuth.saveAllUsers(users);
+  FoundraAuth.endSession();
+  window.location.href = "index.html";
+}
+
+function signOut() {
+  FoundraAuth.endSession();
+  window.location.href = "index.html";
+}
+
+function toast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("on");
+  clearTimeout(window._t);
+  window._t = setTimeout(() => t.classList.remove("on"), 3000);
+}
+
+init();
+</script>
+</body>
+</html>

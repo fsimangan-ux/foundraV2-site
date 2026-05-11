@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Sign up — Foundra</title>
+<meta name="description" content="Create your free Foundra account to see your business compliance checklist.">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script src="shared-auth.js"></script>
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#0A0A0A;--paper:#FAFAF7;--line:#E6E4DC;--line-soft:#EFEDE5;--muted:#8A8780;--beta:#9A6B00;--beta-bg:#FEF7E6;--err:#9A2B2B;--err-bg:#FBE9E9}
+body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased;min-height:100vh}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+a{color:inherit;text-decoration:none}
+input{font-family:inherit;font-size:inherit;color:inherit}
+
+.beta-banner{background:var(--beta-bg);border-bottom:1px solid #F0DCB0;padding:9px 40px;font-size:12px;color:var(--beta);text-align:center}
+.beta-banner strong{font-weight:600}
+
+header{display:flex;align-items:center;justify-content:space-between;padding:24px 40px;border-bottom:1px solid var(--line);max-width:1280px;margin:0 auto}
+.brand{font-family:'Instrument Serif',serif;font-size:24px;letter-spacing:-.6px;display:flex;align-items:center;gap:10px}
+.brand-mark{width:24px;height:24px;background:var(--ink);border-radius:5px;position:relative;flex-shrink:0}
+.brand-mark::before{content:'';position:absolute;left:8px;top:6px;width:2px;height:12px;background:var(--paper)}
+.brand-mark::after{content:'';position:absolute;left:8px;top:6px;width:9px;height:2px;background:var(--paper);box-shadow:0 5px 0 var(--paper)}
+.brand-mark .spark{position:absolute;right:5px;top:6px;width:3px;height:3px;background:var(--paper);border-radius:50%}
+.beta-pill{display:inline-block;font-size:9px;font-weight:600;letter-spacing:1px;padding:2px 7px;border-radius:100px;background:var(--beta-bg);color:var(--beta);border:1px solid #F0DCB0;margin-left:6px;vertical-align:middle;text-transform:uppercase}
+.header-link{font-size:13px;color:var(--muted);transition:color .15s}
+.header-link:hover{color:var(--ink)}
+.header-link strong{color:var(--ink);font-weight:500;border-bottom:1px solid var(--line);margin-left:4px;padding-bottom:1px}
+
+.page{display:grid;grid-template-columns:1fr 1fr;min-height:calc(100vh - 80px);max-width:1280px;margin:0 auto}
+
+.left{padding:80px 60px;display:flex;flex-direction:column;justify-content:center;border-right:1px solid var(--line)}
+.left .kicker{font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:24px}
+.left h1{font-family:'Instrument Serif',serif;font-size:56px;line-height:1.05;letter-spacing:-1.8px;font-weight:400;margin-bottom:20px}
+.left h1 em{font-style:italic;color:var(--muted)}
+.left .sub{font-size:16px;color:var(--muted);max-width:380px;line-height:1.6;margin-bottom:36px}
+.benefits{list-style:none;display:flex;flex-direction:column;gap:14px}
+.benefits li{font-size:14px;color:var(--ink);padding-left:22px;position:relative;line-height:1.5}
+.benefits li::before{content:'';position:absolute;left:0;top:6px;width:10px;height:6px;border-left:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);transform:rotate(-45deg)}
+.benefits li strong{font-weight:500}
+.left-quote{margin-top:48px;padding-top:32px;border-top:1px solid var(--line);max-width:380px}
+.left-quote p{font-family:'Instrument Serif',serif;font-size:18px;font-style:italic;line-height:1.4;letter-spacing:-.3px;color:var(--ink);margin-bottom:10px}
+.left-quote-author{font-size:12px;color:var(--muted)}
+
+.right{padding:80px 60px;display:flex;flex-direction:column;justify-content:center;background:#fff}
+.form-frame{max-width:380px;width:100%;margin:0 auto}
+.form-frame h2{font-family:'Instrument Serif',serif;font-size:32px;letter-spacing:-1px;font-weight:400;margin-bottom:8px}
+.form-frame h2 em{font-style:italic;color:var(--muted)}
+.form-frame p{font-size:13px;color:var(--muted);margin-bottom:32px;line-height:1.55}
+.form-frame p a{color:var(--ink);border-bottom:1px solid var(--line);padding-bottom:1px}
+.form-frame p a:hover{border-bottom-color:var(--ink)}
+
+form{display:flex;flex-direction:column;gap:18px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}
+.field input{padding:13px 16px;border:1px solid var(--line);border-radius:8px;font-size:15px;outline:none;background:#fff;transition:border-color .15s}
+.field input:focus{border-color:var(--ink)}
+.field input.err{border-color:var(--err);background:var(--err-bg)}
+.field-hint{font-size:11px;color:var(--muted);margin-top:2px}
+
+.error-box{background:var(--err-bg);border:1px solid #F0CACA;border-radius:8px;padding:12px 14px;color:var(--err);font-size:13px;line-height:1.5;display:none}
+.error-box.on{display:block}
+
+.btn-submit{padding:14px;background:var(--ink);color:var(--paper);border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;border:none;transition:opacity .15s;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:6px}
+.btn-submit:hover{opacity:.85}
+.btn-submit:disabled{opacity:.5;cursor:not-allowed}
+
+.terms-note{font-size:11px;color:var(--muted);line-height:1.6;text-align:center;margin-top:18px}
+.terms-note a{color:var(--ink);border-bottom:1px solid var(--line);padding-bottom:1px}
+
+.divider{display:flex;align-items:center;gap:14px;margin:28px 0;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:1px}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--line)}
+
+.alt-link{text-align:center;font-size:13px;color:var(--muted)}
+.alt-link a{color:var(--ink);font-weight:500;border-bottom:1px solid var(--line);padding-bottom:1px}
+.alt-link a:hover{border-bottom-color:var(--ink)}
+
+@media(max-width:880px){
+  header{padding:18px 24px}
+  .page{grid-template-columns:1fr}
+  .left{padding:40px 24px;border-right:none;border-bottom:1px solid var(--line)}
+  .left h1{font-size:36px;letter-spacing:-1.2px}
+  .right{padding:40px 24px}
+  .left-quote{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="beta-banner"><strong>Beta</strong> · Free during this period. Paid tiers launch Q3 2026.</div>
+
+<header>
+  <a href="index.html" class="brand"><span class="brand-mark"><span class="spark"></span></span>Foundra<span class="beta-pill">Beta</span></a>
+  <span class="header-link">Already have an account?<a href="login.html"><strong>Log in</strong></a></span>
+</header>
+
+<div class="page">
+  <div class="left">
+    <div class="kicker">Free account</div>
+    <h1>Create your free<br>Foundra <em>account.</em></h1>
+    <p class="sub">Get your business compliance checklist in under 60 seconds. No credit card required.</p>
+    <ul class="benefits">
+      <li><strong>Top 3 required licenses</strong> for your business, free forever</li>
+      <li><strong>Save your progress</strong> across devices</li>
+      <li><strong>Direct .gov links</strong> to actual federal applications</li>
+      <li><strong>Upgrade anytime</strong> to unlock your complete checklist</li>
+    </ul>
+    <div class="left-quote">
+      <p>"I'd been researching food truck permits for weeks. Foundra handed me a complete list in three minutes."</p>
+      <div class="left-quote-author"><strong>Marcus R.</strong> — Food truck founder, Austin, TX</div>
+    </div>
+  </div>
+  
+  <div class="right">
+    <div class="form-frame">
+      <h2>Get <em>started.</em></h2>
+      <p>Free forever. <a href="pricing.html">Upgrade later</a> if you need more.</p>
+      
+      <div class="error-box" id="errorBox"></div>
+      
+      <form id="signupForm" onsubmit="onSignup(event)">
+        <div class="field">
+          <label for="name">Your name</label>
+          <input type="text" id="name" name="name" required autocomplete="name" placeholder="First and last name"/>
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required autocomplete="email" placeholder="you@example.com"/>
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required autocomplete="new-password" minlength="6" placeholder="At least 6 characters"/>
+          <div class="field-hint">Minimum 6 characters</div>
+        </div>
+        <button type="submit" class="btn-submit" id="submitBtn">
+          Create account
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+      </form>
+      
+      <p class="terms-note">By signing up, you agree to our <a href="terms.html">Terms</a> and <a href="privacy.html">Privacy Policy</a>.</p>
+      
+      <div class="divider">or</div>
+      
+      <p class="alt-link">Already a Foundra member? <a href="login.html">Log in →</a></p>
+    </div>
+  </div>
+</div>
+
+<script>
+function showError(msg) {
+  const box = document.getElementById("errorBox");
+  box.textContent = msg;
+  box.classList.add("on");
+}
+
+function clearError() {
+  document.getElementById("errorBox").classList.remove("on");
+}
+
+function onSignup(e) {
+  e.preventDefault();
+  clearError();
+  const btn = document.getElementById("submitBtn");
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+  
+  if (name.length < 2) return showError("Please enter your full name.");
+  if (!email.includes("@") || !email.includes(".")) return showError("Please enter a valid email address.");
+  if (password.length < 6) return showError("Password must be at least 6 characters.");
+  
+  btn.disabled = true;
+  btn.innerHTML = "Creating your account...";
+  
+  setTimeout(() => {
+    const result = FoundraAuth.signup(name, email, password);
+    if (!result.success) {
+      btn.disabled = false;
+      btn.innerHTML = 'Create account <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>';
+      return showError(result.error);
+    }
+    
+    if (typeof gtag === 'function') gtag('event','signup_complete',{plan:'free'});
+    
+    // If they had a pending search, take them to the platform to see results
+    const pending = FoundraAuth.getPendingSearch();
+    if (pending) {
+      window.location.href = "foundra-platform.html?continueSearch=1";
+    } else {
+      window.location.href = "dashboard.html";
+    }
+  }, 600);
+}
+
+// If already logged in, redirect to dashboard
+if (FoundraAuth.isLoggedIn()) {
+  window.location.href = "dashboard.html";
+}
+</script>
+</body>
+</html>
