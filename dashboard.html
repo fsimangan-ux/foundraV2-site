@@ -506,7 +506,7 @@ function renderAlerts() {
   const sampleAlerts = [];
   if (businesses[0]) {
     sampleAlerts.push({type:"urgent",title:`Annual report due for ${businesses[0].name || businesses[0].type}`,meta:"Due in 14 days · Florida Sunbiz",action:"View →"});
-    sampleAlerts.push({type:"warn",title:"BOI report deadline approaching",meta:"FinCEN · $500/day penalty if missed",action:"File now →"});
+    sampleAlerts.push({type:"warn",title:"Florida annual report filing window opens soon",meta:"Sunbiz.org · $138.75 if filed by May 1 · $400 late fee after",action:"File now →"});
   }
   if (businesses[1]) {
     sampleAlerts.push({type:"info",title:`Sales tax filing due for ${businesses[1].name || businesses[1].type}`,meta:"Due in 23 days · Quarterly",action:"View →"});
@@ -613,7 +613,7 @@ function goTemplates() {
 }
 function goAdvisor() {
   if (!FoundraAuth.isPro()) return alert("AI advisor is a Pro feature. Upgrade to unlock!");
-  alert("AI Advisor — Pro feature\n\nAsk Foundra anything about your compliance:\n\n\"What's the difference between an LLC and an S-Corp for a salon?\"\n\"Do I need workers' comp if I'm a 1099 contractor?\"\n\"How do I file a BOI report?\"\n\n(This is a prototype demo — in production, this would be a real chat interface powered by Claude/GPT-4)");
+  alert("AI Advisor — Pro feature\n\nAsk Foundra anything about your compliance:\n\n\"What's the difference between an LLC and an S-Corp for a salon?\"\n\"Do I need workers' comp if I'm a 1099 contractor?\"\n\"Do I still need to file a BOI report in 2026?\" (Spoiler: probably not, if you're a US entity)\n\n(This is a prototype demo — in production, this would be a real chat interface powered by Claude/GPT-4)");
 }
 function goClients() {
   if (!FoundraAuth.isBusiness()) return alert("Client management is a Business+ feature.");
