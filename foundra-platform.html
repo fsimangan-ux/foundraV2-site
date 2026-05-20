@@ -215,7 +215,7 @@ footer{padding:48px 40px;display:flex;justify-content:space-between;font-size:12
 <div class="app">
 
 <div class="beta-banner">
-  <strong>Beta</strong><span>· Free during this period. Pro launches Q3 2026.</span>
+  <strong>Beta</strong><span>· Free during this period. Paid checkout ($19) opens Q3 2026.</span>
 </div>
 
 <header>
@@ -293,28 +293,55 @@ footer{padding:48px 40px;display:flex;justify-content:space-between;font-size:12
 <div class="toast" id="toast"></div>
 
 <script>
-const FREE_TIER_LIMIT = 3;
-const COSTS_FREE_LIMIT = 2;
+// $19 model: free shows everything BUT application links and costs.
+// Paid users see links and costs and can check off items.
 
 const STATES = {
-  AL:{name:"Alabama"},AK:{name:"Alaska"},AZ:{name:"Arizona"},AR:{name:"Arkansas"},
+  AL:{name:"Alabama",tax:"4% + local",llc:"$200",annual:"$10 min/$100/yr",bizPortal:"https://www.sos.alabama.gov/business-entities",taxPortal:"https://www.revenue.alabama.gov/",profPortal:"https://www.alabama.gov/services/professional-licensing/",domain:"alabama.gov"},
+  AK:{name:"Alaska",tax:"No state sales tax",llc:"$250",annual:"$100 biennial",bizPortal:"https://www.commerce.alaska.gov/web/cbpl/",taxPortal:"https://tax.alaska.gov/",profPortal:"https://www.commerce.alaska.gov/web/cbpl/ProfessionalLicensing.aspx",domain:"alaska.gov"},
+  AZ:{name:"Arizona",tax:"5.6% + local",llc:"$50",annual:"$0",bizPortal:"https://azcc.gov/corporations",taxPortal:"https://azdor.gov/",profPortal:"https://azroc.my.site.com/",domain:"az.gov"},
+  AR:{name:"Arkansas"},
   CA:{name:"California",tax:"7.25% + local",llc:"$70",annual:"$800 min franchise tax",bizPortal:"https://www.sos.ca.gov/business-programs/business-entities",taxPortal:"https://www.cdtfa.ca.gov/",profPortal:"https://www.dca.ca.gov/",domain:"ca.gov"},
   CO:{name:"Colorado",tax:"2.9% + local",llc:"$50",annual:"$10/yr",bizPortal:"https://www.coloradosos.gov/biz/",taxPortal:"https://tax.colorado.gov/",profPortal:"https://dpo.colorado.gov/",domain:"colorado.gov OR co.gov"},
-  CT:{name:"Connecticut"},DE:{name:"Delaware"},
+  CT:{name:"Connecticut",tax:"6.35%",llc:"$120",annual:"$80/yr",bizPortal:"https://business.ct.gov/",taxPortal:"https://portal.ct.gov/DRS",profPortal:"https://portal.ct.gov/DCP",domain:"ct.gov"},
+  DE:{name:"Delaware",tax:"No state sales tax",llc:"$90",annual:"$300/yr franchise tax",bizPortal:"https://corp.delaware.gov/",taxPortal:"https://revenue.delaware.gov/",profPortal:"https://dpr.delaware.gov/",domain:"delaware.gov"},
   FL:{name:"Florida",tax:"6%",llc:"$125",annual:"$138.75/yr",bizPortal:"https://dos.fl.gov/sunbiz/",taxPortal:"https://floridarevenue.com/taxes/businesses/Pages/default.aspx",profPortal:"https://www.myfloridalicense.com/DBPR/",domain:"fl.gov OR myfloridalicense.com"},
   GA:{name:"Georgia",tax:"4% + local",llc:"$100",annual:"$50/yr",bizPortal:"https://sos.ga.gov/divisions-corporations",taxPortal:"https://dor.georgia.gov/",profPortal:"https://sos.ga.gov/divisions-professional-licensing-boards",domain:"georgia.gov OR ga.gov"},
   HI:{name:"Hawaii"},ID:{name:"Idaho"},
   IL:{name:"Illinois",tax:"6.25% + local",llc:"$150",annual:"$75/yr",bizPortal:"https://www.ilsos.gov/departments/business_services/",taxPortal:"https://tax.illinois.gov/",profPortal:"https://idfpr.illinois.gov/",domain:"illinois.gov OR il.gov"},
-  IN:{name:"Indiana"},IA:{name:"Iowa"},KS:{name:"Kansas"},KY:{name:"Kentucky"},LA:{name:"Louisiana"},ME:{name:"Maine"},MD:{name:"Maryland"},MA:{name:"Massachusetts"},MI:{name:"Michigan"},MN:{name:"Minnesota"},MS:{name:"Mississippi"},MO:{name:"Missouri"},MT:{name:"Montana"},NE:{name:"Nebraska"},NV:{name:"Nevada"},NH:{name:"New Hampshire"},NJ:{name:"New Jersey"},NM:{name:"New Mexico"},
+  IN:{name:"Indiana",tax:"7%",llc:"$95",annual:"$31 biennial",bizPortal:"https://inbiz.in.gov/",taxPortal:"https://www.in.gov/dor/",profPortal:"https://www.in.gov/pla/",domain:"in.gov"},
+  IA:{name:"Iowa"},KS:{name:"Kansas"},KY:{name:"Kentucky"},LA:{name:"Louisiana"},ME:{name:"Maine"},
+  MD:{name:"Maryland",tax:"6%",llc:"$100",annual:"$300/yr",bizPortal:"https://www.businessexpress.maryland.gov/",taxPortal:"https://www.marylandtaxes.gov/",profPortal:"https://www.dllr.state.md.us/license/",domain:"maryland.gov"},
+  MA:{name:"Massachusetts",tax:"6.25%",llc:"$500",annual:"$500/yr",bizPortal:"https://www.sec.state.ma.us/divisions/corporations/",taxPortal:"https://www.mass.gov/orgs/massachusetts-department-of-revenue",profPortal:"https://www.mass.gov/orgs/division-of-occupational-licensure",domain:"mass.gov"},
+  MI:{name:"Michigan",tax:"6%",llc:"$50",annual:"$25/yr",bizPortal:"https://www.michigan.gov/lara/bureau-list/cscl",taxPortal:"https://www.michigan.gov/treasury",profPortal:"https://www.michigan.gov/lara/bureau-list/bpl",domain:"michigan.gov"},
+  MN:{name:"Minnesota",tax:"6.875%",llc:"$155",annual:"$0",bizPortal:"https://www.sos.state.mn.us/business-liens/",taxPortal:"https://www.revenue.state.mn.us/",profPortal:"https://mn.gov/boards/",domain:"mn.gov"},
+  MS:{name:"Mississippi"},
+  MO:{name:"Missouri",tax:"4.225% + local",llc:"$50",annual:"$0",bizPortal:"https://www.sos.mo.gov/business",taxPortal:"https://dor.mo.gov/",profPortal:"https://pr.mo.gov/",domain:"mo.gov"},
+  MT:{name:"Montana"},NE:{name:"Nebraska"},
+  NV:{name:"Nevada",tax:"6.85% + local",llc:"$75",annual:"$350/yr",bizPortal:"https://www.nvsos.gov/sos/businesses",taxPortal:"https://tax.nv.gov/",profPortal:"https://nvbusiness.gov/Professional-Licensing/",domain:"nv.gov"},
+  NH:{name:"New Hampshire"},
+  NJ:{name:"New Jersey",tax:"6.625%",llc:"$125",annual:"$75/yr",bizPortal:"https://www.njportal.com/DOR/BusinessFormation/",taxPortal:"https://www.state.nj.us/treasury/taxation/",profPortal:"https://www.njconsumeraffairs.gov/",domain:"nj.gov"},
+  NM:{name:"New Mexico"},
   NY:{name:"New York",tax:"4% + local",llc:"$200",annual:"$25 biennial",bizPortal:"https://dos.ny.gov/division-corporations",taxPortal:"https://www.tax.ny.gov/bus/",profPortal:"https://www.op.nysed.gov/",domain:"ny.gov"},
   NC:{name:"North Carolina",tax:"4.75% + local",llc:"$125",annual:"$200/yr",bizPortal:"https://www.sosnc.gov/divisions/business_registration",taxPortal:"https://www.ncdor.gov/",profPortal:"https://www.ncdoj.gov/",domain:"nc.gov"},
   ND:{name:"North Dakota"},
   OH:{name:"Ohio",tax:"5.75% + local",llc:"$99",annual:"$0",bizPortal:"https://www.ohiosos.gov/businesses/",taxPortal:"https://tax.ohio.gov/",profPortal:"https://com.ohio.gov/",domain:"ohio.gov"},
-  OK:{name:"Oklahoma"},OR:{name:"Oregon"},PA:{name:"Pennsylvania"},RI:{name:"Rhode Island"},SC:{name:"South Carolina"},SD:{name:"South Dakota"},TN:{name:"Tennessee"},
+  OK:{name:"Oklahoma"},
+  OR:{name:"Oregon",tax:"No state sales tax",llc:"$100",annual:"$100/yr",bizPortal:"https://sos.oregon.gov/business/",taxPortal:"https://www.oregon.gov/dor/",profPortal:"https://www.oregon.gov/dpsst/",domain:"oregon.gov"},
+  PA:{name:"Pennsylvania",tax:"6%",llc:"$125",annual:"$70 decennial",bizPortal:"https://www.dos.pa.gov/BusinessCharities/",taxPortal:"https://www.revenue.pa.gov/",profPortal:"https://www.dos.pa.gov/ProfessionalLicensing/",domain:"pa.gov"},
+  RI:{name:"Rhode Island"},
+  SC:{name:"South Carolina",tax:"6% + local",llc:"$110",annual:"$0",bizPortal:"https://sos.sc.gov/online-filings/business-entities-online",taxPortal:"https://dor.sc.gov/",profPortal:"https://llr.sc.gov/",domain:"sc.gov"},
+  SD:{name:"South Dakota"},
+  TN:{name:"Tennessee",tax:"7% + local",llc:"$300",annual:"$300/yr min",bizPortal:"https://sos.tn.gov/business-services",taxPortal:"https://www.tn.gov/revenue.html",profPortal:"https://www.tn.gov/commerce/regboards.html",domain:"tn.gov"},
   TX:{name:"Texas",tax:"6.25% + local",llc:"$300",annual:"Franchise tax report",bizPortal:"https://www.sos.state.tx.us/corp/index.shtml",taxPortal:"https://comptroller.texas.gov/taxes/",profPortal:"https://www.tdlr.texas.gov/",domain:"texas.gov"},
-  UT:{name:"Utah"},VT:{name:"Vermont"},VA:{name:"Virginia"},
+  UT:{name:"Utah",tax:"4.85% + local",llc:"$54",annual:"$18/yr",bizPortal:"https://corporations.utah.gov/",taxPortal:"https://tax.utah.gov/",profPortal:"https://dopl.utah.gov/",domain:"utah.gov"},
+  VT:{name:"Vermont"},
+  VA:{name:"Virginia",tax:"5.3%",llc:"$100",annual:"$50/yr",bizPortal:"https://www.scc.virginia.gov/pages/Businesses",taxPortal:"https://www.tax.virginia.gov/",profPortal:"https://www.dpor.virginia.gov/",domain:"virginia.gov"},
   WA:{name:"Washington",tax:"6.5% + local",llc:"$200",annual:"$60/yr",bizPortal:"https://www.sos.wa.gov/corporations-charities",taxPortal:"https://dor.wa.gov/",profPortal:"https://dol.wa.gov/business-and-professions",domain:"wa.gov"},
-  WV:{name:"West Virginia"},WI:{name:"Wisconsin"},WY:{name:"Wyoming"},DC:{name:"District of Columbia"}
+  WV:{name:"West Virginia"},
+  WI:{name:"Wisconsin",tax:"5% + local",llc:"$130",annual:"$25/yr",bizPortal:"https://www.wdfi.org/corporations/",taxPortal:"https://www.revenue.wi.gov/",profPortal:"https://dsps.wi.gov/",domain:"wi.gov"},
+  WY:{name:"Wyoming",tax:"4% + local",llc:"$100",annual:"$60/yr",bizPortal:"https://wyobiz.wyo.gov/",taxPortal:"https://revenue.wyo.gov/",profPortal:"https://www.wyo.gov/professional-licensing",domain:"wyo.gov"},
+  DC:{name:"District of Columbia"}
 };
 
 const STATE_LOOKUP = {};
@@ -327,7 +354,8 @@ const BOI = {name:"Beneficial Ownership Information (BOI) report — currently s
 
 const TYPE_MATCHERS = [
   {id:"food_truck",name:"Food truck",keywords:[{w:["food truck","food-truck","mobile food","food cart","mobile kitchen"],score:10},{w:["truck","mobile","cart","stand","kiosk"],score:3},{w:["taco","burger","ice cream","coffee"],score:1}]},
-  {id:"restaurant",name:"Restaurant & food",keywords:[{w:["restaurant","cafe","café","bistro","diner","eatery","bakery","pizzeria","brewery","bar","pub"],score:10},{w:["serving food","kitchen","catering","menu"],score:6},{w:["food","coffee","drinks","alcohol","beer","wine"],score:2}]},
+  {id:"restaurant",name:"Restaurant & food",keywords:[{w:["restaurant","cafe","café","bistro","diner","eatery","bakery","pizzeria","brewery","pub"],score:10},{w:["serving food","kitchen","catering","menu"],score:6},{w:["food","coffee","drinks"],score:2}]},
+  {id:"barBrewery",name:"Bar & brewery",keywords:[{w:["bar","brewery","taproom","wine bar","cocktail bar","sports bar","nightclub","lounge","distillery"],score:10},{w:["serving alcohol","liquor","beer","wine","spirits","craft beer"],score:6},{w:["drinks","alcohol"],score:2}]},
   {id:"salon",name:"Salon & beauty",keywords:[{w:["salon","barbershop","barber shop","hair salon","nail salon","beauty salon","spa","day spa","hair studio"],score:10},{w:["stylist","cosmetologist","barber","esthetician","nail tech","hairdresser"],score:7},{w:["hair","nails","beauty","massage","facial"],score:3}]},
   {id:"childcare",name:"Childcare",keywords:[{w:["daycare","day care","childcare","child care","preschool","nursery school"],score:10},{w:["watching kids","caring for children","babysitting business","kids","children"],score:5}]},
   {id:"trucking",name:"Trucking & logistics",keywords:[{w:["trucking","trucker","semi-truck","18-wheeler","long-haul","long haul","owner-operator","owner operator","freight","cdl"],score:10},{w:["hauling","transport","logistics","shipping","cargo"],score:6},{w:["truck","driver","route"],score:2}]},
@@ -337,6 +365,11 @@ const TYPE_MATCHERS = [
   {id:"cleaning",name:"Cleaning service",keywords:[{w:["cleaning service","cleaning business","house cleaning","commercial cleaning","janitorial","maid service"],score:10},{w:["cleaning houses","cleaning offices","cleaner"],score:6},{w:["cleaning","maid","janitor"],score:3}]},
   {id:"landscaping",name:"Landscaping",keywords:[{w:["landscaping","lawn care","landscape","lawn service","lawn maintenance","tree service"],score:10},{w:["mowing lawns","yard work","gardening service"],score:6},{w:["lawn","yard","garden"],score:3}]},
   {id:"construction",name:"Construction",keywords:[{w:["construction","contractor","general contractor","plumber","plumbing","electrician","electrical","hvac","roofing"],score:10},{w:["building homes","handyman","subcontractor","carpentry"],score:6}]},
+  {id:"autoShop",name:"Auto shop & repair",keywords:[{w:["auto shop","auto repair","mechanic shop","car repair","body shop","tire shop","oil change","auto detailing","car wash"],score:10},{w:["mechanic","auto technician","repairing cars","fixing cars"],score:6},{w:["cars","vehicles","automotive"],score:2}]},
+  {id:"photography",name:"Photography & videography",keywords:[{w:["photography","photographer","videography","videographer","wedding photographer","portrait photographer","photo studio","video production"],score:10},{w:["shooting weddings","taking photos","filming","content creator"],score:6},{w:["photos","video","cinematography"],score:2}]},
+  {id:"petServices",name:"Pet services",keywords:[{w:["pet grooming","dog grooming","pet boarding","dog daycare","dog walking","pet sitting","kennel","dog training","veterinary"],score:10},{w:["dogs","cats","pets","grooming","walking dogs"],score:5}]},
+  {id:"tutoring",name:"Tutoring & education",keywords:[{w:["tutoring","tutor","test prep","sat prep","online courses","educational service","music teacher","language tutor","academic coach"],score:10},{w:["teaching","instructor","mentor","tutor business"],score:5},{w:["teaching","education","lessons"],score:2}]},
+  {id:"eventPlanning",name:"Event planning",keywords:[{w:["event planning","wedding planner","event planner","party planning","event coordinator","wedding coordinator","corporate events"],score:10},{w:["planning weddings","planning events","party planning"],score:6},{w:["events","weddings","parties"],score:2}]},
   {id:"ecommerce",name:"E-commerce",keywords:[{w:["ecommerce","e-commerce","online store","online shop","shopify","amazon seller","etsy shop","dropshipping","online retail"],score:10},{w:["selling online","online business","internet store"],score:6}]},
   {id:"freelance",name:"Freelance & consulting",keywords:[{w:["freelance","freelancer","consulting","consultant","coach","copywriter","graphic designer","web developer","marketing agency","independent contractor"],score:10},{w:["solo","self-employed","work from home","contractor work"],score:4}]},
   {id:"retail",name:"Retail store",keywords:[{w:["retail store","brick and mortar","boutique","clothing store","gift shop","convenience store","specialty store"],score:10},{w:["selling products","storefront"],score:5},{w:["shop","store"],score:2}]}
@@ -357,7 +390,13 @@ gym:{title:"Gym & fitness",licenses:[{name:"Local business license",desc:"Requir
 realEstate:{title:"Real estate",licenses:[{name:"Real estate salesperson license",desc:"Required for any agent. Must pass state exam.",type:"required",linkType:"state",linkKey:"profPortal"},{name:"Real estate broker's license",desc:"Required to operate your own brokerage.",type:"required",linkType:"state",linkKey:"profPortal"},{name:"Local business license",desc:"For your brokerage.",type:"required",linkType:"search",searchQuery:"city county business license"},{name:"Federal EIN",desc:"Required for banking and agent payments.",type:"required",linkType:"federal",linkKey:"ein"},{...BOI}],structure:[{name:"LLC",desc:"Standard structure for brokerages.",type:"recommended"}],consider:[{name:"E&O insurance",desc:"Required for negligence protection."},{name:"Continuing education",desc:"Every state requires CE hours."}],costs:[{name:"License exam",desc:"Varies",range:"$300–$800",type:"required"},{name:"E&O insurance",desc:"Annual",range:"$800–$3,000/yr",type:"required"}]},
 medical:{title:"Medical",licenses:[{name:"State professional license (per provider)",desc:"Every healthcare provider must be state-licensed.",type:"required",linkType:"state",linkKey:"profPortal"},{name:"Local business license",desc:"For the clinic location.",type:"required",linkType:"search",searchQuery:"city county business license"},{name:"Federal EIN",desc:"Required for medical billing and credentialing.",type:"required",linkType:"federal",linkKey:"ein"},{...BOI},{name:"DEA registration",desc:"For providers prescribing controlled substances.",type:"required",linkType:"federal",linkKey:"dea"},{name:"NPI number (CMS)",desc:"National Provider Identifier. Free.",type:"required",linkType:"federal",linkKey:"npi"}],structure:[{name:"Professional LLC (PLLC) or PC",desc:"Most states require PLLC or PC for providers.",type:"required"}],consider:[{name:"HIPAA compliance",desc:"Safeguards for PHI required."},{name:"Medical malpractice insurance",desc:"Required by most hospitals and insurers."}],costs:[{name:"State medical license",desc:"Per provider",range:"$200–$900/renewal",type:"required"},{name:"DEA registration",desc:"Per provider, 3 years",range:"$888",type:"required"},{name:"Medical malpractice insurance",desc:"Annual",range:"$5,000–$50,000+/yr",type:"required"}]},
 cleaning:{title:"Cleaning service",licenses:[{name:"Local business license",desc:"Required to operate a cleaning service.",type:"required",linkType:"search",searchQuery:"city county business license"},{name:"Federal EIN",desc:"Required for banking and payroll.",type:"required",linkType:"federal",linkKey:"ein"},{...BOI},{name:"State sales tax permit",desc:"Many states tax cleaning services.",type:"recommended",linkType:"state",linkKey:"taxPortal"},{name:"DBA registration",desc:"If operating under a trade name.",type:"recommended",linkType:"state",linkKey:"bizPortal"}],structure:[{name:"LLC",desc:"Strongly recommended. Exposure to client property.",type:"recommended"}],consider:[{name:"General liability insurance",desc:"Protects against property damage and injuries."},{name:"Bonding",desc:"Surety bond protects clients from employee theft."}],costs:[{name:"State LLC filing",desc:"One-time",range:"$50–$300",type:"required"},{name:"GL insurance",desc:"Annual",range:"$500–$2,000/yr",type:"required"}]},
-landscaping:{title:"Landscaping",licenses:[{name:"Local business license",desc:"Required to operate a landscaping business.",type:"required",linkType:"search",searchQuery:"city county business license"},{name:"Federal EIN",desc:"Required for employees and supplier accounts.",type:"required",linkType:"federal",linkKey:"ein"},{...BOI},{name:"State pesticide applicator license",desc:"Required for businesses applying chemicals.",type:"required",linkType:"search",searchQuery:"pesticide applicator license"},{name:"Contractor's license (for hardscaping)",desc:"For paving, retaining walls, irrigation.",type:"recommended",linkType:"state",linkKey:"profPortal"}],structure:[{name:"LLC",desc:"Recommended. Property damage exposure.",type:"recommended"}],consider:[{name:"General liability insurance",desc:"Covers property damage and injuries."},{name:"Workers' compensation",desc:"High-injury industry."}],costs:[{name:"State LLC filing",desc:"One-time",range:"$50–$300",type:"required"},{name:"Pesticide license",desc:"Exam + license",range:"$50–$300",type:"required"},{name:"GL insurance",desc:"Annual",range:"$500–$2,500/yr",type:"required"}]}
+landscaping:{title:"Landscaping",licenses:[{name:"Local business license",desc:"Required to operate a landscaping business.",type:"required",linkType:"search",searchQuery:"city county business license"},{name:"Federal EIN",desc:"Required for employees and supplier accounts.",type:"required",linkType:"federal",linkKey:"ein"},{...BOI},{name:"State pesticide applicator license",desc:"Required for businesses applying chemicals.",type:"required",linkType:"search",searchQuery:"pesticide applicator license"},{name:"Contractor's license (for hardscaping)",desc:"For paving, retaining walls, irrigation.",type:"recommended",linkType:"state",linkKey:"profPortal"}],structure:[{name:"LLC",desc:"Recommended. Property damage exposure.",type:"recommended"}],consider:[{name:"General liability insurance",desc:"Covers property damage and injuries."},{name:"Workers' compensation",desc:"High-injury industry."}],costs:[{name:"State LLC filing",desc:"One-time",range:"$50–$300",type:"required"},{name:"Pesticide license",desc:"Exam + license",range:"$50–$300",type:"required"},{name:"GL insurance",desc:"Annual",range:"$500–$2,500/yr",type:"required"}]},
+barBrewery:{title:"Bar & brewery",licenses:[{name:"Local business license",desc:"Required to operate any food/beverage establishment.",type:"required",linkType:"search",searchQuery:"city county business license"},{name:"Liquor license (state)",desc:"The most critical permit. Different tiers: beer/wine, full liquor, brewery, distillery.",type:"required",linkType:"state",linkKey:"profPortal"},{name:"Federal Basic Permit (TTB)",desc:"Required for breweries, wineries, and distilleries from the Alcohol and Tobacco Tax and Trade Bureau.",type:"required",linkType:"search",searchQuery:"TTB federal basic permit application"},{name:"Federal EIN",desc:"Required for employees, banking, and alcohol licensing.",type:"required",linkType:"federal",linkKey:"ein"},{...BOI},{name:"Food service permit",desc:"Required if you serve any food (most bars do).",type:"required",linkType:"state",linkKey:"profPortal"},{name:"State sales tax permit",desc:"Required to collect sales tax on alcohol and food.",type:"required",linkType:"state",linkKey:"taxPortal"},{name:"Certificate of occupancy",desc:"Building must meet code for crowd capacity.",type:"required",linkType:"search",searchQuery:"certificate of occupancy commercial"},{name:"Music license (ASCAP/BMI/SESAC)",desc:"Required if you play licensed music.",type:"required",linkType:"federal",linkKey:"ascap"},{name:"Server alcohol certification",desc:"Required for all staff serving alcohol (TIPS, ServSafe Alcohol, state-specific).",type:"required",linkType:"search",searchQuery:"alcohol server certification TIPS"}],structure:[{name:"LLC or S-Corp",desc:"Essential. Alcohol liability is significant.",type:"required"}],consider:[{name:"Dram shop liability insurance",desc:"Protects against claims from overserved patrons."},{name:"Security plan",desc:"Many jurisdictions require security plans for late-night venues."},{name:"Noise ordinances",desc:"Most cities have strict rules for outdoor music and late hours."}],costs:[{name:"Liquor license",desc:"Varies dramatically by state",range:"$300–$150,000+",type:"required"},{name:"Federal Basic Permit (TTB)",desc:"For brewing/distilling",range:"Free, but takes 3-9 months",type:"required"},{name:"State LLC filing",desc:"One-time",range:"$50–$300",type:"required"},{name:"Dram shop insurance",desc:"Annual",range:"$3,000–$15,000/yr",type:"required"},{name:"General liability insurance",desc:"Annual",range:"$2,000–$8,000/yr",type:"required"}]},
+autoShop:{title:"Auto shop & repair",licenses:[{name:"Local business license",desc:"Required to operate auto repair in your city/county.",type:"required",linkType:"search",searchQuery:"city county business license auto repair"},{name:"State auto repair license",desc:"Many states require a specific auto repair facility license.",type:"required",linkType:"state",linkKey:"profPortal"},{name:"Federal EIN",desc:"Required for employees and parts supplier accounts.",type:"required",linkType:"federal",linkKey:"ein"},{...BOI},{name:"State sales tax permit",desc:"Required for parts and many service charges.",type:"required",linkType:"state",linkKey:"taxPortal"},{name:"EPA hazardous waste registration",desc:"Required for shops handling oil, antifreeze, refrigerants.",type:"required",linkType:"search",searchQuery:"EPA hazardous waste generator registration"},{name:"State emissions/safety inspection license",desc:"To perform state vehicle inspections (varies by state).",type:"recommended",linkType:"state",linkKey:"profPortal"},{name:"Refrigerant handler certification (EPA 609)",desc:"Required to service AC systems.",type:"required",linkType:"search",searchQuery:"EPA 609 certification AC refrigerant"},{name:"Certificate of occupancy",desc:"Building must be zoned for auto repair.",type:"required",linkType:"search",searchQuery:"certificate of occupancy auto repair"}],structure:[{name:"LLC",desc:"Essential. High liability from vehicle work and customer property.",type:"required"}],consider:[{name:"Garage keepers insurance",desc:"Covers customer vehicles on your property."},{name:"Specialty pollution liability",desc:"Protects against chemical/fluid spills."},{name:"Workers' compensation",desc:"Required — high-injury industry."}],costs:[{name:"State LLC filing",desc:"One-time",range:"$50–$300",type:"required"},{name:"State auto repair license",desc:"Annual",range:"$50–$500/yr",type:"required"},{name:"Garage keepers insurance",desc:"Annual",range:"$1,500–$5,000/yr",type:"required"},{name:"General liability insurance",desc:"Annual",range:"$2,000–$6,000/yr",type:"required"},{name:"Hazardous waste fees",desc:"Annual",range:"$100–$1,000/yr",type:"required"}]},
+photography:{title:"Photography & videography",licenses:[{name:"Local business license",desc:"Required for most photography businesses.",type:"required",linkType:"search",searchQuery:"city county business license"},{name:"Federal EIN",desc:"Recommended for privacy and business banking.",type:"recommended",linkType:"federal",linkKey:"ein"},{...BOI},{name:"State sales tax permit",desc:"Many states tax photography services and prints. Check your state.",type:"required",linkType:"state",linkKey:"taxPortal"},{name:"DBA registration",desc:"If operating under a business name different from your own.",type:"recommended",linkType:"state",linkKey:"bizPortal"},{name:"Home occupation permit",desc:"Required by some cities if operating studio from home.",type:"recommended",linkType:"search",searchQuery:"home occupation permit"},{name:"FAA Part 107 (drone license)",desc:"Required if using drones for commercial photography.",type:"recommended",linkType:"search",searchQuery:"FAA Part 107 drone certification"}],structure:[{name:"Single-member LLC",desc:"Recommended. Separates personal assets from clients.",type:"recommended"},{name:"Sole proprietorship",desc:"Simplest start but no liability protection.",type:"optional"}],consider:[{name:"Equipment insurance",desc:"Camera gear is expensive — insure separately."},{name:"Professional liability (E&O) insurance",desc:"Protects against client claims (failed wedding shoots, etc.)."},{name:"Model releases & contracts",desc:"Always use written contracts and releases."},{name:"Copyright awareness",desc:"You own copyright by default; clarify usage rights in contracts."}],costs:[{name:"State LLC filing",desc:"One-time",range:"$50–$300",type:"recommended"},{name:"Equipment insurance",desc:"Annual",range:"$300–$1,500/yr",type:"recommended"},{name:"E&O insurance",desc:"Annual",range:"$300–$1,000/yr",type:"recommended"},{name:"General liability insurance",desc:"Annual",range:"$300–$800/yr",type:"recommended"}]},
+petServices:{title:"Pet services",licenses:[{name:"Local business license",desc:"Required to operate any pet service business.",type:"required",linkType:"search",searchQuery:"city county business license"},{name:"State kennel/animal facility license",desc:"Required for boarding, daycare, or grooming facilities in most states.",type:"required",linkType:"state",linkKey:"profPortal"},{name:"Federal EIN",desc:"Required for employees and banking.",type:"required",linkType:"federal",linkKey:"ein"},{...BOI},{name:"State sales tax permit",desc:"Required if selling retail products (food, toys, accessories).",type:"recommended",linkType:"state",linkKey:"taxPortal"},{name:"Health department inspection",desc:"Required for boarding and daycare facilities.",type:"required",linkType:"search",searchQuery:"pet boarding facility health inspection"},{name:"Zoning approval",desc:"Many residential areas restrict commercial pet operations.",type:"required",linkType:"search",searchQuery:"pet business zoning"},{name:"USDA license",desc:"Required if you breed, transport, or exhibit animals commercially.",type:"recommended",linkType:"search",searchQuery:"USDA animal welfare license"}],structure:[{name:"LLC",desc:"Strongly recommended. Bites, escapes, and injuries happen.",type:"required"}],consider:[{name:"Pet care liability insurance",desc:"Specialized policy for injuries to or by pets in your care."},{name:"Care, custody & control coverage",desc:"Standard liability often excludes pets in your care — need specific add-on."},{name:"Vaccination requirements",desc:"Require proof of current vaccines from all client pets."},{name:"Emergency vet protocols",desc:"Establish relationship with local vet for emergencies."}],costs:[{name:"State LLC filing",desc:"One-time",range:"$50–$300",type:"required"},{name:"State kennel license",desc:"Annual",range:"$50–$500/yr",type:"required"},{name:"Pet care liability insurance",desc:"Annual",range:"$500–$2,500/yr",type:"required"},{name:"General liability insurance",desc:"Annual",range:"$500–$1,500/yr",type:"required"}]},
+tutoring:{title:"Tutoring & education",licenses:[{name:"Local business license",desc:"Required for most tutoring businesses, even home-based.",type:"required",linkType:"search",searchQuery:"home based business license"},{name:"Federal EIN",desc:"Recommended for banking and tax purposes.",type:"recommended",linkType:"federal",linkKey:"ein"},{...BOI},{name:"State sales tax permit",desc:"Most states do not tax tutoring services, but check your state.",type:"optional",linkType:"state",linkKey:"taxPortal"},{name:"DBA registration",desc:"If operating under a brand name.",type:"recommended",linkType:"state",linkKey:"bizPortal"},{name:"Background check / fingerprinting",desc:"Required if working with minors in many states.",type:"required",linkType:"search",searchQuery:"tutor background check fingerprint"},{name:"State teaching credential",desc:"Required ONLY if claiming to be a certified teacher — not for general tutoring.",type:"optional",linkType:"state",linkKey:"profPortal"},{name:"Home occupation permit",desc:"Required by some cities for in-home tutoring.",type:"recommended",linkType:"search",searchQuery:"home occupation permit"}],structure:[{name:"Single-member LLC",desc:"Recommended for liability protection.",type:"recommended"},{name:"Sole proprietorship",desc:"Simplest for casual side tutoring.",type:"optional"}],consider:[{name:"Professional liability insurance",desc:"Recommended if working with minors or making educational claims."},{name:"Background checks",desc:"Required for working with minors in most states."},{name:"Curriculum & materials copyright",desc:"Be careful using copyrighted textbooks beyond fair use."},{name:"Privacy compliance (FERPA, COPPA)",desc:"If collecting student data, follow federal education privacy laws."}],costs:[{name:"State LLC filing",desc:"One-time",range:"$50–$300",type:"recommended"},{name:"Background check",desc:"One-time",range:"$30–$100",type:"required"},{name:"Professional liability insurance",desc:"Annual",range:"$300–$1,000/yr",type:"recommended"}]},
+eventPlanning:{title:"Event planning",licenses:[{name:"Local business license",desc:"Required for most event planning businesses.",type:"required",linkType:"search",searchQuery:"city county business license"},{name:"Federal EIN",desc:"Required for hiring vendors and contractors.",type:"required",linkType:"federal",linkKey:"ein"},{...BOI},{name:"State sales tax permit",desc:"Required if selling tangible goods (decor, etc.) or in some states, services.",type:"recommended",linkType:"state",linkKey:"taxPortal"},{name:"DBA registration",desc:"If operating under a brand name (e.g., 'Sa Mesa Events').",type:"recommended",linkType:"state",linkKey:"bizPortal"},{name:"Special event permits (per event)",desc:"Each event venue typically requires its own permits — usually the venue's responsibility, but verify.",type:"required",linkType:"search",searchQuery:"special event permit application"},{name:"Liquor catering license (if applicable)",desc:"Required if you serve alcohol at events.",type:"optional",linkType:"state",linkKey:"profPortal"}],structure:[{name:"LLC",desc:"Strongly recommended. Event problems can lead to lawsuits.",type:"recommended"}],consider:[{name:"Event/wedding liability insurance",desc:"Specialized policy for event-related claims."},{name:"Vendor contracts",desc:"Always have signed contracts with venues, caterers, florists, etc."},{name:"Client contracts",desc:"Use detailed contracts with cancellation policies and deposit terms."},{name:"Professional certifications",desc:"CWP, CMP, CSEP — not required but build credibility."}],costs:[{name:"State LLC filing",desc:"One-time",range:"$50–$300",type:"required"},{name:"Event liability insurance",desc:"Annual",range:"$500–$2,000/yr",type:"recommended"},{name:"General liability insurance",desc:"Annual",range:"$300–$1,200/yr",type:"recommended"},{name:"Professional certification (optional)",desc:"One-time",range:"$300–$1,500",type:"optional"}]}
 };
 
 // ─── Search & Match ───
@@ -375,9 +414,9 @@ function updateNav(){
   const auth = document.getElementById("navAuthArea");
   const user = FoundraAuth.getCurrentUser();
   if(user){
-    const planClass = user.plan === "business" ? "business" : user.plan === "pro" ? "pro" : "free";
-    const planName = user.plan === "business" ? "Business+" : user.plan === "pro" ? "Pro" : "Free";
-    auth.innerHTML = `<a href="dashboard.html">Dashboard</a> <a href="account.html" class="nav-account"><span class="nav-avatar">${user.name.charAt(0).toUpperCase()}</span><span>${escapeHtml(user.name.split(" ")[0])}</span><span class="plan-pill ${planClass}">${planName}</span></a>`;
+    const reportCount = (user.purchases || []).length;
+    const badge = reportCount > 0 ? `<span class="plan-pill pro">${reportCount} report${reportCount === 1 ? '' : 's'}</span>` : '';
+    auth.innerHTML = `<a href="dashboard.html">Dashboard</a> <a href="account.html" class="nav-account"><span class="nav-avatar">${user.name.charAt(0).toUpperCase()}</span><span>${escapeHtml(user.name.split(" ")[0])}</span>${badge}</a>`;
   }
 }
 updateNav();
@@ -401,16 +440,12 @@ function onSearch(e){
     document.getElementById("thinking").classList.remove("on");
     document.getElementById("submitBtn").disabled=false;
     
-    // ─── REQUIRE SIGN-UP FIRST ───
-    if(!FoundraAuth.isLoggedIn()){
-      pendingInterp = interp;
-      pendingLoc = loc;
-      FoundraAuth.savePendingSearch(query, loc.state, loc.city);
-      openSignupGate(interp,loc);
-      return;
+    // ─── No signup required for search! Save pending search if not logged in ───
+    if(!FoundraAuth.isLoggedIn() && interp.match){
+      FoundraAuth.savePendingSearch(query, loc.state, loc.city, interp.match);
     }
     
-    // User is signed in — save business to their account and show results
+    // Show results (signed in or not)
     saveAndShowResult(interp, loc);
   },1700);
 }
@@ -473,19 +508,25 @@ function goToLogin(){
 function saveAndShowResult(interp, loc){
   const stateName = STATES[curState].name;
   if(interp.match){
-    // Save business to user's account
-    const exists = (FoundraAuth.getCurrentUser().businesses || []).find(b => b.type === DATA[interp.match].title && b.state === stateName);
-    if(!exists){
-      FoundraAuth.addBusiness({
-        name: DATA[interp.match].title + " · " + stateName,
-        type: DATA[interp.match].title,
-        typeId: interp.match,
-        description: lastQuery,
-        state: stateName,
-        stateAbbr: curState,
-        totalItems: DATA[interp.match].licenses.length
-      });
+    // Only save business if user is logged in
+    if(FoundraAuth.isLoggedIn()){
+      const exists = (FoundraAuth.getCurrentUser().businesses || []).find(b => b.type === DATA[interp.match].title && b.state === stateName);
+      if(!exists){
+        const newBiz = FoundraAuth.addBusiness({
+          name: DATA[interp.match].title + " · " + stateName,
+          type: DATA[interp.match].title,
+          typeId: interp.match,
+          description: lastQuery,
+          state: stateName,
+          stateAbbr: curState,
+          totalItems: DATA[interp.match].licenses.length
+        });
+        currentBizId = newBiz?.id || null;
+      } else {
+        currentBizId = exists.id;
+      }
     }
+    // Guests can still see results, but currentBizId stays null
   }
   showResult(interp, loc);
 }
@@ -497,7 +538,6 @@ function showResult(interp,loc){
   const locStr=loc.city?`${loc.city}, ${stateName}`:stateName;
   lastLocStr=locStr;
   const user = FoundraAuth.getCurrentUser();
-  const isPro = FoundraAuth.isPro();
   
   if(!interp.match){
     result.innerHTML=`<div class="ai-summary"><div class="ai-icon">F</div><div class="ai-summary-body"><div class="ai-summary-label">Foundra AI</div><h3>I'm not sure which category fits.</h3><p>I couldn't confidently match "${escapeHtml(lastQuery)}" to a business type. Try rephrasing.</p><div class="ai-confidence low">Low confidence — match not found</div><div class="ai-actions"><button class="ai-action-btn" onclick="resetView()">Try rephrasing</button></div></div></div>`;
@@ -510,9 +550,14 @@ function showResult(interp,loc){
   const stateHasFullData=!!state.bizPortal;
   const altMatches=interp.scores.slice(1).filter(s=>s.score>=3).map(s=>`<button class="ai-action-btn" onclick="forceMatch('${s.id}')">Or try: ${escapeHtml(s.name)}</button>`).join("");
   
-  const proBanner = isPro ? `<div class="pro-banner"><div class="pro-banner-icon">${user.plan === 'business' ? 'B+' : 'P'}</div><div><strong>${user.plan === 'business' ? 'Business+' : 'Pro'} member</strong> · Full checklist unlocked. Check items off as you complete them. <a href="dashboard.html" style="color:var(--ink);border-bottom:1px solid #C8DEC0;padding-bottom:1px">View dashboard</a></div></div>` : '';
+  // Check if user owns this specific report
+  const ownsReport = currentBizId && FoundraAuth.hasPurchasedReport(currentBizId);
   
-  result.innerHTML=`${proBanner}<div class="ai-summary"><div class="ai-icon">F</div><div class="ai-summary-body"><div class="ai-summary-label">Foundra AI · Interpretation</div><h3>${conf==="high"?"Got it.":conf==="med"?"Best match:":"My best guess:"} ${escapeHtml(data.title)} in ${escapeHtml(locStr)}.</h3><p>I matched your description to <strong>${escapeHtml(data.title)}</strong>. ${isPro ? 'Below is your complete verified checklist.' : "You're seeing 3 free items below. Upgrade to Pro to see your complete checklist."}</p><div class="ai-confidence ${conf}">${confLabel}</div>${conf!=="high"?`<div class="ai-actions">${altMatches}<button class="ai-action-btn" onclick="resetView()">Refine description</button></div>`:""}</div></div>${renderChecklist(data,state,stateHasFullData)}`;
+  const ownedBanner = ownsReport ? `<div class="pro-banner"><div class="pro-banner-icon">✓</div><div><strong>Full report unlocked.</strong> You own this report. All application links, costs, and your downloadable PDF are available below. <a href="dashboard.html" style="color:var(--ink);border-bottom:1px solid #C8DEC0;padding-bottom:1px">View dashboard</a></div></div>` : '';
+  
+  const promoText = ownsReport ? 'Your complete report with application links and costs is below.' : `I matched your description to <strong>${escapeHtml(data.title)}</strong>. Below is your complete list — see every license, permit, and what type it is. Get the <strong>$19 Full Report</strong> for application links and costs.`;
+  
+  result.innerHTML=`${ownedBanner}<div class="ai-summary"><div class="ai-icon">F</div><div class="ai-summary-body"><div class="ai-summary-label">Foundra AI · Interpretation</div><h3>${conf==="high"?"Got it.":conf==="med"?"Best match:":"My best guess:"} ${escapeHtml(data.title)} in ${escapeHtml(locStr)}.</h3><p>${promoText}</p><div class="ai-confidence ${conf}">${confLabel}</div>${conf!=="high"?`<div class="ai-actions">${altMatches}<button class="ai-action-btn" onclick="resetView()">Refine description</button></div>`:""}</div></div>${renderChecklist(data,state,stateHasFullData)}`;
   document.getElementById("hero").style.display="none";result.classList.add("on");result.scrollIntoView({behavior:"smooth"});
 }
 
@@ -540,19 +585,21 @@ function setTab(tab){
 }
 
 function renderLicenses(items,st){
-  const isPro = FoundraAuth.isPro();
   const totalCount = items.length;
   const user = FoundraAuth.getCurrentUser();
-  const businesses = user.businesses || [];
+  const businesses = user?.businesses || [];
   // Find this user's business that matches current view
   const biz = businesses.find(b => b.typeId === curMatch && b.stateAbbr === curState);
   const checklist = biz?.checklist || [];
   currentBizId = biz?.id || null;
   
+  // User owns this report if they're logged in AND have purchased it
+  const ownsReport = currentBizId && FoundraAuth.hasPurchasedReport(currentBizId);
+  
   function isChecked(name){return checklist.find(c=>c.name===name && c.done)!=null;}
   
-  if(isPro){
-    // Pro/Business+ sees everything with interactive checkboxes
+  if(ownsReport){
+    // Paid user: full report with links, costs, checkboxes
     return `<div class="items">${items.map(r=>{
       const L=getLink(r,st);
       const checked = isChecked(r.name);
@@ -560,29 +607,79 @@ function renderLicenses(items,st){
     }).join("")}</div>`;
   }
   
-  // Free users: show 3, blur the rest, paywall in between
-  const visible = items.slice(0, FREE_TIER_LIMIT);
-  const locked = items.slice(FREE_TIER_LIMIT);
-  const visibleHtml = visible.map(r=>{
-    const L=getLink(r,st);
-    return `<div class="item"><div class="item-check" style="opacity:.4;cursor:not-allowed" title="Sign up for Pro to track progress"></div><div class="item-main"><h4>${escapeHtml(r.name)}</h4><p>${escapeHtml(r.desc)}</p><span class="item-tag ${r.type}">${r.type}</span></div><div class="item-action"><a class="item-link" href="${L.url}" target="_blank" rel="noopener">${L.label}<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 8L8 2M8 2H3M8 2V7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a><span class="item-source">${L.src}</span></div></div>`;
+  // Free preview: show ALL items with full descriptions + tags, but hide application links
+  // The paywall is at the TOP, encouraging upgrade for the links
+  const itemsHtml = items.map((r, i)=>{
+    return `<div class="item"><div class="item-check" style="opacity:.4;cursor:not-allowed" title="Get the $19 Full Report to check items off"></div><div class="item-main"><h4>${escapeHtml(r.name)}</h4><p>${escapeHtml(r.desc)}</p><span class="item-tag ${r.type}">${r.type}</span></div><div class="item-action"><span class="item-link" style="opacity:.4">🔒 Locked</span><span class="item-source">Get $19 report</span></div></div>`;
   }).join("");
-  const lockedHtml = locked.map(r=>`<div class="item locked"><div class="item-check"></div><div class="item-main"><h4>${escapeHtml(r.name)}</h4><p>${escapeHtml(r.desc)}</p><span class="item-tag ${r.type}">${r.type}</span></div><div class="item-action"><span class="item-link">Locked</span><span class="item-source">Pro required</span></div></div>`).join("");
-  const paywallHtml = locked.length > 0 ? `
+  
+  const paywallHtml = `
     <div class="paywall">
       <div class="paywall-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 10V8a6 6 0 1112 0v2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="4" y="10" width="16" height="11" rx="2" stroke="currentColor" stroke-width="1.8"/></svg></div>
-      <div class="paywall-label">${locked.length} more requirements waiting</div>
-      <h3>See your <em>complete checklist.</em></h3>
-      <p>You're seeing 3 of ${totalCount} requirements. Pro unlocks the rest — including ongoing renewal alerts so you never miss a deadline that costs you money.</p>
-      <div class="paywall-features"><div class="paywall-feature">Complete checklist</div><div class="paywall-feature">Renewal alerts</div><div class="paywall-feature">Progress tracking</div><div class="paywall-feature">AI advisor</div></div>
+      <div class="paywall-label">${totalCount} requirements identified</div>
+      <h3>Unlock your <em>full report.</em></h3>
+      <p>You're seeing what you need. To unlock direct .gov application links, detailed cost estimates, and your downloadable PDF — get the Full Report for $19. One-time payment, yours forever. Delivered to your inbox within 60 seconds of purchase.</p>
+      <div class="paywall-features"><div class="paywall-feature">Application links</div><div class="paywall-feature">Cost estimates</div><div class="paywall-feature">PDF download</div><div class="paywall-feature">Lifetime access</div></div>
       <div class="paywall-cta-row">
-        <a href="upgrade.html" class="paywall-btn">Upgrade to Pro<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
-        <a href="pricing.html" class="paywall-btn-secondary">See pricing</a>
+        <a href="javascript:void(0)" onclick="goToCheckout()" class="paywall-btn">Get $19 report<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+        <a href="javascript:void(0)" onclick="openWaitlistModal()" class="paywall-btn-secondary">Not ready? Join waitlist</a>
       </div>
-      <div class="paywall-note"><strong>$49/month, save 20% annual.</strong> 50% off your first 3 months as a beta member.</div>
+      <div class="paywall-note"><strong>$19 once.</strong> Yours forever. No subscriptions. 30-day refund.</div>
     </div>
-  ` : "";
-  return `<div class="items">${visibleHtml}${paywallHtml}${lockedHtml}</div>`;
+  `;
+  return `${paywallHtml}<div class="items">${itemsHtml}</div>`;
+}
+
+function openWaitlistModal(){
+  if(typeof gtag === 'function') gtag('event','waitlist_modal_open',{from:'paywall'});
+  // Simple email collection via mailto for now (Formspree can replace this later)
+  const email = prompt("Drop your email and we'll send you a discount when we launch new features:");
+  if(email && email.includes('@')){
+    if(typeof gtag === 'function') gtag('event','waitlist_signup',{from:'paywall'});
+    const subject = encodeURIComponent("Foundra Waitlist: " + email);
+    const body = encodeURIComponent(`New waitlist signup from paywall\n\nEmail: ${email}\nBusiness type: ${DATA[curMatch]?.title || 'Unknown'}\nState: ${STATES[curState]?.name || curState}`);
+    // Send via mailto (in real backend this would go to Formspree)
+    window.location.href = `mailto:info@foundra.us?subject=${subject}&body=${body}`;
+    alert("Thanks! Drop us your email and we'll save you a spot. You'll be among the first to know when we add new features.");
+  }
+}
+
+// ─── STRIPE INTEGRATION ───
+// Replace this with your real Stripe Payment Link from your Stripe Dashboard
+// (Get it from: stripe.com/dashboard → Products → Foundra Full Report → Payment Link)
+const STRIPE_PAYMENT_LINK = "REPLACE_WITH_YOUR_STRIPE_LINK";
+
+function goToCheckout(){
+  const stateName = STATES[curState]?.name || curState;
+  const businessType = DATA[curMatch].title;
+  
+  // Track the checkout intent in analytics
+  if(typeof gtag === 'function') gtag('event','checkout_start',{business_type:businessType, state:stateName});
+  
+  // Check if Stripe link is configured
+  if(STRIPE_PAYMENT_LINK === "REPLACE_WITH_YOUR_STRIPE_LINK"){
+    alert("Stripe Payment Link not yet configured.\n\nPlease set up your Stripe Payment Link and update the STRIPE_PAYMENT_LINK in foundra-platform.html.\n\nSee Foundra_Launch_Setup_Guide.docx for step-by-step instructions.");
+    return;
+  }
+  
+  // Save pending purchase info locally (in case they return to the success page)
+  FoundraAuth.savePendingPurchase(currentBizId || null, businessType, stateName, lastQuery);
+  
+  // Build Stripe URL with pre-filled metadata
+  // Stripe Payment Links accept these URL parameters:
+  // - prefilled_email
+  // - client_reference_id (for tracking)
+  // We pass business_type and state as custom fields the customer will see/confirm
+  const user = FoundraAuth.getCurrentUser();
+  const params = new URLSearchParams();
+  if(user?.email){
+    params.set('prefilled_email', user.email);
+  }
+  // Pass business identifier for Zapier to read from Stripe metadata
+  params.set('client_reference_id', `${curMatch}_${curState}_${Date.now()}`);
+  
+  const stripeUrl = `${STRIPE_PAYMENT_LINK}?${params.toString()}`;
+  window.location.href = stripeUrl;
 }
 
 function toggleItem(itemName, el){
@@ -598,11 +695,25 @@ function toggleItem(itemName, el){
 function renderItems(items){return `<div class="items">${items.map(r=>`<div class="item" style="grid-template-columns:1fr"><div class="item-main"><h4>${escapeHtml(r.name)}</h4><p>${escapeHtml(r.desc)}</p><span class="item-tag ${r.type}">${r.type}</span></div></div>`).join("")}</div>`;}
 function renderConsider(items){return `<div class="consider-list items">${items.map(r=>`<div class="item"><div class="item-main"><h4>${escapeHtml(r.name)}</h4><p>${escapeHtml(r.desc)}</p></div></div>`).join("")}</div>`;}
 function renderCosts(items){
-  const isPro = FoundraAuth.isPro();
-  return `<table class="costs"><thead><tr><th>Item</th><th>Notes</th><th>Cost</th><th>Tier</th></tr></thead><tbody>${items.map((r,i)=>{
-    const isLocked = !isPro && i >= COSTS_FREE_LIMIT;
-    return `<tr class="${isLocked?'locked':''}"><td>${escapeHtml(r.name)}</td><td style="color:var(--muted)">${escapeHtml(r.desc)}</td><td>${escapeHtml(r.range)}</td><td style="text-align:right"><span class="item-tag ${r.type}" style="border:none;padding:0;margin:0">${r.type}</span></td></tr>`;
-  }).join("")}</tbody></table>${!isPro && items.length > COSTS_FREE_LIMIT ? `<div style="text-align:center;padding:20px 0;font-size:13px;color:var(--muted)"><a href="upgrade.html" style="color:var(--ink);border-bottom:1px solid var(--line)">Unlock all ${items.length} cost items with Pro →</a></div>` : ""}`;
+  const ownsReport = currentBizId && FoundraAuth.hasPurchasedReport(currentBizId);
+  if(ownsReport){
+    return `<table class="costs"><thead><tr><th>Item</th><th>Notes</th><th>Cost</th><th>Tier</th></tr></thead><tbody>${items.map((r)=>{
+      return `<tr><td>${escapeHtml(r.name)}</td><td style="color:var(--muted)">${escapeHtml(r.desc)}</td><td>${escapeHtml(r.range)}</td><td style="text-align:right"><span class="item-tag ${r.type}" style="border:none;padding:0;margin:0">${r.type}</span></td></tr>`;
+    }).join("")}</tbody></table>`;
+  }
+  // Free users see costs locked behind paywall
+  return `
+    <div class="paywall" style="margin-bottom:0">
+      <div class="paywall-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 10V8a6 6 0 1112 0v2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="4" y="10" width="16" height="11" rx="2" stroke="currentColor" stroke-width="1.8"/></svg></div>
+      <div class="paywall-label">Detailed cost breakdown</div>
+      <h3>See exact <em>costs.</em></h3>
+      <p>${items.length} cost items including filing fees, annual renewals, and insurance estimates. Get the $19 Full Report to see them all.</p>
+      <div class="paywall-cta-row">
+        <a href="javascript:void(0)" onclick="goToCheckout()" class="paywall-btn">Get $19 report<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+        <a href="pricing.html" class="paywall-btn-secondary">See what's included</a>
+      </div>
+    </div>
+  `;
 }
 
 function escapeHtml(s){if(!s)return"";return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));}

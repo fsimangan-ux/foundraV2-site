@@ -1,32 +1,26 @@
 /* ─────────────────────────────────────────────────────────────
    FOUNDRA SHARED AUTH (prototype using localStorage)
    ─────────────────────────────────────────────────────────────
-   This is a CLIENT-SIDE PROTOTYPE for demonstration only.
-   It uses localStorage to simulate accounts, subscriptions, and
-   checklist progress so the full UX is clickable.
-   
-   When you build the real backend, this entire file gets replaced
-   with real API calls to your server.
+   Pricing model: ONE-TIME $19 per business report
+   - Free tier: License names + descriptions + tags
+   - Paid ($19): Full report + costs + links + PDF download
 ─────────────────────────────────────────────────────────────── */
 
 const STORAGE_KEY = "foundra_user";
 const SESSION_KEY = "foundra_session";
 
 const FoundraAuth = {
-  
-  // ─── User accounts (stored as { email: { password, name, plan, businesses, createdAt } }) ───
-  
+
   getAllUsers() {
     try {
       return JSON.parse(localStorage.getItem("foundra_users") || "{}");
     } catch { return {}; }
   },
-  
+
   saveAllUsers(users) {
     localStorage.setItem("foundra_users", JSON.stringify(users));
   },
-  
-  // ─── Sign up new account ───
+
   signup(name, email, password) {
     const users = this.getAllUsers();
     const emailKey = email.toLowerCase().trim();
@@ -36,8 +30,8 @@ const FoundraAuth = {
     users[emailKey] = {
       name: name.trim(),
       email: emailKey,
-      password: password, // (PROTOTYPE — never store plain passwords in production)
-      plan: "free",
+      password: password,
+      purchases: [],
       businesses: [],
       createdAt: new Date().toISOString(),
       lastSearch: null
@@ -46,8 +40,7 @@ const FoundraAuth = {
     this.startSession(emailKey);
     return { success: true, user: users[emailKey] };
   },
-  
-  // ─── Log in ───
+
   login(email, password) {
     const users = this.getAllUsers();
     const emailKey = email.toLowerCase().trim();
@@ -57,38 +50,54 @@ const FoundraAuth = {
     this.startSession(emailKey);
     return { success: true, user };
   },
-  
-  // ─── Session management ───
+
   startSession(email) {
     localStorage.setItem(SESSION_KEY, email.toLowerCase());
   },
-  
+
   endSession() {
     localStorage.removeItem(SESSION_KEY);
   },
-  
+
   getCurrentUser() {
     const email = localStorage.getItem(SESSION_KEY);
     if (!email) return null;
     const users = this.getAllUsers();
     return users[email] || null;
   },
-  
+
   isLoggedIn() {
     return this.getCurrentUser() !== null;
   },
-  
-  isPro() {
+
+  hasPurchasedReport(businessId) {
     const user = this.getCurrentUser();
-    return user && (user.plan === "pro" || user.plan === "business");
+    if (!user) return false;
+    return (user.purchases || []).some(p => p.businessId === businessId);
   },
-  
-  isBusiness() {
+
+  hasAnyPurchase() {
     const user = this.getCurrentUser();
-    return user && user.plan === "business";
+    if (!user) return false;
+    return (user.purchases || []).length > 0;
   },
-  
-  // ─── Update user account ───
+
+  recordPurchase(businessId, businessName, businessType, state) {
+    const user = this.getCurrentUser();
+    if (!user) return false;
+    const purchases = user.purchases || [];
+    purchases.push({
+      id: "purchase_" + Date.now(),
+      businessId,
+      businessName,
+      businessType,
+      state,
+      price: 19,
+      purchasedAt: new Date().toISOString()
+    });
+    return this.updateUser({ purchases });
+  },
+
   updateUser(updates) {
     const user = this.getCurrentUser();
     if (!user) return false;
@@ -97,31 +106,7 @@ const FoundraAuth = {
     this.saveAllUsers(users);
     return true;
   },
-  
-  // ─── Upgrade plan ───
-  upgradeTo(plan) {
-    return this.updateUser({ 
-      plan, 
-      upgradedAt: new Date().toISOString(),
-      subscriptionStatus: "active",
-      nextBillingDate: this.getNextBillingDate()
-    });
-  },
-  
-  cancelSubscription() {
-    return this.updateUser({ 
-      subscriptionStatus: "canceled",
-      canceledAt: new Date().toISOString()
-    });
-  },
-  
-  getNextBillingDate() {
-    const d = new Date();
-    d.setMonth(d.getMonth() + 1);
-    return d.toISOString();
-  },
-  
-  // ─── Business management ───
+
   addBusiness(business) {
     const user = this.getCurrentUser();
     if (!user) return false;
@@ -130,9 +115,10 @@ const FoundraAuth = {
     business.createdAt = new Date().toISOString();
     business.checklist = business.checklist || [];
     businesses.push(business);
-    return this.updateUser({ businesses });
+    this.updateUser({ businesses });
+    return business;
   },
-  
+
   toggleChecklistItem(businessId, itemName) {
     const user = this.getCurrentUser();
     if (!user) return false;
@@ -148,15 +134,14 @@ const FoundraAuth = {
     });
     return this.updateUser({ businesses });
   },
-  
+
   deleteBusiness(businessId) {
     const user = this.getCurrentUser();
     if (!user) return false;
     const businesses = (user.businesses || []).filter(b => b.id !== businessId);
     return this.updateUser({ businesses });
   },
-  
-  // ─── Auth guards ───
+
   requireAuth() {
     if (!this.isLoggedIn()) {
       window.location.href = "login.html?redirect=" + encodeURIComponent(window.location.pathname);
@@ -164,44 +149,52 @@ const FoundraAuth = {
     }
     return true;
   },
-  
-  requirePro() {
-    if (!this.requireAuth()) return false;
-    if (!this.isPro()) {
-      window.location.href = "upgrade.html";
-      return false;
-    }
-    return true;
+
+  savePendingSearch(query, state, city, businessType) {
+    localStorage.setItem("foundra_pending", JSON.stringify({
+      query, state, city, businessType,
+      timestamp: Date.now()
+    }));
   },
-  
-  // ─── Pending search (used when transitioning from platform → signup → results) ───
-  savePendingSearch(query, state, city) {
-    localStorage.setItem("foundra_pending", JSON.stringify({ query, state, city, timestamp: Date.now() }));
-  },
-  
+
   getPendingSearch() {
     try {
       return JSON.parse(localStorage.getItem("foundra_pending") || "null");
     } catch { return null; }
   },
-  
+
   clearPendingSearch() {
     localStorage.removeItem("foundra_pending");
   },
-  
-  // ─── Helper: format a date for display ───
+
+  savePendingPurchase(businessId, businessType, state, query) {
+    localStorage.setItem("foundra_pending_purchase", JSON.stringify({
+      businessId, businessType, state, query,
+      timestamp: Date.now()
+    }));
+  },
+
+  getPendingPurchase() {
+    try {
+      return JSON.parse(localStorage.getItem("foundra_pending_purchase") || "null");
+    } catch { return null; }
+  },
+
+  clearPendingPurchase() {
+    localStorage.removeItem("foundra_pending_purchase");
+  },
+
   formatDate(iso) {
     if (!iso) return "—";
     const d = new Date(iso);
     return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
   },
-  
-  daysUntil(iso) {
-    if (!iso) return null;
-    const ms = new Date(iso).getTime() - Date.now();
-    return Math.ceil(ms / (1000 * 60 * 60 * 24));
+
+  totalSpent() {
+    const user = this.getCurrentUser();
+    if (!user) return 0;
+    return (user.purchases || []).reduce((sum, p) => sum + (p.price || 19), 0);
   }
 };
 
-// Make it globally available
 window.FoundraAuth = FoundraAuth;

@@ -257,10 +257,10 @@ a{color:inherit;text-decoration:none}
     <!-- Upgrade banner (only shows for free users) -->
     <div class="upgrade-banner" id="upgradeBanner" style="display:none">
       <div>
-        <h3>Unlock your <em>complete checklist.</em></h3>
-        <p>Upgrade to Pro to see every requirement, get renewal alerts, and stay compliant year-round. Beta members get 50% off their first 3 months.</p>
+        <h3>Get your <em>Full Report.</em></h3>
+        <p>$19 once. Unlock application links, detailed costs, and a downloadable PDF for any business. No subscriptions, ever.</p>
       </div>
-      <a href="upgrade.html" class="btn-up">Upgrade to Pro →</a>
+      <a href="foundra-platform.html" class="btn-up">Start a search →</a>
     </div>
     
     <!-- Business+ welcome banner (only shows for Business+ users) -->
@@ -376,28 +376,28 @@ function init() {
   document.getElementById("userAvatar").textContent = user.name.charAt(0).toUpperCase();
   
   const planEl = document.getElementById("userPlan");
-  const isPro = user.plan === "pro" || user.plan === "business";
-  const isBusiness = user.plan === "business";
+  const purchaseCount = (user.purchases || []).length;
+  const hasReports = purchaseCount > 0;
   
-  if (isBusiness) {
-    planEl.textContent = "Business+ plan";
-    planEl.classList.add("business");
-    document.getElementById("bizPlusBanner").style.display = "grid";
-    document.getElementById("bizPlusSection").style.display = "block";
-    document.getElementById("navClients").style.display = "flex";
-    document.getElementById("navReports").style.display = "flex";
-  } else if (isPro) {
-    planEl.textContent = "Pro plan";
+  if (hasReports) {
+    planEl.textContent = `${purchaseCount} report${purchaseCount === 1 ? '' : 's'} owned`;
     planEl.classList.add("pro");
   } else {
-    planEl.textContent = "Free plan";
+    planEl.textContent = "Free preview";
     document.getElementById("upgradeBanner").style.display = "grid";
   }
   
-  // Lock pro features for free users
-  if (!isPro) {
+  // Hide the Business+ banner and nav items (no longer exists)
+  document.getElementById("bizPlusBanner").style.display = "none";
+  document.getElementById("bizPlusSection").style.display = "none";
+  if(document.getElementById("navClients")) document.getElementById("navClients").style.display = "none";
+  if(document.getElementById("navReports")) document.getElementById("navReports").style.display = "none";
+  
+  // Lock paid features for users without any purchased reports
+  if (!hasReports) {
     ["navAlerts","navTemplates","navAdvisor"].forEach(id => {
-      document.getElementById(id).classList.add("locked");
+      const el = document.getElementById(id);
+      if(el) el.classList.add("locked");
     });
   }
   
@@ -418,7 +418,7 @@ function renderStats() {
   document.getElementById("statCompleteDetail").textContent = totalItems > 0 ? `of ${totalItems} tracked` : "No items yet";
   
   // Simulated alerts: 2 if pro & has businesses
-  const alertCount = FoundraAuth.isPro() && businesses.length > 0 ? Math.min(businesses.length, 3) : 0;
+  const alertCount = FoundraAuth.hasAnyPurchase() && businesses.length > 0 ? Math.min(businesses.length, 3) : 0;
   document.getElementById("statAlerts").textContent = alertCount;
   document.getElementById("statAlertsDetail").textContent = alertCount === 0 ? "All clear" : `${alertCount} upcoming`;
   
@@ -479,14 +479,14 @@ function renderBusinesses() {
 function renderAlerts() {
   const container = document.getElementById("alertsContainer");
   const businesses = user.businesses || [];
-  const isPro = FoundraAuth.isPro();
+  const hasPaid = FoundraAuth.hasAnyPurchase();
   
-  if (!isPro) {
+  if (!hasPaid) {
     container.innerHTML = `
       <div class="empty-state" style="padding:36px 32px">
-        <h3>Renewal alerts are a <em>Pro feature.</em></h3>
-        <p>Pro members get 90/60/30-day reminders for every license renewal, so you never miss a deadline or pay a fine.</p>
-        <a href="upgrade.html" class="btn-primary" style="padding:11px 18px;font-size:13px">Upgrade to Pro →</a>
+        <h3>Renewal alerts <em>included.</em></h3>
+        <p>Buy any $19 Full Report and you'll get free quarterly emails when regulations change — plus you can opt in to renewal reminders for that business.</p>
+        <a href="foundra-platform.html" class="btn-primary" style="padding:11px 18px;font-size:13px">Start a search →</a>
       </div>
     `;
     return;
@@ -502,7 +502,7 @@ function renderAlerts() {
     return;
   }
   
-  // Simulated alerts for Pro users with businesses
+  // Simulated alerts for paid users with businesses
   const sampleAlerts = [];
   if (businesses[0]) {
     sampleAlerts.push({type:"urgent",title:`Annual report due for ${businesses[0].name || businesses[0].type}`,meta:"Due in 14 days · Florida Sunbiz",action:"View →"});
@@ -604,25 +604,19 @@ function viewBusiness(id) {
 
 function goBiz() { document.querySelector(".section .section-head h2").scrollIntoView({behavior:"smooth"}); }
 function goAlerts() { 
-  if (!FoundraAuth.isPro()) return alert("Renewal alerts is a Pro feature. Upgrade to unlock!");
+  if (!FoundraAuth.hasAnyPurchase()) return alert("Renewal alerts are available with the $19 Full Report. Search for a business to get started!");
   document.getElementById("alertsSection").scrollIntoView({behavior:"smooth"}); 
 }
 function goTemplates() {
-  if (!FoundraAuth.isPro()) return alert("Document templates is a Pro feature. Upgrade to unlock!");
-  alert("Document templates — coming soon for Pro members:\n\n• LLC operating agreements\n• Employee handbooks\n• Independent contractor agreements\n• Non-disclosure agreements\n• Customer terms of service\n\n(This is a prototype demo)");
+  if (!FoundraAuth.hasAnyPurchase()) return alert("Document templates are bundled with the $19 Full Report. Search for a business to get started!");
+  alert("Document templates — coming soon as a bonus for Full Report owners:\n\n• LLC operating agreements\n• Employee handbooks\n• Independent contractor agreements\n• Non-disclosure agreements\n• Customer terms of service\n\n(This is a prototype demo)");
 }
 function goAdvisor() {
-  if (!FoundraAuth.isPro()) return alert("AI advisor is a Pro feature. Upgrade to unlock!");
-  alert("AI Advisor — Pro feature\n\nAsk Foundra anything about your compliance:\n\n\"What's the difference between an LLC and an S-Corp for a salon?\"\n\"Do I need workers' comp if I'm a 1099 contractor?\"\n\"Do I still need to file a BOI report in 2026?\" (Spoiler: probably not, if you're a US entity)\n\n(This is a prototype demo — in production, this would be a real chat interface powered by Claude/GPT-4)");
+  if (!FoundraAuth.hasAnyPurchase()) return alert("AI advisor is available to Full Report owners. Search for a business to get started!");
+  alert("AI Advisor — Full Report bonus\n\nAsk Foundra anything about your compliance:\n\n\"What's the difference between an LLC and an S-Corp for a salon?\"\n\"Do I need workers' comp if I'm a 1099 contractor?\"\n\"Do I still need to file a BOI report in 2026?\" (Spoiler: probably not, if you're a US entity)\n\n(This is a prototype demo — in production, this would be a real chat interface powered by Claude/GPT-4)");
 }
-function goClients() {
-  if (!FoundraAuth.isBusiness()) return alert("Client management is a Business+ feature.");
-  alert("Client Management — Business+ feature\n\nThis would show:\n• All your clients in one dashboard\n• Compliance status across every client\n• Bulk renewal tracking\n• White-label client portals\n• Bulk export to CSV\n\n(This is a prototype demo)");
-}
-function goReports() {
-  if (!FoundraAuth.isBusiness()) return alert("Client reports is a Business+ feature.");
-  alert("Client Reports — Business+ feature\n\nGenerate professional compliance reports for your clients:\n• White-label PDF reports\n• Custom branded with your logo\n• Quarterly compliance summaries\n• Risk assessments\n• Renewal calendars\n\n(This is a prototype demo)");
-}
+function goClients() { /* removed in $19 model */ }
+function goReports() { /* removed in $19 model */ }
 
 function escapeHtml(s){if(!s)return"";return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));}
 

@@ -132,9 +132,9 @@ header{display:flex;align-items:center;justify-content:space-between;padding:24p
   
   <!-- Upgrade CTA for free users -->
   <div class="upgrade-cta" id="upgradeCta" style="display:none">
-    <h3>You're on the <em>free plan.</em></h3>
-    <p>Upgrade to Pro to unlock your complete checklist, renewal alerts, multi-business tracking, and your AI advisor. 50% off for beta members.</p>
-    <a href="upgrade.html">Upgrade to Pro →</a>
+    <h3>You haven't purchased a <em>report yet.</em></h3>
+    <p>Search any business type to see what licenses you'll need — that part's free. Then unlock the full report (with .gov links, costs, and downloadable PDF) for $19 once.</p>
+    <a href="foundra-platform.html">Start a search →</a>
   </div>
   
   <!-- Profile -->
@@ -161,10 +161,10 @@ header{display:flex;align-items:center;justify-content:space-between;padding:24p
     </div>
   </div>
   
-  <!-- Subscription -->
+  <!-- Purchase History -->
   <div class="card">
     <div class="card-head">
-      <h3>Subscription</h3>
+      <h3>Purchases</h3>
       <span class="meta" id="subPlanBadge"></span>
     </div>
     <div class="card-body">
@@ -191,20 +191,20 @@ header{display:flex;align-items:center;justify-content:space-between;padding:24p
     </div>
   </div>
   
-  <!-- Notifications (Pro only) -->
+  <!-- Notifications (shown to anyone with a purchase) -->
   <div class="card" id="notifCard" style="display:none">
     <div class="card-head">
       <h3>Notifications</h3>
     </div>
     <div class="card-body">
       <div class="row">
-        <div class="row-label">Renewal alerts</div>
-        <div class="row-value">90, 60, and 30 days before each deadline</div>
+        <div class="row-label">Quarterly updates</div>
+        <div class="row-value">Free emails when regulations change for businesses you've purchased</div>
         <span class="plan-badge pro">On</span>
       </div>
       <div class="row">
-        <div class="row-label">Regulation changes</div>
-        <div class="row-value">When laws change in your state</div>
+        <div class="row-label">Renewal reminders</div>
+        <div class="row-value">Optional reminders for license renewals you've added</div>
         <span class="plan-badge pro">On</span>
       </div>
       <div class="row">
@@ -269,17 +269,6 @@ header{display:flex;align-items:center;justify-content:space-between;padding:24p
   </div>
 </div>
 
-<!-- Cancel Subscription Modal -->
-<div class="modal-bg" id="cancelSubModal" onclick="closeBg(event,'cancelSubModal')">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal('cancelSubModal')">×</button>
-    <h3>Cancel your <em>subscription?</em></h3>
-    <p class="modal-sub">You'll keep access until the end of your billing period. Your data will be saved if you decide to return.</p>
-    <button class="modal-btn danger" onclick="confirmCancel()">Yes, cancel subscription</button>
-    <button class="modal-btn" style="background:transparent;color:var(--ink);border:1px solid var(--line);margin-top:8px" onclick="closeModal('cancelSubModal')">Keep my subscription</button>
-  </div>
-</div>
-
 <!-- Delete Account Modal -->
 <div class="modal-bg" id="deleteModal" onclick="closeBg(event,'deleteModal')">
   <div class="modal">
@@ -305,86 +294,73 @@ function init() {
   document.getElementById("profileEmail").textContent = user.email;
   document.getElementById("profileSince").textContent = FoundraAuth.formatDate(user.createdAt);
   
-  // Subscription panel
+  // Purchase history section (renamed from "Subscription")
   const sub = document.getElementById("subscriptionBody");
-  const isPro = user.plan === "pro" || user.plan === "business";
-  const isBusiness = user.plan === "business";
-  const planName = isBusiness ? "Business+" : isPro ? "Pro" : "Free";
-  const planClass = isBusiness ? "business" : isPro ? "pro" : "free";
-  const planPrice = isBusiness ? "$99/mo" : isPro ? "$49/mo" : "Free forever";
+  const purchases = user.purchases || [];
+  const hasReports = purchases.length > 0;
+  const totalSpent = FoundraAuth.totalSpent();
   
-  document.getElementById("subPlanBadge").innerHTML = `<span class="plan-badge ${planClass}">${planName}</span>`;
+  document.getElementById("subPlanBadge").innerHTML = hasReports 
+    ? `<span class="plan-badge pro">${purchases.length} report${purchases.length === 1 ? '' : 's'}</span>`
+    : `<span class="plan-badge free">No reports yet</span>`;
   
-  if (!isPro) {
+  if (!hasReports) {
     document.getElementById("upgradeCta").style.display = "block";
     sub.innerHTML = `
       <div class="subscription-row">
         <div class="sub-info">
-          <div class="sub-info-label">Current plan</div>
-          <div class="sub-info-value"><strong>Free</strong> &middot; Top 3 licenses, federal links</div>
+          <div class="sub-info-label">Status</div>
+          <div class="sub-info-value"><strong>Free Preview</strong> &middot; Search any business type to see your compliance list</div>
         </div>
-        <a href="upgrade.html" class="btn-primary">Upgrade to Pro
+        <a href="foundra-platform.html" class="btn-primary">Start a search
           <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
         </a>
       </div>
     `;
   } else {
     document.getElementById("notifCard").style.display = "block";
-    const nextBill = user.nextBillingDate ? FoundraAuth.formatDate(user.nextBillingDate) : "—";
-    const status = user.subscriptionStatus === "canceled" ? "Canceling at period end" : "Active";
+    
+    const purchaseRowsHtml = purchases.map(p => `
+      <div class="subscription-row">
+        <div class="sub-info">
+          <div class="sub-info-label">${FoundraAuth.formatDate(p.purchasedAt)}</div>
+          <div class="sub-info-value"><strong>${escapeHtml(p.businessType)}</strong> · ${escapeHtml(p.state)}</div>
+        </div>
+        <span style="font-size:13px;color:var(--ink);font-weight:500">$${p.price}.00</span>
+      </div>
+    `).join("");
+    
     sub.innerHTML = `
       <div class="subscription-row">
         <div class="sub-info">
-          <div class="sub-info-label">Plan</div>
-          <div class="sub-info-value"><strong>Foundra ${planName}</strong> &middot; ${planPrice}</div>
+          <div class="sub-info-label">Total reports purchased</div>
+          <div class="sub-info-value"><strong>${purchases.length}</strong></div>
         </div>
       </div>
       <div class="subscription-row">
         <div class="sub-info">
-          <div class="sub-info-label">Status</div>
-          <div class="sub-info-value">${status}</div>
+          <div class="sub-info-label">Total spent</div>
+          <div class="sub-info-value"><strong>$${totalSpent.toFixed(2)}</strong> &middot; One-time payments, no subscriptions</div>
         </div>
       </div>
-      <div class="subscription-row">
+      <div class="subscription-row" style="border-top:1px solid var(--line);margin-top:12px;padding-top:18px">
         <div class="sub-info">
-          <div class="sub-info-label">Next billing</div>
-          <div class="sub-info-value">${nextBill}</div>
+          <div class="sub-info-label" style="font-size:11px;font-weight:600;text-transform:uppercase">Purchase history</div>
         </div>
       </div>
-      <div class="subscription-row">
+      ${purchaseRowsHtml}
+      <div class="subscription-row" style="border-top:1px solid var(--line);margin-top:12px;padding-top:18px">
         <div class="sub-info">
-          <div class="sub-info-label">Payment method</div>
-          <div class="sub-info-value">Visa ending in 4242</div>
+          <div class="sub-info-label">Need another report?</div>
+          <div class="sub-info-value">Each business + state combination is $19. Most founders only need one.</div>
         </div>
-        <button class="btn-secondary" onclick="toast('Payment method updates coming soon')">Update card</button>
+        <a href="foundra-platform.html" class="btn-secondary">New search</a>
       </div>
-      <div class="subscription-row">
-        <div class="sub-info">
-          <div class="sub-info-label">Billing history</div>
-          <div class="sub-info-value">View past invoices</div>
-        </div>
-        <button class="btn-secondary" onclick="toast('Billing history is a prototype feature')">View invoices</button>
-      </div>
-      ${user.subscriptionStatus !== "canceled" ? `
-        <div class="subscription-row">
-          <div class="sub-info">
-            <div class="sub-info-label">Cancel subscription</div>
-            <div class="sub-info-value">You'll keep access until ${nextBill}</div>
-          </div>
-          <button class="btn-danger" onclick="openCancel()">Cancel plan</button>
-        </div>
-      ` : `
-        <div class="subscription-row">
-          <div class="sub-info">
-            <div class="sub-info-label">Resume subscription</div>
-            <div class="sub-info-value">Reactivate before ${nextBill} to keep access</div>
-          </div>
-          <button class="btn-primary" onclick="resumeSubscription()">Resume</button>
-        </div>
-      `}
     `;
   }
 }
+
+function escapeHtml(s){if(!s)return"";return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));}
 
 function openEditName() {
   document.getElementById("editNameInput").value = user.name;
@@ -392,7 +368,6 @@ function openEditName() {
 }
 function openEditEmail() { document.getElementById("editEmailModal").classList.add("on"); }
 function openChangePassword() { document.getElementById("changePassModal").classList.add("on"); }
-function openCancel() { document.getElementById("cancelSubModal").classList.add("on"); }
 function openDelete() { document.getElementById("deleteModal").classList.add("on"); }
 
 function closeModal(id) { document.getElementById(id).classList.remove("on"); }
@@ -425,21 +400,6 @@ function savePassword(e) {
   user.password = newP;
   closeModal("changePassModal");
   toast("Password updated");
-}
-
-function confirmCancel() {
-  FoundraAuth.cancelSubscription();
-  Object.assign(user, FoundraAuth.getCurrentUser());
-  closeModal("cancelSubModal");
-  toast("Subscription canceled. You'll keep access until " + FoundraAuth.formatDate(user.nextBillingDate));
-  init();
-}
-
-function resumeSubscription() {
-  FoundraAuth.updateUser({ subscriptionStatus: "active" });
-  Object.assign(user, FoundraAuth.getCurrentUser());
-  toast("Subscription resumed");
-  init();
 }
 
 function confirmDelete(e) {

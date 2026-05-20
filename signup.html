@@ -99,7 +99,7 @@ form{display:flex;flex-direction:column;gap:18px}
 </head>
 <body>
 
-<div class="beta-banner"><strong>Beta</strong> · Free during this period. Paid tiers launch Q3 2026.</div>
+<div class="beta-banner"><strong>Beta</strong> · Free during this period. Paid checkout ($19) opens Q3 2026.</div>
 
 <header>
   <a href="index.html" class="brand"><span class="brand-mark"><span class="spark"></span></span>Foundra<span class="beta-pill">Beta</span></a>
@@ -110,12 +110,12 @@ form{display:flex;flex-direction:column;gap:18px}
   <div class="left">
     <div class="kicker">Free account</div>
     <h1>Create your free<br>Foundra <em>account.</em></h1>
-    <p class="sub">Get your business compliance checklist in under 60 seconds. No credit card required.</p>
+    <p class="sub">Save your business compliance lists and access your purchased reports. No credit card required.</p>
     <ul class="benefits">
-      <li><strong>Top 3 required licenses</strong> for your business, free forever</li>
+      <li><strong>Free preview</strong> — see every license, permit & description for your business</li>
       <li><strong>Save your progress</strong> across devices</li>
-      <li><strong>Direct .gov links</strong> to actual federal applications</li>
-      <li><strong>Upgrade anytime</strong> to unlock your complete checklist</li>
+      <li><strong>Unlock the Full Report</strong> for $19 once — yours forever, no subscription</li>
+      <li><strong>Track multiple businesses</strong> from one dashboard</li>
     </ul>
     <div class="left-quote">
       <p>"I'd been researching food truck permits for weeks. Foundra handed me a complete list in three minutes."</p>
@@ -126,7 +126,7 @@ form{display:flex;flex-direction:column;gap:18px}
   <div class="right">
     <div class="form-frame">
       <h2>Get <em>started.</em></h2>
-      <p>Free forever. <a href="pricing.html">Upgrade later</a> if you need more.</p>
+      <p>Free account, free preview. <a href="pricing.html">Get the Full Report</a> for $19 once if you want the application links and PDF.</p>
       
       <div class="error-box" id="errorBox"></div>
       
@@ -193,7 +193,15 @@ function onSignup(e) {
       return showError(result.error);
     }
     
-    if (typeof gtag === 'function') gtag('event','signup_complete',{plan:'free'});
+    if (typeof gtag === 'function') gtag('event','signup_complete');
+    
+    // Check URL for explicit next= parameter (e.g. coming from checkout)
+    const params = new URLSearchParams(window.location.search);
+    const next = params.get("next");
+    if (next === "upgrade.html") {
+      window.location.href = "upgrade.html";
+      return;
+    }
     
     // If they had a pending search, take them to the platform to see results
     const pending = FoundraAuth.getPendingSearch();
